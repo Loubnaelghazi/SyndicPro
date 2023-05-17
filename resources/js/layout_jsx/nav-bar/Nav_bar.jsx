@@ -14,6 +14,7 @@ import {
 } from "react-icons/hi2";
 import Logout_item from "./Logout_item";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { Link } from "@inertiajs/react";
 export default function Nav_bar() {
     return (
         <div className="bg-white rounded-40 p-2 shadow-csh w-64 h-[calc(100vh-26px)] fixed top-0 left-0  justify-between gap-[3px] my-3 ml-3 translate-x-[-300px] inset-0 lg:translate-x-0 transition-transform duration-300">
@@ -45,7 +46,7 @@ export default function Nav_bar() {
             <a href="">
                 <Nav_bar_item text="Fournisseurs" icon={<HiBuildingOffice />} />
             </a>
-            <a href="">
+            <a href="/copopriete">
                 <Nav_bar_item text="Copropriete" icon={<HiWallet />} />
             </a>
             <hr className="mx-6 my-1" />
