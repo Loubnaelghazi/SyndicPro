@@ -20,11 +20,16 @@ export default function ForgotPassword({ status }) {
             <Head title="Forgot Password" />
 
             <div className="mb-4 text-sm text-gray-600">
-                Mot de passe oublié ? Pas de problème. Veuillez entrer votre adresse e-mail pour vous envoyez un lien
-                afin de vous permettre de choisir un nouveau mot de passe.
+                Mot de passe oublié ? Pas de problème. Veuillez entrer votre
+                adresse e-mail pour vous envoyez un lien afin de vous permettre
+                de choisir un nouveau mot de passe.
             </div>
 
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
+            {status && (
+                <div className="mb-4 font-medium text-sm text-green-600">
+                    {status}
+                </div>
+            )}
 
             <form onSubmit={submit}>
                 <TextInput
@@ -33,13 +38,16 @@ export default function ForgotPassword({ status }) {
                     name="email"
                     value={data.email}
                     isFocused={true}
-                    onChange={(e) => setData('email', e.target.value)}
+                    onChange={(e) => setData("email", e.target.value)}
                 />
 
                 <InputError message={errors.email} className="mt-2" />
 
                 <div className="flex items-center justify-end mt-4">
-                    <PrimaryButton className="ml-4" disabled={processing}>
+                    <PrimaryButton
+                        className="mt-2 w-full"
+                        disabled={processing}
+                    >
                         Envoyer moi le lien
                     </PrimaryButton>
                 </div>

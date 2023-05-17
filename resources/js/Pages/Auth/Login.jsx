@@ -103,7 +103,7 @@ export default function Login({ status, canResetPassword }) {
                     </label>
                 </div>
 
-                <PrimaryButton className="mt-4" disabled={processing}>
+                <PrimaryButton className="mt-4 w-full" disabled={processing}>
                     Se connecter
                 </PrimaryButton>
             </form>

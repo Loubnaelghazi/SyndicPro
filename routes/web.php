@@ -25,6 +25,10 @@ Route::get('/copopriete', function () {
     return Inertia::render('menu/Copopriete'); /* par defaut dans pages  */
 });
 
+Route::get('/add-copopriete', function () {
+    return Inertia::render('menu/AddCopopriete'); 
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

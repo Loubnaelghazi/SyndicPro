@@ -6,10 +6,8 @@ const Copopriete = () => {
   return (
       <>
           <Main_content>
-              <div>
-                  <span className="fill-current text-primary-color ">
-                      <HiOutlineOfficeBuilding />{" "}
-                  </span>
+              <div className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
+                  <HiOutlineOfficeBuilding />
               </div>
               <div className="grid grid-cols-2 grid-rows-3 gap-x-1 gap-y-3">
                   <InputLabel value="Nom" className="font-semibold" />
