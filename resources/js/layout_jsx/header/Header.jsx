@@ -30,6 +30,9 @@ export default function Header({ user }) {
         } else {
             setDesplay("none");
         }
+        if (window.innerWidth > 1024) {
+            setDesplay("none");
+        }
     }
 
     return (
@@ -60,9 +63,9 @@ export default function Header({ user }) {
             </div>
             <div
                 style={{ display: `${display}` }}
-                className=" transition-all lg:hidden duration-400"
+                className=" transition-all lg:hidden duration-400 overflow-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent rounded-md"
             >
-                <hr className="mx-6 mb-2" />
+                <hr className="mx-6 mb-2 w-full" />
                 <div className="text-lg h-min max-w-full  mx-4 pb-2 flex flex-row  justify-between ">
                     <a href="">
                         <Nav_bar_item text="" icon={<HiHome />} />

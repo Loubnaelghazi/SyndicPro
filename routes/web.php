@@ -22,11 +22,11 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/copopriete', function () {
-    return Inertia::render('menu/Copopriete'); /* par defaut dans pages  */
+    return Inertia::render('coproriete/Copopriete'); /* par defaut dans pages  */
 });
 
 Route::get('/add-copopriete', function () {
-    return Inertia::render('menu/AddCopopriete'); 
+    return Inertia::render('coproriete/AddCopopriete'); 
 });
 
 
