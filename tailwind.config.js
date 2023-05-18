@@ -31,6 +31,9 @@ export default {
             gridTemplateRows: {
                 7: "repeat(7, minmax(0, 1fr))",
             },
+            backgroundImage: {
+                'login-bg': "url('https://www.nomadeprocess.com/images/diaporama/copropriete-loi-elan.jpg')",
+              }
         },
     },
 

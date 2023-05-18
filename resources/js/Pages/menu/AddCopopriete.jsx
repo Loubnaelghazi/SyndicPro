@@ -1,21 +1,21 @@
 import React from "react";
 import Main_content from "@/main _content/Main_content";
-import { HiOutlineOfficeBuilding } from "react-icons/hi";
+import {HiBuildingOffice} from "react-icons/hi2"
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, Link } from "@inertiajs/react";
 
-const AddCopopriete = () => {
+const AddCopopriete = ({auth}) => {
     return (
         <>
-            <Main_content>
+            <Main_content user={auth.user}>
                 <div>
                     {/* ************************************************************************** */}
                     <Head title="Ajouter Copoprietés" />
 
                     <div>
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
-                            <HiOutlineOfficeBuilding />
+                            <HiBuildingOffice />
                         </span>
                         <form className="space-y-6">
                             <div className="grid grid-cols-2 gap-x-16 ">

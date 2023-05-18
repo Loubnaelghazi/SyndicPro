@@ -17,7 +17,7 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 export default function Nav_bar() {
     return (
-        <div className="bg-white rounded-40 p-2 shadow-csh w-64 h-[calc(100vh-26px)] fixed top-0 left-0  justify-between gap-[3px] my-3 ml-3 translate-x-[-300px] inset-0 lg:translate-x-0 transition-transform duration-300">
+        <div className="bg-white border-solid border-[1px] border-gray-300 rounded-40 p-2 shadow-csh w-64 h-[calc(100vh-26px)] fixed top-0 left-0  justify-between gap-[3px] my-3 ml-3 translate-x-[-300px] inset-0 lg:translate-x-0 transition-transform duration-300">
             <div className="my-5 h-min flex justify-center items-center">
                 <img
                     className=" h-20"
@@ -34,7 +34,7 @@ export default function Nav_bar() {
             <a href="">
                 <Nav_bar_item text="Locataires" icon={<HiUsers />} />
             </a>
-            <a href="">
+            <a href="/lot">
                 <Nav_bar_item text="Lots" icon={<HiKey />} />
             </a>
             <a href="">
