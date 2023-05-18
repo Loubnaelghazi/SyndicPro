@@ -11,7 +11,7 @@ const AddCopopriete = ({auth}) => {
             <Main_content user={auth.user}>
                 <div>
                     {/* ************************************************************************** */}
-                    <Head title="Ajouter Copoprietés" />
+                    <Head title="Ajouter Coproprietés" />
 
                     <div>
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">

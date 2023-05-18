@@ -46,7 +46,7 @@ export default function Nav_bar() {
             <a href="">
                 <Nav_bar_item text="Fournisseurs" icon={<HiBuildingOffice />} />
             </a>
-            <a href="/copopriete">
+            <a href="/copropriete">
                 <Nav_bar_item text="Copropriete" icon={<HiWallet />} />
             </a>
             <hr className="mx-6 my-1" />

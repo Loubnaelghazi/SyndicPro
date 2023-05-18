@@ -21,15 +21,30 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/copopriete', function () {
+/* Coproprietes routes */
+
+Route::get('/copropriete', function () {
     return Inertia::render('coproriete/Copopriete'); /* par defaut dans pages  */
 });
 
-Route::get('/add-copopriete', function () {
+Route::get('/add-copropriete', function () {
     return Inertia::render('coproriete/AddCopopriete'); 
 });
 
+Route::get('/Modifier-copropriete', function () {
+    return Inertia::render('coproriete/ModifierCopropriete'); 
+});
 
+
+/* Fin copropriete */
+
+
+/* lots routes */
+Route::get('/lot', function () {
+    return Inertia::render('lot/Lot'); 
+});
+
+/* fin lots */
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
