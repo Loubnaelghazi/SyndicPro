@@ -57,11 +57,13 @@ class CoproprieteController extends Controller
     }
 
 
-    public function update(Request $request, Copropriete $copropriete)
+    public function update(Request $request, $id)
     {
+        $copropriete = Copropriete::findOrFail($id);
+
         $copropriete->update($request->all());
-        
-        return response()->json($copropriete);
+
+        return response()->json(['message' => 'Copropriete updated successfully', 'copropriete' => $copropriete]);
     }
 
 

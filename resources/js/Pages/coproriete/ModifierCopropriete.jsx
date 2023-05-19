@@ -72,6 +72,7 @@ const ModifierCopropriete = ({ auth }) => {
     const handleShowCopropriete = () => {
         setShowCopropriete(true);
     };
+
 const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -128,8 +129,6 @@ const handleSubmit = async (e) => {
         console.error(error);
     }
 };
-
-
 
 
     return (
@@ -301,11 +300,8 @@ const handleSubmit = async (e) => {
                             </div>
 
                             <div className="flex flex-row justify-center">
-                                <PrimaryButton
-                                    type="submit"
-                                    className="w-40  py-2 "
-                                >
-                                    Enregistrer
+                                <PrimaryButton className="w-40  py-2 ">
+                                    Modifier
                                 </PrimaryButton>
                             </div>
                         </form>
