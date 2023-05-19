@@ -3,6 +3,7 @@ import { FiAlertTriangle } from "react-icons/fi";
 
 const Alerte = ({display}) => {
 
+    /* ce code est ecrit psr moi pour que je puisse personnaliser les  swal , il ne restera pas ! */
 
   return (
       <div style={`${display}`}>

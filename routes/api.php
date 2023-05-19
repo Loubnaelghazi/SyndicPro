@@ -11,3 +11,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/coproprietes', [CoproprieteController::class, 'index']);
+Route::post('/coproprietes', [CoproprieteController::class, 'store']);
+Route::delete('coproprietes/{copropriete}', [CoproprieteController::class, 'destroy']);

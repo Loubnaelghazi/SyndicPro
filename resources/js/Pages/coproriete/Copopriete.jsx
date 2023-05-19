@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import Main_content from "@/main _content/Main_content";
-import InputLabel from "@/Components/InputLabel";
 import { HiBuildingOffice, HiChevronDown, HiPlusSmall } from "react-icons/hi2";
-import { RiEdit2Fill } from "react-icons/ri";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { FiAlertTriangle } from "react-icons/fi";
-import Alerte from "@/layout_jsx/Alerte";
 import { useEffect } from "react";
 import Layout from "@/layout_jsx/Layout";
 import Swal from 'sweetalert2';
@@ -35,29 +29,50 @@ const Copopriete = ({ auth }) => {
     }
 
  const supprimerCopropriete = (coproprieteId) => {
-     Swal.fire({
-         title: "Êtes-vous sûr ?",
-         icon: "warning",
-         text: "Attention, vous ne pouvez plus recuperer vos informations une fois la suppression s'est effectue !",
-         showCancelButton: true,
-         showConfirmButton: true,
-         cancelButtonText: "Annuler",
-         confirmButtonText: "Oui, supprimer",
-     }).then( async (result) => {
-
+        Swal.fire({
+    title: "Attention!",
+    icon: "warning",
+    html: `
+      <h2 class="text-lg font-bold text-red-500">
+        Êtes-vous sûr de vouloir effectuer la suppression ?
+      </h2>
+      <p class="text-gray-800">
+        Vous ne pouvez plus récupérer cet élément après suppression !
+      </p>
+    `,
+    showCancelButton: true,
+    cancelButtonText: "Annuler",
+    confirmButtonText: "Supprimer",
+    customClass: {
+      confirmButton: "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
+      cancelButton: "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
+    },
+         buttonsStyling: false,
+     }).then(async (result) => {
          if (result.isConfirmed) {
-            try {
-                const response = await axios.delete(
-                    "api/coproprietes/${coproprieteId}"
-                );
-                Swal.fire(
-                    "Supprimé",
-                    response.data.message,
-                    "success"
-                )
-            } catch (error) {
-                console.log(error);
-            }
+             try {
+                 const response = await axios.delete(
+                     `api/coproprietes/${coproprieteId}`
+                 );
+                 setCoproprietes(
+                     coproprietes.filter(
+                         (copropriete) => copropriete.id !== coproprieteId
+                     )
+                 );
+                   Swal.fire({
+                       title: "Supprimé",
+                       text: response.data.message,
+                       icon: "success",
+                       customClass: {
+                           confirmButton:
+                               "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                       },
+                       buttonsStyling: false,
+                   });
+
+             } catch (error) {
+                 console.log(error);
+             }
          }
      });
  }
@@ -66,8 +81,8 @@ const Copopriete = ({ auth }) => {
         <>
             <Layout
                 user={auth.user}
-                Title={"TEST "}
-                Description={"Description"}
+                Title={"Les coproprietés"}
+                Description={"Pour choisir une coproprieté cliquez sur l'icone"}
             >
                 {coproprietes?.map((copropriete) => (
                     <div class="relative w-full  mt-10 mb-5 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md ">

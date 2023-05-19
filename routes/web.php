@@ -37,9 +37,6 @@ Route::get('/Modifier-copropriete', function () {
 
 
 });
-Route::get('coproprietes',[CoproprieteController::class,'index']);
-Route::post('coproprietes', [CoproprieteController::class, 'store']);
-Route::delete('coproprietes/{copropriete}', [CoproprieteController::class, 'destroy']);
 
 
 /* Fin copropriete */
