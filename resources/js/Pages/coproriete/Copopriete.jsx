@@ -8,6 +8,8 @@ import { FiAlertTriangle } from "react-icons/fi";
 import Alerte from "@/layout_jsx/Alerte";
 import { useEffect } from "react";
 import Layout from "@/layout_jsx/Layout";
+import Swal from 'sweetalert2';
+import axios from "axios";
 
 const Copopriete = ({ auth }) => {
     const [coproprietes, setCoproprietes] = useState([]);
@@ -32,11 +34,39 @@ const Copopriete = ({ auth }) => {
         }
     }
 
+ const supprimerCopropriete = (coproprieteId) => {
+     Swal.fire({
+         title: "Êtes-vous sûr ?",
+         icon: "warning",
+         text: "Attention, vous ne pouvez plus recuperer vos informations une fois la suppression s'est effectue !",
+         showCancelButton: true,
+         showConfirmButton: true,
+         cancelButtonText: "Annuler",
+         confirmButtonText: "Oui, supprimer",
+     }).then( async (result) => {
+
+         if (result.isConfirmed) {
+            try {
+                const response = await axios.delete(
+                    "api/coproprietes/${coproprieteId}"
+                );
+                Swal.fire(
+                    "Supprimé",
+                    response.data.message,
+                    "success"
+                )
+            } catch (error) {
+                console.log(error);
+            }
+         }
+     });
+ }
+
     return (
         <>
             <Layout
                 user={auth.user}
-                Title={"Title"}
+                Title={"TEST "}
                 Description={"Description"}
             >
                 {coproprietes?.map((copropriete) => (
@@ -75,12 +105,12 @@ const Copopriete = ({ auth }) => {
                                         >
                                             Modifier
                                         </a>
-                                        <a
-                                            href="#"
+                                        <button
+                                            onClick={() => supprimerCopropriete(copropriete.id)}
                                             class="text-gray-700 block px-4 py-2 text-sm"
                                         >
                                             Supprimer
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +151,7 @@ const Copopriete = ({ auth }) => {
                                 class="antialiased text-[12px] leading-relaxed font-normal text-blue-gray-600 grid grid-cols-2"
                                 key={copropriete.id}
                             >
-                                <strong class="text-orange-600">NOM :</strong>
+                                <strong class="text-orange-600">TYPE :</strong>
                                 <span>{copropriete.type}</span>
                             </div>
                             <div
@@ -136,10 +166,11 @@ const Copopriete = ({ auth }) => {
                         </div>
                     </div>
                 ))}
-                <a className="w-full h-20 border-dashed  border-[5px] border-gray-300 rounded-20 text-6xl text-gray-300 flex justify-center items-center hover:border-primary-color hover:text-primary-color"
-                href="/add-copropriete "
+                <a
+                    className="w-full h-20 border-dashed  border-[5px] border-gray-300 rounded-20 text-6xl text-gray-300 flex justify-center items-center hover:border-primary-color hover:text-primary-color"
+                    href="/add-copropriete "
                 >
-                    <HiPlusSmall/>
+                    <HiPlusSmall />
                 </a>
 
                 {/* {coproprietes?.map((copropriete) => (

@@ -7,30 +7,33 @@ use Illuminate\Http\Request;
 
 class CoproprieteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    
+    public function index()  /* select de tous les elements */
     {
         $copropriete = Copropriete::all();
 
-        return response()->json($copropriete);
+        return response()->json($copropriete); /* json pour qu elle peut etre lue par react */
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+  
     public function store(Request $request)
     {
-        //
+$copropriete= Copropriete::create([
+    'id'=>$request->id,
+'nom'=>$request->nom,
+'adresse' => $request->adresse,
+'type'=>$request->type,
+'ville'=>$request->ville,
+'code_postale'=>$request->code_postale,
+'balance'=>$request->balance,
+        ]);
+        return $copropriete;
     }
 
     /**
@@ -41,27 +44,22 @@ class CoproprieteController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+   
     public function edit(Copropriete $copropriete)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+   
     public function update(Request $request, Copropriete $copropriete)
     {
-        //
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+  
     public function destroy(Copropriete $copropriete)
     {
-        //
+        $copropriete->delete();
+        return['message'=>'Votre coproprieté a été supprimée avec succés !'];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CoproprieteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +34,12 @@ Route::get('/add-copropriete', function () {
 
 Route::get('/Modifier-copropriete', function () {
     return Inertia::render('coproriete/ModifierCopropriete'); 
+
+
 });
+Route::get('coproprietes',[CoproprieteController::class,'index']);
+Route::post('coproprietes', [CoproprieteController::class, 'store']);
+Route::delete('coproprietes/{copropriete}', [CoproprieteController::class, 'destroy']);
 
 
 /* Fin copropriete */

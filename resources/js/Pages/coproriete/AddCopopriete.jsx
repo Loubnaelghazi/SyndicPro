@@ -1,11 +1,63 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import Main_content from "@/main _content/Main_content";
 import {HiBuildingOffice} from "react-icons/hi2"
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, Link } from "@inertiajs/react";
-
+import { useNavigate } from "react-router-dom";
+//import Swal from 'sweetalert2';
+import axios from "axios";
 const AddCopopriete = ({auth}) => {
+
+const [nom,setNom]=useState('');
+const [adresse, setAdresse] = useState("");
+const [ville, setVille] = useState("");
+const [code_postale, setCodePostale] = useState("");
+const [types, setTypes] = useState([]);
+
+const [balance, setBalance] = useState("");
+//const navigate=useNavigate();
+const [typeId,setTypeId]=useState(); /* pour le bouton select */
+
+/* useEffect(()=>{
+    fetchTypes();
+},[])
+ */
+
+/* fonction d ajout */
+const ajouter=async (e)=>{
+e.preventDefault();
+const copropriete = {
+    nom,
+    adresse,
+    ville,
+    code_postale,
+    balance,
+};
+try {
+await axios.post('/api/coproprietes',copropriete) ; /* send to this */
+  /*  Swal.fire({  /* message de succes */
+/* position:'top-end',
+icon: 'success',
+ title: 'Votre copropriete a ete ajoute avec succes !',
+showConfirmartionButton :false,
+timer:1500
+ */
+  // }) */
+
+} catch (error) {
+    console.log(error);
+}
+}
+
+
+
+
+/* const fetchTypes=async ()=>{
+    const fetchedTypes=await useTypes;
+    setTypes(fetchedTypes)
+} */
+
     return (
         <>
             <Main_content user={auth.user}>
@@ -17,23 +69,25 @@ const AddCopopriete = ({auth}) => {
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
                             <HiBuildingOffice />
                         </span>
-                        <form className="space-y-6">
+                        <form className="space-y-6" onSubmit={(e) => ajouter(e)}>
                             <div className="grid grid-cols-2 gap-x-16 ">
                                 <div>
                                     <label
-                                        htmlFor="nomCop"
+                                        htmlFor="nom"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
                                         Nom
                                     </label>
                                     <div className="mt-2">
                                         <TextInput
-                                            id="nomCop"
-                                            name="nomcop"
+                                            id="nom"
+                                            name="nom"
                                             type="text"
-                                            autoComplete="nomCop"
-                                            //    value={data.nomCop}
-
+                                            autoComplete="current-nom"
+                                            value={nom}
+                                            onChange={(e) =>
+                                                setNom(e.target.value)
+                                            }
                                             required
                                         />
                                     </div>
@@ -51,7 +105,10 @@ const AddCopopriete = ({auth}) => {
                                                 name="adresse"
                                                 type="text"
                                                 required
-                                                //    value={data.adresse}
+                                                value={adresse}
+                                                onChange={(e) =>
+                                                    setAdresse(e.target.value)
+                                                }
                                             />
                                         </div>
                                     </div>
@@ -59,7 +116,7 @@ const AddCopopriete = ({auth}) => {
                                     <div>
                                         <div className="flex items-center justify-between">
                                             <label
-                                                htmlFor="type"
+                                                htmlFor="type_id"
                                                 className="block text-sm font-medium leading-6 text-gray-900"
                                             >
                                                 Type
@@ -68,33 +125,26 @@ const AddCopopriete = ({auth}) => {
 
                                         <div className="mt-2">
                                             <select
-                                                id="type"
-                                                name="types"
+                                                id="type_id"
+                                                name="type_id"
                                                 type="password"
-                                                required
+                                                value={typeId}
+                                               /*  onChange={(e) =>
+                                                    setTypeId(e.target.value)
+                                                } */
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
                                             >
-                                                <option value="" selected>
+                                                <option disabled value="">
+                                                    {" "}
+                                                    {/* en react selected donne errer     */}
                                                     Veuillez choisir un type
                                                 </option>
-                                                <option
-                                                    value="immeuble"
-                                                    id="immeuble"
-                                                >
-                                                    Immeuble
-                                                </option>
-                                                <option
-                                                    value="villa"
-                                                    id="villa"
-                                                >
-                                                    Villa
-                                                </option>
-                                                <option
-                                                    value="autre"
-                                                    id="autre"
-                                                >
-                                                    Autre
-                                                </option>
+                                                {/*  {
+
+                                                types?.map(categorie =>(
+                                            //        <option  key="{categorie.id}" value="{categorie.id}">{categorie.id}</option>
+                                                ))
+                                                } */}
                                             </select>
                                         </div>
                                     </div>
@@ -115,7 +165,10 @@ const AddCopopriete = ({auth}) => {
                                             id="ville"
                                             name="ville"
                                             type="text"
-                                            //    value={data.ville}
+                                            value={ville}
+                                            onChange={(e) =>
+                                                setVille(e.target.value)
+                                            }
                                             autoComplete="current-ville"
                                             required
                                         />
@@ -135,8 +188,12 @@ const AddCopopriete = ({auth}) => {
                                             <TextInput
                                                 id="code_postale"
                                                 name="code_postale"
-                                                //    value={data.code_postale}
-
+                                                value={code_postale}
+                                                onChange={(e) =>
+                                                    setCodePostale(
+                                                        e.target.value
+                                                    )
+                                                }
                                                 type="number"
                                                 maxLength="5"
                                                 required
@@ -156,8 +213,10 @@ const AddCopopriete = ({auth}) => {
                                                 id="balance"
                                                 name="balance"
                                                 type="number"
-                                                //    value={data.balance}
-
+                                                value={balance}
+                                                onChange={(e) =>
+                                                    setBalance(e.target.value)
+                                                }
                                                 required
                                             />
                                         </div>
@@ -166,7 +225,7 @@ const AddCopopriete = ({auth}) => {
                             </div>
 
                             <div className="flex flex-row justify-center">
-                                <PrimaryButton className="w-40  py-2 ">
+                                <PrimaryButton type="submit" className="w-40  py-2 ">
                                     Ajouter
                                 </PrimaryButton>
                             </div>
