@@ -39,9 +39,15 @@ class CoproprieteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Copropriete $copropriete)
+    public function show($id)
     {
-        //
+        $copropriete = Copropriete::find($id);
+
+        if (!$copropriete) {
+            return response()->json(['message' => 'Copropriete not found'], 404);
+        }
+
+        return response()->json($copropriete);
     }
 
 
@@ -53,7 +59,9 @@ class CoproprieteController extends Controller
 
     public function update(Request $request, Copropriete $copropriete)
     {
-
+        $copropriete->update($request->all());
+        
+        return response()->json($copropriete);
     }
 
 

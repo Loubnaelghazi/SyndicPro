@@ -8,6 +8,7 @@ use Inertia\Inertia;
 
 
 
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -32,7 +33,7 @@ Route::get('/add-copropriete', function () {
     return Inertia::render('coproriete/AddCopopriete');
 });
 
-Route::get('/Modifier-copropriete', function () {
+Route::get('/copropriete/modifier/{id}', function () {
     return Inertia::render('coproriete/ModifierCopropriete'); 
 
 

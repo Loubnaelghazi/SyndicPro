@@ -46,14 +46,14 @@ export default function Header({ user }) {
                     </a>
                     Residence <span className="font-semibold">Nour</span>
                 </div>
-                <div className="flex flex-row">
+                <div className="flex flex-row gap-4">
                     <div className="text-2xl mx-1 hover:shadow-csh">
                         <HiExclamationTriangle />
                     </div>
                     <div className="text-2xl mx-1">
                         <HiBell />
                     </div>
-                    <div className="text-2xl mx-1 ml-7">
+                    <div className="text-2xl mx-1">
                         <HiUserCircle />
                     </div>
                     <div className="text-black font-semibold mx-3">

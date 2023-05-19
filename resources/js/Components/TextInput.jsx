@@ -11,6 +11,7 @@ export default forwardRef(function TextInput({ type = 'text', className = '', is
 
     return (
         <input
+            placeholder=''
             {...props}
             type={type}
             className={

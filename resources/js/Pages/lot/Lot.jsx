@@ -1,8 +1,9 @@
 import Main_content from "@/main _content/Main_content";
 import React from "react";
-import {HiPencil , HiTrash} from "react-icons/hi2";
+import { HiPencil, HiTrash } from "react-icons/hi2";
 
 import { DataGrid } from "@mui/x-data-grid";
+import { Head } from "@inertiajs/react";
 
 const columns = [
     { field: "id", headerName: "ID", width: 70 },
@@ -38,7 +39,15 @@ const rows = [
 ];
 export default function Lot({ auth }) {
     return (
-        <Main_content user={auth.user} Title={"Lots de la copropriete"} Description={"Vous devez d'abord ajouter les proprietaires et les locataires"}>
+        <Main_content
+            user={auth.user}
+            Title={"Lots de la copropriete"}
+            Description={
+                "Vous devez d'abord ajouter les proprietaires et les locataires"
+            }
+        >
+            <Head title="Lots" />
+
             <div className="-m-14">
                 <div className="mx-auto container bg-white dark:bg-white-800  rounded-40">
                     <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
@@ -48,13 +57,13 @@ export default function Lot({ auth }) {
                                     className="text-primary-color border-solid border-primary-color border-[1.5px] dark:text-white-400 p-2 border-transparent bg-white-100 dark:bg-white-700 dark:hover:bg-white-600 hover:bg-primary-color hover:text-white cursor-pointer rounded focus:outline-none focus:border-white-800 focus:shadow-outline-white"
                                     href="javascript: void(0)"
                                 >
-                                    <HiPencil/>
+                                    <HiPencil />
                                 </a>
                                 <a
                                     className="text-red-500 border-solid border-red-500 border-[1.5px]  p-2 bg-white-100 dark:bg-white-700 dark:hover:bg-white-600 hover:bg-red-500 hover:text-white cursor-pointer rounded focus:outline-none focus:border-white-800 focus:shadow-outline-white"
                                     href="javascript: void(0)"
                                 >
-                                    <HiTrash/>
+                                    <HiTrash />
                                 </a>
                             </div>
                         </div>
@@ -142,9 +151,7 @@ export default function Lot({ auth }) {
                                     <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
                                         Mohamed
                                     </td>
-                                    <td className="pr-6">
-                                        Mohamed
-                                    </td>
+                                    <td className="pr-6">Mohamed</td>
                                 </tr>
                             </tbody>
                         </table>
