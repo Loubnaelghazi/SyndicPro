@@ -28,7 +28,7 @@ Route::get('/copropriete', function () {
 });
 
 Route::get('/add-copropriete', function () {
-    return Inertia::render('coproriete/AddCopopriete'); 
+    return Inertia::render('coproriete/AddCopopriete');
 });
 
 Route::get('/Modifier-copropriete', function () {
@@ -51,4 +51,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

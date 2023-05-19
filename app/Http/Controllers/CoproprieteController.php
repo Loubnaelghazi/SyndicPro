@@ -12,7 +12,9 @@ class CoproprieteController extends Controller
      */
     public function index()
     {
-        //
+        $copropriete = Copropriete::all();
+
+        return response()->json($copropriete);
     }
 
     /**

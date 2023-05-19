@@ -36,7 +36,7 @@ export default function Header({ user }) {
     }
 
     return (
-        <div className="bg-white text-primary-color border-solid border-[1px] border-gray-300 h-min mt-4 rounded-20  mr-6 shadow-csh">
+        <div className="bg-white text-primary-color border-solid border-[1px] border-gray-300 h-min mt-4 rounded-20 shadow-csh">
             <div className="  flex flex-row  p-4  justify-between ">
                 <div className="flex flex-row justify-between">
                     <a className="lg:hidden duration-500 text-2xl ml-2 mr-5 hover:text-third-color hover:bg-primary-color rounded-md">

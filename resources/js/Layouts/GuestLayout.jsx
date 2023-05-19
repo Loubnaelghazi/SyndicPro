@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/react';
 export default function Guest({ children }) {
     return (
         <div className="flex  flex-1 bg-fixed bg-login-bg bg-no-repeat bg-cover bg-center flex-col justify-center px-6  py-12 lg:px-8">
-            <div className=" w-max mx-auto">
+            <div className=" w-max mx-auto my-auto">
                 <div className="p-10 border-solid border-[1px] border-gray-300 shadow-csh bg-white rounded-40 overflow-hidden" >
                     <div className=' mx-[120px] -mt-5'>
                         <img
