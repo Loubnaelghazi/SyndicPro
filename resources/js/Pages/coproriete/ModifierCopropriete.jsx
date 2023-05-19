@@ -6,6 +6,7 @@ import { Head, Link } from "@inertiajs/react";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ModifierCopropriete = ({ auth }) => {
     const [nom, setNom] = useState("");
@@ -74,7 +75,7 @@ const ModifierCopropriete = ({ auth }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         const updatedCopropriete = {
             nom,
             adresse,
@@ -83,19 +84,32 @@ const ModifierCopropriete = ({ auth }) => {
             code_postale: codePostale,
             balance,
         };
-
+    
         try {
             const response = await axios.put(
-                `/api/coproprietes/${copropriete}`,
+                `/api/coproprietes/${coproprieteID}`,
                 updatedCopropriete
             );
+    
             const { data } = response;
             console.log("Updated copropriete:", data);
             // Additional logic or redirect after successful update
+    
+            Swal.fire({
+                title: " Modifer la copropriété ",
+                text: "La copropriété a été modifié avec succès !",
+                icon: "success",
+                customClass: {
+                    confirmButton:
+                        "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                },
+                buttonsStyling: false,
+            });
         } catch (error) {
             console.error(error);
         }
     };
+
 
     return (
         <>
@@ -108,7 +122,7 @@ const ModifierCopropriete = ({ auth }) => {
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
                             <HiBuildingOffice />
                         </span>
-                        <form className="space-y-6">
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid grid-cols-2 gap-x-16 ">
                                 <div>
                                     <label
@@ -120,10 +134,11 @@ const ModifierCopropriete = ({ auth }) => {
                                     <div className="mt-2">
                                         <TextInput
                                             id="Modifier_nomCop"
-                                            name="nomcop"
+                                            name="nom"
                                             type="text"
                                             autoComplete="nomCop"
                                             value={nom}
+                                            onChange={handleInputChange}
                                             //    value={data.nomCop}
 
                                             required
@@ -144,6 +159,7 @@ const ModifierCopropriete = ({ auth }) => {
                                                 type="text"
                                                 value={adresse}
                                                 required
+                                                onChange={handleInputChange}
                                                 //    value={data.adresse}
                                             />
                                         </div>
@@ -162,11 +178,12 @@ const ModifierCopropriete = ({ auth }) => {
                                         <div className="mt-2">
                                             <select
                                                 id="Modifier_type"
-                                                name="types"
+                                                name="type"
                                                 type="password"
                                                 required
                                                 value={type}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                                onChange={handleInputChange}
                                             >
                                                 <option disabled value="">
                                                     Veuillez choisir un type
@@ -213,6 +230,7 @@ const ModifierCopropriete = ({ auth }) => {
                                             //    value={data.ville}
                                             autoComplete="current-ville"
                                             required
+                                            onChange={handleInputChange}
                                         />
                                     </div>
 
@@ -235,6 +253,7 @@ const ModifierCopropriete = ({ auth }) => {
                                                 type="number"
                                                 maxLength="5"
                                                 required
+                                                onChange={handleInputChange}
                                             />
                                         </div>
                                     </div>
@@ -254,6 +273,7 @@ const ModifierCopropriete = ({ auth }) => {
                                                 value={balance}
 
                                                 required
+                                                onChange={handleInputChange}
                                             />
                                         </div>
                                     </div>
@@ -261,8 +281,8 @@ const ModifierCopropriete = ({ auth }) => {
                             </div>
 
                             <div className="flex flex-row justify-center">
-                                <PrimaryButton className="w-40  py-2 ">
-                                    Modifier
+                                <PrimaryButton type="submit" className="w-40  py-2 ">
+                                    Enregistrer
                                 </PrimaryButton>
                             </div>
                         </form>

@@ -71,7 +71,7 @@ const AddCopopriete = ({ auth }) => {
         <>
             <Main_content user={auth.user}>
                 <div>
-                    {/* ************************************************************************** */}
+                    {/* ************************** */}
                     <Head title="Ajouter Coproprietés" />
 
                     <div>
@@ -252,7 +252,7 @@ const AddCopopriete = ({ auth }) => {
                         </form>
                     </div>
 
-                    {/* *********************************************** */}
+                    {/* ***************** */}
                 </div>
             </Main_content>
         </>
