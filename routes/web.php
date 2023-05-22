@@ -38,8 +38,6 @@ Route::get('/copropriete/modifier/{id}', function () {
 
 
 });
-
-
 /* Fin copropriete */
 
 
@@ -55,6 +53,41 @@ Route::get('/lots/modifier', function () {
 });
 
 /* fin lots */
+
+/* Routes of proprietaires */
+
+Route::get('/proprietaires', function () {
+    return Inertia::render('proprietaire/Proprietaire');
+});
+Route::get('/proprietaires/ajouter', function () {
+    return Inertia::render('proprietaire/AjouterProprietaire');
+});
+Route::get('/proprietaires/modifier', function () {
+    return Inertia::render('proprietaire/ModifierProprietaire');
+});
+
+
+
+
+
+
+
+/* fin */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

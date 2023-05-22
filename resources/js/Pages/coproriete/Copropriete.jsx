@@ -6,13 +6,11 @@ import { HiPencil, HiTrash } from "react-icons/hi2";
 import { RiEdit2Fill } from "react-icons/ri";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FiAlertTriangle } from "react-icons/fi";
-import Alerte from "@/layout_jsx/Alerte";
 import { useEffect } from "react";
 import Layout from "@/layout_jsx/Layout";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Head } from "@inertiajs/react";
-import { Link } from "react-router-dom";
 
 const Copopriete = ({ auth }) => {
     const [coproprietes, setCoproprietes] = useState([]);
@@ -93,7 +91,7 @@ const Copopriete = ({ auth }) => {
                 Title={"Les coproprietés"}
                 Description={"Pour choisir une coproprieté cliquez sur l'icone"}
             >
-                <Head title="Copropriete" />
+                <Head title="Copropriété" />
                 {coproprietes?.map((copropriete) => (
                     <div
                         className="relative w-full  mt-10 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md "

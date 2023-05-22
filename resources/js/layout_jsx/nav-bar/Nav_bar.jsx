@@ -30,8 +30,8 @@ export default function Nav_bar() {
             <a href="">
                 <Nav_bar_item text="Tableau de bord" icon={<HiHome />} className={`${location.pathname.startsWith('/tableau_de_bord') ? selectStyle : simpleStyle}`}/>
             </a>
-            <a href="">
-                <Nav_bar_item text="Propriétaires" icon={<HiUserGroup />} className={`${location.pathname.startsWith('/propriétaires') ? selectStyle : simpleStyle}`}/>
+            <a href="/proprietaires">
+                <Nav_bar_item text="Propriétaires" icon={<HiUserGroup />} className={`${location.pathname.startsWith('/proprietaires') ? selectStyle : simpleStyle}`}/>
             </a>
             <a href="">
                 <Nav_bar_item text="Locataires" icon={<HiUsers />} className={`${location.pathname.startsWith('/locataires') ? selectStyle : simpleStyle}`}/>
