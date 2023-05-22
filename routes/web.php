@@ -26,10 +26,10 @@ Route::get('/dashboard', function () {
 /* Coproprietes routes */
 
 Route::get('/copropriete', function () {
-    return Inertia::render('coproriete/Copopriete'); /* par defaut dans pages  */
+    return Inertia::render('coproriete/Copropriete'); /* par defaut dans pages  */
 });
 
-Route::get('/add-copropriete', function () {
+Route::get('/copropriete/ajouter', function () {
     return Inertia::render('coproriete/AddCopopriete');
 });
 
@@ -44,8 +44,14 @@ Route::get('/copropriete/modifier/{id}', function () {
 
 
 /* lots routes */
-Route::get('/lot', function () {
+Route::get('/lots', function () {
     return Inertia::render('lot/Lot'); 
+});
+Route::get('/lots/ajouter', function () {
+    return Inertia::render('lot/AjouterLot'); 
+});
+Route::get('/lots/modifier', function () {
+    return Inertia::render('lot/ModifierLot'); 
 });
 
 /* fin lots */

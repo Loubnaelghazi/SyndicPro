@@ -1,43 +1,48 @@
 import Main_content from "@/main _content/Main_content";
-import React from "react";
-import { HiPencil, HiTrash } from "react-icons/hi2";
-
-import { DataGrid } from "@mui/x-data-grid";
+import React, { useState } from "react";
+import { HiPencil, HiTrash, HiPlusSmall } from "react-icons/hi2";
 import { Head } from "@inertiajs/react";
+import Checkbox from "@/Components/Checkbox";
 
-const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "firstName", headerName: "First name", width: 130 },
-    { field: "lastName", headerName: "Last name", width: 130 },
-    {
-        field: "age",
-        headerName: "Age",
-        type: "number",
-        width: 90,
-    },
-    {
-        field: "fullName",
-        headerName: "Full name",
-        description: "This column has a value getter and is not sortable.",
-        sortable: false,
-        width: 160,
-        valueGetter: (params) =>
-            `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-    },
-];
-
-const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
 export default function Lot({ auth }) {
+    const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+    const [isModifyHidden, setIsModifyHidden] = useState(false);
+
+    const handleCheckboxChange = (id) => {
+        let updatedCheckboxes;
+        if (id === "all") {
+            if (selectedCheckboxes.length === data.length) {
+                updatedCheckboxes = [];
+                setIsModifyHidden(false);
+            } else {
+                updatedCheckboxes = data.map((item) => item.id);
+                setIsModifyHidden(true);
+            }
+        } else {
+            if (selectedCheckboxes.includes(id)) {
+                updatedCheckboxes = selectedCheckboxes.filter(
+                    (checkbox) => checkbox !== id
+                );
+            } else {
+                updatedCheckboxes = [...selectedCheckboxes, id];
+            }
+            setIsModifyHidden(updatedCheckboxes.length !== 1);
+        }
+
+        setSelectedCheckboxes(updatedCheckboxes);
+    };
+
+    const data = [
+        // Your data goes here
+        // Example:
+        { id: 1, type: "Appartement", building: "A", floor: 2, door: "11", owner: "Mohamed", tenant: "Mohamed" },
+        { id: 2, type: "Appartement", building: "B", floor: 4, door: "21", owner: "Brahim", tenant: "Ayman" },
+        { id: 3, type: "Appartement", building: "B", floor: 4, door: "21", owner: "Brahim", tenant: "Ayman" },
+        { id: 4, type: "Appartement", building: "B", floor: 4, door: "21", owner: "Brahim", tenant: "Ayman" },
+        { id: 5, type: "Appartement", building: "B", floor: 4, door: "21", owner: "Brahim", tenant: "Ayman" },
+        { id: 6, type: "Appartement", building: "B", floor: 4, door: "21", owner: "Brahim", tenant: "Ayman" },
+    ];
+
     return (
         <Main_content
             user={auth.user}
@@ -49,60 +54,69 @@ export default function Lot({ auth }) {
             <Head title="Lots" />
 
             <div className="-m-14">
-                <div className="mx-auto container bg-white dark:bg-white-800  rounded-40">
-                    <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
-                        <div className="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
-                            <div className="flex items-center gap-4">
-                                <a
-                                    className="text-primary-color border-solid border-primary-color border-[1.5px] dark:text-white-400 p-2 border-transparent bg-white-100 dark:bg-white-700 dark:hover:bg-white-600 hover:bg-primary-color hover:text-white cursor-pointer rounded focus:outline-none focus:border-white-800 focus:shadow-outline-white"
-                                    href="javascript: void(0)"
-                                >
-                                    <HiPencil />
-                                </a>
-                                <a
-                                    className="text-red-500 border-solid border-red-500 border-[1.5px]  p-2 bg-white-100 dark:bg-white-700 dark:hover:bg-white-600 hover:bg-red-500 hover:text-white cursor-pointer rounded focus:outline-none focus:border-white-800 focus:shadow-outline-white"
-                                    href="javascript: void(0)"
-                                >
-                                    <HiTrash />
-                                </a>
-                            </div>
+                <div className="mx-auto container bg-white dark:bg-white-800 w-full  rounded-40">
+                    <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
+                        <div className="flex flex-row justify-between gap-4 ">
+                            <a
+                                className={`text-primary-color border-solid border-gray-200 border-[1.5px] p-2  bg-white  hover:bg-primary-color hover:text-white rounded-[7px] ${
+                                    isModifyHidden ? "hidden" : ""
+                                
+                                } focus:shadow-outline-white ${
+                                    selectedCheckboxes.length === 0
+                                        ? "hidden"
+                                        : ""
+                                }`}
+                                
+                            >
+                                <HiPencil />
+                            </a>
+                            <a
+                                className={`text-red-500 border-solid border-gray-200 border-[1.5px]  p-2 bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:bg-red-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white ${
+                                    selectedCheckboxes.length === 0
+                                        ? "hidden"
+                                        : ""
+                                }`}
+                            >
+                                <HiTrash />
+                            </a>
                         </div>
-                        <div className="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
+                        <a className="text-white px-2 pr-4 ml-4 my-1 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-max h-8 rounded-[9px] flex items-center justify-center"
+                        href="/lots/ajouter">
+                            <HiPlusSmall className="text-2xl pr-2" /> Ajouter un
+                            lot
+                        </a>
+                        <div className="absolute right-0 top-5 w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
                             <div className="lg:ml-6 flex items-center">
-                                <div className="text-white ml-4 cursor-pointer focus:outline-none border border-transparent focus:border-white-800 focus:shadow-outline-white bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-8 h-8 rounded flex items-center justify-center">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="icon icon-tabler icon-tabler-plus"
-                                        width={28}
-                                        height={28}
-                                        viewBox="0 0 24 24"
-                                        strokeWidth="1.5"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <path stroke="none" d="M0 0h24v24H0z" />
-                                        <line x1={12} y1={5} x2={12} y2={19} />
-                                        <line x1={5} y1={12} x2={19} y2={12} />
-                                    </svg>
-                                </div>
+                                <Checkbox
+                                    id="all"
+                                    checked={
+                                        selectedCheckboxes.length ===
+                                        data.length
+                                    }
+                                    onChange={() => handleCheckboxChange("all")}
+                                    className="hidden"
+                                />
                             </div>
                         </div>
                     </div>
-                    <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-40">
+                    <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
                         <table className="min-w-full bg-white dark:bg-white-800">
-                            <thead>
+                            <thead className="bg-green-50 text-t-color font-semibold">
                                 <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b py-8">
                                     <th className="pl-8 text-white-600 dark:text-white-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-                                        <input
-                                            type="checkbox"
-                                            className="cursor-pointer relative w-5 h-5 border rounded border-white-400 dark:border-white-200 bg-white dark:bg-white-800 outline-none"
-                                            onclick="checkAll(this)"
+                                        <Checkbox
+                                            id="all"
+                                            checked={
+                                                selectedCheckboxes.length ===
+                                                data.length
+                                            }
+                                            onChange={() =>
+                                                handleCheckboxChange("all")
+                                            }
                                         />
                                     </th>
                                     <th className="text-white-600 dark:text-white-400 font-normal pr-6 text-left text-xs tracking-normal leading-4">
-                                        ID
+                                        N°
                                     </th>
                                     <th className="text-white-600 dark:text-white-400 font-normal pr-6 text-left text-xs tracking-normal leading-4">
                                         TYPE
@@ -125,34 +139,51 @@ export default function Lot({ auth }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="h-24 border-white-300 dark:border-white-200 border-b">
-                                    <td className="pl-8 pr-6 text-left whitespace-no-wrap text-sm text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                        <input
-                                            type="checkbox"
-                                            className="cursor-pointer relative w-5 h-5 border rounded border-white-400 dark:border-white-200 bg-white dark:bg-white-800 outline-none"
-                                            onclick="tableInteract(this)"
-                                        />
-                                    </td>
-                                    <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                        1
-                                    </td>
-                                    <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                        Appartement
-                                    </td>
-                                    <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                        A
-                                    </td>
-                                    <td className="pr-6 whitespace-no-wrap">
-                                        2{" "}
-                                    </td>
-                                    <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                        11
-                                    </td>
-                                    <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                        Mohamed
-                                    </td>
-                                    <td className="pr-6">Mohamed</td>
-                                </tr>
+                                {data.map((item) => (
+                                    <tr
+                                        key={item.id}
+                                        className="h-14 border-white-300 dark:border-white-200 border-b"
+                                    >
+                                        <td className="pl-8 pr-6 text-left whitespace-no-wrap text-sm text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                            <Checkbox
+                                                id={item.id.toString()}
+                                                checked={selectedCheckboxes.includes(
+                                                    item.id
+                                                )}
+                                                onChange={() =>
+                                                    handleCheckboxChange(
+                                                        item.id
+                                                    )
+                                                }
+                                            />
+                                        </td>
+                                        <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                            {item.id}
+                                        </td>
+                                        <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                            {item.type}
+                                        </td>
+                                        <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                            {item.building}
+                                        </td>
+                                        <td className="pr-6 whitespace-no-wrap">
+                                            <div className="w-min h-min bg-blue-300 px-[15px] py-[0.5px] rounded-2xl">
+                                                <span className="text-sm text-white font-medium">
+                                                    {item.floor}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                            {item.door}
+                                        </td>
+                                        <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                            {item.owner}
+                                        </td>
+                                        <td className="text-sm pr-8 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                            {item.tenant}
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

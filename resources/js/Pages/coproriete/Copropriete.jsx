@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { HiBuildingOffice, HiChevronDown, HiPlusSmall } from "react-icons/hi2";
 import Main_content from "@/main _content/Main_content";
 import InputLabel from "@/Components/InputLabel";
-import {
-
-    HiPencil,
-    HiTrash,
-} from "react-icons/hi2";
+import { HiPencil, HiTrash } from "react-icons/hi2";
 import { RiEdit2Fill } from "react-icons/ri";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FiAlertTriangle } from "react-icons/fi";
@@ -51,8 +47,7 @@ const Copopriete = ({ auth }) => {
       </h2>
       <p class="text-gray-800">
         Vous ne pouvez plus récupérer cet élément après suppression !
-      </p>
-    `,
+      </p>`,
             showCancelButton: true,
             cancelButtonText: "Annuler",
             confirmButtonText: "Supprimer",
@@ -101,7 +96,7 @@ const Copopriete = ({ auth }) => {
                 <Head title="Copropriete" />
                 {coproprietes?.map((copropriete) => (
                     <div
-                        className="relative w-full  mt-10 mb-5 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md "
+                        className="relative w-full  mt-10 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md "
                         key={copropriete.id}
                     >
                         <div className="bg-clip-border text-4xl mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-orange-600 to-orange-400 text-white shadow-orange-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
@@ -176,8 +171,8 @@ const Copopriete = ({ auth }) => {
                     </div>
                 ))}
                 <a
-                    className="w-full h-20 border-dashed  border-[5px] border-gray-300 rounded-20 text-6xl text-gray-300 flex justify-center items-center hover:border-primary-color hover:text-primary-color"
-                    href="/add-copropriete "
+                    className="w-full h-20 border-dashed  border-[5px] border-gray-300 rounded-20 text-6xl text-gray-300 flex justify-center items-center hover:border-primary-color hover:text-primary-color mt-7"
+                    href="/copropriete/ajouter"
                 >
                     <HiPlusSmall />
                 </a>

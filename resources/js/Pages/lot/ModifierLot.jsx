@@ -8,34 +8,34 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { Inertia } from "@inertiajs/inertia";
 
-const ModifierCopropriete = ({ auth }) => {
-    const [nom, setNom] = useState("");
-    const [adresse, setAdresse] = useState("");
+const ModifierLot = ({ auth }) => {
+    const [numero, setNumero] = useState("");
+    const [batiment, setBatiment] = useState("");
+    const [etage, setEtage] = useState("");
+    const [porte, setPorte] = useState("");
     const [type, setType] = useState("");
-    const [ville, setVille] = useState("");
-    const [codePostale, setCodePostale] = useState("");
-    const [balance, setBalance] = useState("");
+    const [proprietaire, setProprietaire] = useState("");
+    const [locataire, setLocataire] = useState("");
     const url = window.location.href;
-    const coproprieteID = url.substring(url.lastIndexOf("/") + 1);
+    const LotID = url.substring(url.lastIndexOf("/") + 1);
 
     useEffect(() => {
-        // Fetch the copropriete data from the server and update the state
-        fetchCoproprieteData();
-        console.log(coproprieteID);
+        // Fetch the Lot data from the server and update the state
+        fetchLotsData();
+        console.log(LotID);
     }, []);
 
-    const fetchCoproprieteData = async () => {
+    const fetchLotsData = async () => {
         try {
-            const response = await axios.get(
-                `/api/coproprietes/${coproprieteID}`
-            );
+            const response = await axios.get(`/api/lots/${LotID}`);
             const { data } = response;
-            setNom(data.nom);
-            setAdresse(data.adresse);
+            setNumero(data.numero);
+            setBatiment(data.batiment);
+            setEtage(data.etage);
+            setPorte(data.porte);
             setType(data.type);
-            setVille(data.ville);
-            setCodePostale(data.code_postale);
-            setBalance(data.balance);
+            setProprietaire(data.proprietaire);
+            setLocataire(data.locataire);
         } catch (error) {
             console.error(error);
         }
@@ -45,23 +45,26 @@ const ModifierCopropriete = ({ auth }) => {
         const { name, value } = e.target;
 
         switch (name) {
-            case "nom":
-                setNom(value);
+            case "numero":
+                setNumero(value);
                 break;
-            case "adresse":
-                setAdresse(value);
+            case "batiment":
+                setBatiment(value);
+                break;
+            case "etage":
+                setEtage(value);
+                break;
+            case "porte":
+                setPorte(value);
                 break;
             case "type":
                 setType(value);
                 break;
-            case "ville":
-                setVille(value);
+            case "proprietaire":
+                setProprietaire(value);
                 break;
-            case "code_postale":
-                setCodePostale(value);
-                break;
-            case "balance":
-                setBalance(value);
+            case "locataire":
+                setLocataire(value);
                 break;
             default:
                 break;
@@ -71,27 +74,28 @@ const ModifierCopropriete = ({ auth }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const updatedCopropriete = {
-            nom,
-            adresse,
+        const updatedLot = {
+            numero,
+            batiment,
             type,
-            ville,
-            code_postale: codePostale,
-            balance,
+            etage,
+            porte,
+            proprietaire,
+            locataire,
         };
 
         try {
             const response = await axios.put(
-                `/api/coproprietes/${coproprieteID}`,
-                updatedCopropriete
+                `/api/lots/${LotID}`,
+                updatedLot
             );
 
             const { data } = response;
-            console.log("Updated copropriete:", data);
+            console.log("Updated lot:", data);
 
             Swal.fire({
                 title: "Êtes-vous sûr de vouloir effectuer ces modifications ?",
-                text: "Vous venez de modifier les informations de votre copropriété, veuillez confirmer !",
+                text: "Vous venez de modifier les informations de ce lot, veuillez confirmer !",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Oui",
@@ -120,8 +124,8 @@ const ModifierCopropriete = ({ auth }) => {
                         },
                         buttonsStyling: false,
                     }).then(() => {
-                        // Redirection vers la page /copropriete après la fermeture du message
-                        window.location.href = "/copropriete";
+                        // Redirection vers la page /lot après la fermeture du message
+                        window.location.href = "/lot";
                     });
                 }
             });
@@ -134,12 +138,12 @@ const ModifierCopropriete = ({ auth }) => {
         <>
             <Main_content
                 user={auth.user}
-                Title={"Modifier la copropriété"}
-                Description={"Vous pouvez modifier librement votre copropriété"}
+                Title={"Modifier un lot"}
+                Description={"Vous pouvez modifier librement les lots votre copropriété"}
             >
                 <div>
                     {/* ************************** */}
-                    <Head title="Modifer Coproprieté" />
+                    <Head title="Modifer lot" />
 
                     <div>
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
@@ -316,4 +320,4 @@ const ModifierCopropriete = ({ auth }) => {
         </>
     );
 };
-export default ModifierCopropriete;
+export default ModifierLot;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Main_content from "@/main _content/Main_content";
-import { HiBuildingOffice } from "react-icons/hi2";
+import { HiBuildingOffice, HiUserGroup } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head } from "@inertiajs/react";
@@ -8,37 +8,32 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 
-const AddCopopriete = ({ auth }) => {
-    const [nom, setNom] = useState("");
-    const [adresse, setAdresse] = useState("");
-    const [ville, setVille] = useState("");
-    const [code_postale, setCodePostale] = useState("");
+const AjouterLot = ({ auth }) => {
+    const [numero, setNumero] = useState("");
+    const [batiment, setBatiment] = useState("");
+    const [etage, setEtage] = useState("");
+    const [porte, setPorte] = useState("");
     const [type, setType] = useState("");
+    const [proprietaire, setProprietaire] = useState("");
+    const [locataire, setLocataire] = useState("");
 
-    const [balance, setBalance] = useState("");
-
-    /* fonction d ajout */
     const ajouter = async (e) => {
         e.preventDefault();
-        const copropriete = {
-            nom,
-            adresse,
+        const lot = {
+            numero,
+            batiment,
             type,
-            ville,
-            code_postale,
-            balance,
+            etage,
+            porte,
+            proprietaire,
+            locataire,
         };
         try {
-            await axios.post(
-                `/api/coproprietes`,
-                copropriete
-            ); /* send to this */
+            await axios.post(`/api/`, lot);
 
             Swal.fire({
-                /* message de succes */
-                // position:'top-end',
                 icon: "success",
-                title: "Votre coproprieté a été ajouté avec succés !",
+                title: "Votre lot a été ajoutée avec succès !",
                 showConfirmButton: true,
                 confirmButtonText: "OK",
                 buttonsStyling: false,
@@ -47,27 +42,28 @@ const AddCopopriete = ({ auth }) => {
                     confirmButton:
                         "bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md",
                 },
-                //preconfirm methode pour redireger vers la page apres cliquer sur ok
                 preConfirm: () => {
                     return new Promise((resolve) => {
                         resolve();
                     });
                 },
             }).then(() => {
-                // Redirection vers la page /copropriete après la fermeture du message
-                window.location.href = "/copropriete";
+                window.location.href = "/lots";
             });
         } catch (error) {
             console.log(error);
         }
     };
-    
+
     return (
         <>
-            <Main_content user={auth.user} Title={"Ajouter une copropriété"} Description={"Entrez les informations correctes pour votre copropriété"}>
+            <Main_content
+                user={auth.user}
+                Title={"Ajouter un lot"}
+                Description={"Entrez les informations correctes pour votre lot"}
+            >
                 <div>
-                    {/* ************************** */}
-                    <Head title="Ajouter Coproprietés" />
+                    <Head title="Ajouter lot" />
 
                     <div>
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
@@ -80,20 +76,20 @@ const AddCopopriete = ({ auth }) => {
                             <div className="grid grid-cols-2 gap-x-16 ">
                                 <div>
                                     <label
-                                        htmlFor="nom"
+                                        htmlFor="numero"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        Nom
+                                        Numéro
                                     </label>
                                     <div className="mt-2">
                                         <TextInput
-                                            id="nom"
-                                            name="nom"
-                                            type="text"
-                                            autoComplete="current-nom"
-                                            value={nom}
+                                            id="numero"
+                                            name="numero"
+                                            type="number"
+                                            autoComplete="current-numero"
+                                            value={numero}
                                             onChange={(e) =>
-                                                setNom(e.target.value)
+                                                setNumero(e.target.value)
                                             }
                                             required
                                         />
@@ -101,20 +97,20 @@ const AddCopopriete = ({ auth }) => {
 
                                     <div>
                                         <label
-                                            htmlFor="adresse"
+                                            htmlFor="batiment"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Adresse
+                                            Batiment
                                         </label>
                                         <div className="mt-2">
                                             <TextInput
-                                                id="adresse"
-                                                name="adresse"
+                                                id="batiment"
+                                                name="batiment"
                                                 type="text"
                                                 required
-                                                value={adresse}
+                                                value={batiment}
                                                 onChange={(e) =>
-                                                    setAdresse(e.target.value)
+                                                    setBatiment(e.target.value)
                                                 }
                                             />
                                         </div>
@@ -138,24 +134,43 @@ const AddCopopriete = ({ auth }) => {
                                                 onChange={(e) =>
                                                     setType(e.target.value)
                                                 }
-                                                /*  onChange={(e) =>
-                                                    setTypeId(e.target.value)
-                                                } */
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
                                             >
                                                 <option disabled value="">
-                                                    {" "}
-                                                    {/* en react selected donne errer     */}
                                                     Veuillez choisir un type
-                                                </option>{" "}
+                                                </option>
                                                 <option value="immeuble">
-                                                    immeuble
-                                                </option>{" "}
+                                                    Appartement
+                                                </option>
                                                 <option value="villa">
-                                                    villa
-                                                </option>{" "}
+                                                    Local commercial
+                                                </option>
                                                 <option value="autre">
                                                     autre
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label
+                                            htmlFor="locataire"
+                                            className="block text-sm mt-4 font-medium leading-6 text-gray-900"
+                                        >
+                                            locataire
+                                        </label>
+                                        <div className="mt-2">
+                                            <select
+                                                id="locataire"
+                                                name="locataire"
+                                                value={locataire}
+                                                onChange={(e) =>
+                                                    setLocataire(e.target.value)
+                                                }
+                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                            >
+                                                <option disabled value="">
+                                                    Veuillez choisir un
+                                                    locataire
                                                 </option>
                                             </select>
                                         </div>
@@ -165,21 +180,21 @@ const AddCopopriete = ({ auth }) => {
                                 <div>
                                     <div className="flex items-center justify-between">
                                         <label
-                                            htmlFor="ville"
+                                            htmlFor="etage"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Ville
+                                            Etage
                                         </label>
                                     </div>
 
                                     <div className="mt-2">
                                         <TextInput
-                                            id="ville"
-                                            name="ville"
-                                            type="text"
-                                            value={ville}
+                                            id="etage"
+                                            name="etage"
+                                            type="number"
+                                            value={etage}
                                             onChange={(e) =>
-                                                setVille(e.target.value)
+                                                setEtage(e.target.value)
                                             }
                                             autoComplete="current-ville"
                                             required
@@ -189,24 +204,22 @@ const AddCopopriete = ({ auth }) => {
                                     <div>
                                         <div className="flex items-center justify-between">
                                             <label
-                                                htmlFor="code_postale "
+                                                htmlFor="porte"
                                                 className="block text-sm font-medium leading-6 text-gray-900"
                                             >
-                                                Code Postale
+                                                Porte
                                             </label>
                                         </div>
 
                                         <div className="mt-2">
                                             <TextInput
-                                                id="code_postale"
-                                                name="code_postale"
-                                                value={code_postale}
+                                                id="porte"
+                                                name="porte"
+                                                value={porte}
                                                 onChange={(e) =>
-                                                    setCodePostale(
-                                                        e.target.value
-                                                    )
+                                                    setPorte(e.target.value)
                                                 }
-                                                type="number"
+                                                type="text"
                                                 maxLength="5"
                                                 required
                                             />
@@ -215,43 +228,46 @@ const AddCopopriete = ({ auth }) => {
 
                                     <div>
                                         <label
-                                            htmlFor="balance"
+                                            htmlFor="proprietaire"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Balance(DH)
+                                            Proprietaire
                                         </label>
                                         <div className="mt-2">
-                                            <TextInput
-                                                id="balance"
-                                                name="balance"
-                                                type="number"
-                                                value={balance}
+                                            <select
+                                                id="proprietaire"
+                                                name="proprietaire"
+                                                value={proprietaire}
                                                 onChange={(e) =>
-                                                    setBalance(e.target.value)
+                                                    setProprietaire(
+                                                        e.target.value
+                                                    )
                                                 }
-                                                required
-                                            />
+                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                            >
+                                                <option disabled value="">
+                                                    Veuillez choisir un
+                                                    proprietaire
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div className="flex flex-row justify-center mt-11 w-full">
+                                            <PrimaryButton
+                                                type="submit"
+                                                className="w-full  py-2 "
+                                            >
+                                                Ajouter
+                                            </PrimaryButton>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="flex flex-row justify-center">
-                                <PrimaryButton
-                                    type="submit"
-                                    className="w-40  py-2 "
-                                >
-                                    Ajouter
-                                </PrimaryButton>
-                            </div>
                         </form>
                     </div>
-
-                    {/* ***************** */}
                 </div>
             </Main_content>
         </>
     );
 };
 
-export default AddCopopriete;
+export default AjouterLot;

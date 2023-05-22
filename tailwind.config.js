@@ -20,6 +20,8 @@ export default {
                 "secondary-color": "#F4FFF8",
                 "third-color": "#D5F2DF",
                 "gray-color": "#A1A0BD",
+                "p-gradient-color": "#5DEF8D",
+                "t-color": "#464F60",
             },
             borderRadius: {
                 40: "25px",
@@ -33,6 +35,7 @@ export default {
             },
             backgroundImage: {
                 'login-bg': "url('https://www.nomadeprocess.com/images/diaporama/copropriete-loi-elan.jpg')",
+                'l-bg': "url('https://www.usnews.com/object/image/00000181-d8ce-d1b7-a1d1-dddf4ac90000/gettyimages-1069330600.jpg?update-time=1657199952878&size=responsive970')",
               }
         },
     },
