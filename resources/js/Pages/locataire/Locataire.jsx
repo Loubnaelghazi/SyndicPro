@@ -1,11 +1,10 @@
+import Main_content from "@/main _content/Main_content";
 import React, { useState } from "react";
-import { Head } from "@inertiajs/react";
 import { HiPencil, HiTrash, HiPlusSmall } from "react-icons/hi2";
+import { Head } from "@inertiajs/react";
 import Checkbox from "@/Components/Checkbox";
 
-import Main_content from "@/main _content/Main_content";
-
-export default function Proprietaire({ auth }) {
+export default function Locataire({ auth }) {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isModifyHidden, setIsModifyHidden] = useState(false);
 
@@ -61,14 +60,13 @@ export default function Proprietaire({ auth }) {
     ];
 
     return (
-        <>
-            <Main_content
-                user={auth.user}
-                Title={"Les propriétaires"}
-            >
-                <Head title="Propriétaires" />
+        <Main_content
+            user={auth.user}
+            Title={"Les locataires"}
+        >
+            <Head title="Locataires" />
 
-                <div className="-m-14">
+            <div className="-m-14">
                     <div className="mx-auto container bg-white dark:bg-white-800 w-full  rounded-40">
                         <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
                             <div className="flex flex-row justify-between gap-4 ">
@@ -80,7 +78,7 @@ export default function Proprietaire({ auth }) {
                                             ? "hidden"
                                             : ""
                                     }`}
-                                    href="proprietaires/modifier"
+                                    href="/locataires/modifier"
                                 >
                                     <HiPencil />
                                 </a>
@@ -90,17 +88,16 @@ export default function Proprietaire({ auth }) {
                                             ? "hidden"
                                             : ""
                                     }`}
-                                    href="#"
                                 >
                                     <HiTrash />
                                 </a>
                             </div>
                             <a
-                                className="text-white px-2 pr-4 ml-4 my-1 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white bg-pinky-color  transition duration-150 ease-in-out hover:bg-opacity-80 w-max h-8 rounded-[9px] flex items-center justify-center"
-                                href="/proprietaires/ajouter"
+                                className="text-white px-2 pr-4 ml-4 my-1 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white bg-my-red  transition duration-150 ease-in-out hover:bg-opacity-80 w-max h-8 rounded-[9px] flex items-center justify-center"
+                                href="/locataires/ajouter"
                             >
                                 <HiPlusSmall className="text-2xl pr-2" />{" "}
-                                Ajouter un propriétaire
+                                Ajouter un locataire
                             </a>
                             <div className="absolute right-0 top-5 w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
                                 <div className="lg:ml-6 flex items-center">
@@ -180,8 +177,8 @@ export default function Proprietaire({ auth }) {
                                                 {item.cni}
                                             </td>
                                             <td className="pr-6 whitespace-no-wrap">
-                                                <div className="w-[120px] h-full bg-pinky-color bg-opacity-20 px-[15px] py-[0.5px] rounded-2xl flex justify-center items-center">
-                                                    <span className="text-sm text-pinky-color font-medium block ">
+                                                <div className="w-[120px] h-full bg-my-red bg-opacity-20 px-[15px] py-[0.5px] rounded-2xl flex justify-center items-center">
+                                                    <span className="text-sm text-my-red font-medium block ">
                                                         {item.tel}
                                                     </span>
                                                 </div>
@@ -197,6 +194,5 @@ export default function Proprietaire({ auth }) {
                     </div>
                 </div>
             </Main_content>
-        </>
     );
 }

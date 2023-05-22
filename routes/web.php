@@ -93,6 +93,18 @@ Route::get('/fournisseurs/modifier', function () {
 
 
 
+/* locataires routes */
+Route::get('/locataires', function () {
+    return Inertia::render('locataire/Locataire'); 
+});
+Route::get('/locataires/ajouter', function () {
+    return Inertia::render('locataire/AjouterLocataire'); 
+});
+Route::get('/locataires/modifier', function () {
+    return Inertia::render('locataire/ModifierLocataire'); 
+});
+
+/* fin locataires */
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -24,6 +24,13 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 export default function Header({ user }) {
     const [display, setDesplay] = useState("none");
 
+    const [simpleStyle, setSimpleStyle] = useState(
+        "duration-400 hover:bg-third-color hover:text-primary-color p-3 px-6  text-gray-color flex flex-row rounded-md"
+    );
+    const [selectStyle, setSelectStyle] = useState(
+        "middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg bg-gradient-to-tr from-primary-color to-p-gradient-color    text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] w-full flex items-center gap-4 px-4 capitalize"
+    );
+
     function hideElement() {
         if (display == "none") {
             setDesplay("block");
@@ -68,31 +75,95 @@ export default function Header({ user }) {
                 <hr className="mx-6 mb-2 w-full" />
                 <div className="text-lg h-min max-w-full  mx-4 pb-2 flex flex-row  justify-between ">
                     <a href="">
-                        <Nav_bar_item text="" icon={<HiHome />} />
+                        <Nav_bar_item
+                            icon={<HiHome />}
+                            className={`${
+                                location.pathname.startsWith("/tableau_de_bord")
+                                    ? selectStyle
+                                    : simpleStyle
+                            }`}
+                        />
+                    </a>
+                    <a href="/proprietaires">
+                        <Nav_bar_item
+                            icon={<HiUserGroup />}
+                            className={`${
+                                location.pathname.startsWith("/proprietaires")
+                                    ? selectStyle
+                                    : simpleStyle
+                            }`}
+                        />
+                    </a>
+                    <a href="/locataires">
+                        <Nav_bar_item
+                            icon={<HiUsers />}
+                            className={`${
+                                location.pathname.startsWith("/locataires")
+                                    ? selectStyle
+                                    : simpleStyle
+                            }`}
+                        />
+                    </a>
+                    <a href="/lots">
+                        <Nav_bar_item
+                            icon={<HiKey />}
+                            className={`${
+                                location.pathname.startsWith("/lots")
+                                    ? selectStyle
+                                    : simpleStyle
+                            }`}
+                        />
                     </a>
                     <a href="">
-                        <Nav_bar_item text="" icon={<HiUserGroup />} />
+                        <Nav_bar_item
+                            icon={<HiCurrencyDollar />}
+                            className={`${
+                                location.pathname.startsWith("/cotisations")
+                                    ? selectStyle
+                                    : simpleStyle
+                            }`}
+                        />
                     </a>
                     <a href="">
-                        <Nav_bar_item text="" icon={<HiUsers />} />
+                        <Nav_bar_item
+                            icon={<HiWallet />}
+                            className={`${
+                                location.pathname.startsWith("/dépenses")
+                                    ? selectStyle
+                                    : simpleStyle
+                            }`}
+                        />
                     </a>
                     <a href="">
-                        <Nav_bar_item text="" icon={<HiKey />} />
+                        <Nav_bar_item
+                            icon={<HiTruck />}
+                            className={`${
+                                location.pathname.startsWith("/fournisseurs")
+                                    ? selectStyle
+                                    : simpleStyle
+                            }`}
+                        />
                     </a>
-                    <a href="">
-                        <Nav_bar_item text="" icon={<HiCurrencyDollar />} />
+                    <a href="/copropriete">
+                        <Nav_bar_item
+                            icon={<HiBuildingOffice />}
+                            className={`${
+                                location.pathname.startsWith("/copropriete")
+                                    ? selectStyle
+                                    : simpleStyle
+                            }`}
+                        />
                     </a>
+                    <hr className="mx-6 my-1" />
                     <a href="">
-                        <Nav_bar_item text="" icon={<HiTruck />} />
-                    </a>
-                    <a href="">
-                        <Nav_bar_item text="" icon={<HiBuildingOffice />} />
-                    </a>
-                    <a href="">
-                        <Nav_bar_item text="" icon={<HiWallet />} />
-                    </a>
-                    <a href="">
-                        <Nav_bar_item text="" icon={<HiCog8Tooth />} />
+                        <Nav_bar_item
+                            icon={<HiCog8Tooth />}
+                            className={`${
+                                location.pathname.startsWith("/parametres")
+                                    ? selectStyle
+                                    : simpleStyle
+                            }`}
+                        />
                     </a>
                     <ResponsiveNavLink
                         method="post"

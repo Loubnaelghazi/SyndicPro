@@ -33,7 +33,7 @@ export default function Nav_bar() {
             <a href="/proprietaires">
                 <Nav_bar_item text="Propriétaires" icon={<HiUserGroup />} className={`${location.pathname.startsWith('/proprietaires') ? selectStyle : simpleStyle}`}/>
             </a>
-            <a href="">
+            <a href="/locataires">
                 <Nav_bar_item text="Locataires" icon={<HiUsers />} className={`${location.pathname.startsWith('/locataires') ? selectStyle : simpleStyle}`}/>
             </a>
             <a href="/lots">

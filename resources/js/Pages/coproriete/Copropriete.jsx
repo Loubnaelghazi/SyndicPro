@@ -88,8 +88,8 @@ const Copopriete = ({ auth }) => {
         <>
             <Layout
                 user={auth.user}
-                Title={"Les coproprietés"}
-                Description={"Pour choisir une coproprieté cliquez sur l'icone"}
+                Title={"Les copropriétés"}
+                Description={"Pour choisir une copropriété cliquez sur l'icone"}
             >
                 <Head title="Copropriété" />
                 {coproprietes?.map((copropriete) => (

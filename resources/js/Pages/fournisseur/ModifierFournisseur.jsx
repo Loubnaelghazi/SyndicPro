@@ -1,7 +1,7 @@
 import Main_content from "@/main _content/Main_content";
 import React, { useEffect, useState } from "react";
 import { Head } from "@inertiajs/react";
-import { HiUserGroup } from "react-icons/hi2";
+import { HiTruck } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 
@@ -149,7 +149,7 @@ const handleSubmit = async (e) => {
 
                     <div>
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
-                            <HiUserGroup />
+                            <HiTruck />
                         </span>
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid grid-rows-3 grid-cols-2 gap-x-16">
@@ -307,7 +307,7 @@ const handleSubmit = async (e) => {
                                         type="submit"
                                         className="w-40  py-2 "
                                     >
-                                        Modifier
+                                        Enregistrer
                                     </PrimaryButton>
                                 </div>
                             </div>

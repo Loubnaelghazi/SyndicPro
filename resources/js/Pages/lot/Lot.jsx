@@ -46,7 +46,7 @@ export default function Lot({ auth }) {
     return (
         <Main_content
             user={auth.user}
-            Title={"Lots de la copropriete"}
+            Title={"Lots de la copropriété"}
             Description={
                 "Vous devez d'abord ajouter les proprietaires et les locataires"
             }
@@ -58,7 +58,7 @@ export default function Lot({ auth }) {
                     <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
                         <div className="flex flex-row justify-between gap-4 ">
                             <a
-                                className={`text-primary-color border-solid border-gray-200 border-[1.5px] p-2  bg-white  hover:bg-primary-color hover:text-white rounded-[7px] ${
+                                className={`text-primary-color cursor-pointer border-solid border-gray-200 border-[1.5px] p-2  bg-white  hover:bg-primary-color hover:text-white rounded-[7px] ${
                                     isModifyHidden ? "hidden" : ""
                                 
                                 } focus:shadow-outline-white ${
@@ -66,6 +66,7 @@ export default function Lot({ auth }) {
                                         ? "hidden"
                                         : ""
                                 }`}
+                                href="/lots/modifier"
                                 
                             >
                                 <HiPencil />

@@ -71,7 +71,6 @@ export default function Fournisseurs({auth}) {
             <Main_content
                 user={auth.user}
                 Title={"Les fournisseurs"}
-                Description={"loubna zwena"}
             >
                 <Head title="Fournisseurs" />
 

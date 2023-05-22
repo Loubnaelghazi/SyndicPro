@@ -5,24 +5,24 @@ import { HiUserGroup } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-export default function ModifierProprietaire({ auth }) {
-    const [nomP, setNom] = useState("");
-    const [prenomP, setPrenom] = useState("");
+export default function ModifierLocataire({ auth }) {
+    const [nom, setNom] = useState("");
+    const [prenom, setPrenom] = useState("");
     const [cni, setCni] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const url = window.location.href;
-    const proprietaireID = url.substring(url.lastIndexOf("/") + 1);
+    const locataireID = url.substring(url.lastIndexOf("/") + 1);
 
     useEffect(() => {
         // Fetch the copropriete data from the server and update the state
-        fetchProprietaireData();
+        fetchLocatairesData();
     }, []);
 
-    const fetchProprietaireData = async () => {
+    const fetchLocatairesData = async () => {
         try {
             const response = await axios.get(
-                `/api/proprietaires/${proprietaireID}`
+                `/api/locataires/${locataireID}`
             );
             const { data } = response;
             setNom(data.nom);
@@ -39,10 +39,10 @@ export default function ModifierProprietaire({ auth }) {
         const { name, value } = e.target;
 
         switch (name) {
-            case "nomP":
+            case "nom":
                 setNom(value);
                 break;
-            case "prenomP":
+            case "prenom":
                 setPrenom(value);
                 break;
             case "email":
@@ -62,9 +62,9 @@ export default function ModifierProprietaire({ auth }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const updatedProprietaire = {
-            nomP,
-            prenomP,
+        const updatedLocataire = {
+            nom,
+            prenom,
             cni,
             email,
             phone,
@@ -72,16 +72,16 @@ export default function ModifierProprietaire({ auth }) {
 
         try {
             const response = await axios.put(
-                `/api/coproprietes/${coproprieteID}`,
-                updatedCopropriete
+                `/api/coproprietes/${locataireID}`,
+                updatedLocataire
             );
 
             const { data } = response;
-            console.log("Updated copropriete:", data);
+            console.log("Updated Locataire:", data);
 
             Swal.fire({
                 title: "Êtes-vous sûr de vouloir effectuer ces modifications ?",
-                text: "Vous venez de modifier les informations d'un propriétaire, veuillez confirmer !",
+                text: "Vous venez de modifier les informations d'un locataire, veuillez confirmer !",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Oui",
@@ -124,11 +124,11 @@ export default function ModifierProprietaire({ auth }) {
         <>
             <Main_content
                 user={auth.user}
-                Title={"Modifier les informations liées à un propriétaire "}
+                Title={"Modifier les informations liées à un locataire"}
                 Description={""}
             >
                 <div>
-                    <Head title="Modifier les propriétaires " />
+                    <Head title="Modifier les locataires " />
 
                     <div>
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
@@ -138,17 +138,17 @@ export default function ModifierProprietaire({ auth }) {
                             <div className="grid grid-rows-3 grid-cols-2 gap-x-16">
                                 <div>
                                     <label
-                                        htmlFor="nomP"
+                                        htmlFor="nom"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
                                         Nom
                                     </label>
                                     <div className="mt-2">
                                         <TextInput
-                                            id="nomP"
-                                            name="nomP"
+                                            id="nom"
+                                            name="nom"
                                             type="text"
-                                            value={nomP}
+                                            value={nom}
                                             onChange={handleInputChange}
                                             required
                                         />
@@ -180,18 +180,18 @@ export default function ModifierProprietaire({ auth }) {
                                 </div>
                                 <div>
                                     <label
-                                        htmlFor="prenomP"
+                                        htmlFor="prenom"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
                                         Prénom
                                     </label>
                                     <div className="mt-2">
                                         <TextInput
-                                            id="prenomP"
-                                            name="prenomP"
+                                            id="prenom"
+                                            name="prenom"
                                             type="text"
                                             required
-                                            value={prenomP}
+                                            value={prenom}
                                             onChange={handleInputChange}
                                         />
                                     </div>

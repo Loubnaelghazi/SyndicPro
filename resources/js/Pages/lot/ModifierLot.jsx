@@ -1,5 +1,5 @@
 import Main_content from "@/main _content/Main_content";
-import { HiBuildingOffice } from "react-icons/hi2";
+import { HiHome} from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head } from "@inertiajs/react";
@@ -139,7 +139,7 @@ const ModifierLot = ({ auth }) => {
             <Main_content
                 user={auth.user}
                 Title={"Modifier un lot"}
-                Description={"Vous pouvez modifier librement les lots votre copropriété"}
+                Description={"Vous pouvez modifier librement les lots de votre copropriété"}
             >
                 <div>
                     {/* ************************** */}
@@ -147,26 +147,25 @@ const ModifierLot = ({ auth }) => {
 
                     <div>
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
-                            <HiBuildingOffice />
+                        <HiHome />
                         </span>
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid grid-cols-2 gap-x-16 ">
                                 <div>
                                     <label
-                                        htmlFor="Modifier_nomCop"
+                                        htmlFor="Modifier_numero"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        Nom
+                                        Numero
                                     </label>
                                     <div className="mt-2">
                                         <TextInput
-                                            id="Modifier_nomCop"
+                                            id="Modifier_numero"
                                             name="nom"
                                             type="text"
-                                            autoComplete="nomCop"
-                                            value={nom}
+                                            autoComplete="numero"
+                                            value={numero}
                                             onChange={handleInputChange}
-                                            //    value={data.nomCop}
 
                                             required
                                         />
@@ -174,25 +173,125 @@ const ModifierLot = ({ auth }) => {
 
                                     <div>
                                         <label
-                                            htmlFor="Modifier_adresse"
+                                            htmlFor="Modifier_batiment"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Adresse
+                                            Batiment
                                         </label>
                                         <div className="mt-2">
                                             <TextInput
-                                                id="Modifier_adresse"
-                                                name="adresse"
+                                                id="Modifier_batiment"
+                                                name="batiment"
                                                 type="text"
-                                                value={adresse}
+                                                value={batiment}
                                                 required
                                                 onChange={handleInputChange}
-                                                //    value={data.adresse}
                                             />
                                         </div>
                                     </div>
 
                                     <div>
+                                        <div className="flex items-center justify-between">
+                                            <label
+                                                htmlFor="Modifier_locataire"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Locataire
+                                            </label>
+                                        </div>
+
+                                        <div className="mt-2">
+                                            <select
+                                                id="Modifier_locataire"
+                                                name="locataire"
+                                                type="password"
+                                                required
+                                                value={locataire}
+                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                                onChange={handleInputChange}
+                                            >
+                                                <option disabled value="">
+                                                    Veuillez choisir un locataire
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label
+                                            htmlFor="Modifier_etage"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Etage
+                                        </label>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="Modifer_etage"
+                                            name="etage"
+                                            type="text"
+                                            value={etage}
+                                            autoComplete="current-etage"
+                                            required
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <div className="flex items-center justify-between">
+                                            <label
+                                                htmlFor="Modifier_porte "
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Porte
+                                            </label>
+                                        </div>
+
+                                        <div className="mt-2">
+                                            <TextInput
+                                                id="Modifier_porte"
+                                                name="porte"
+                                                value={porte}
+                                                type="number"
+                                                maxLength="5"
+                                                required
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div className="flex items-center justify-between">
+                                            <label
+                                                htmlFor="Modifier_proprietaire"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Proprietaire
+                                            </label>
+                                        </div>
+
+                                        <div className="mt-2">
+                                            <select
+                                                id="Modifier_proprietaire"
+                                                name="proprietaire"
+                                                type="password"
+                                                required
+                                                value={proprietaire}
+                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                                onChange={handleInputChange}
+                                            >
+                                                <option disabled value="">
+                                                    Veuillez choisir un proprietaire
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                    <div className="w-1/2 flex flex-col mx-auto justify-center">
                                         <div className="flex items-center justify-between">
                                             <label
                                                 htmlFor="Modifier_type"
@@ -212,99 +311,21 @@ const ModifierLot = ({ auth }) => {
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
                                                 onChange={handleInputChange}
                                             >
+                                                
                                                 <option disabled value="">
-                                                    Veuillez choisir un type
-                                                </option>
-                                                <option
-                                                    value="immeuble"
-                                                    id="Modifier_immeuble"
-                                                >
-                                                    Immeuble
-                                                </option>
-                                                <option
-                                                    value="villa"
-                                                    id="villa"
-                                                >
-                                                    Villa
-                                                </option>
-                                                <option
-                                                    value="autre"
-                                                    id="autre"
-                                                >
-                                                    Autre
-                                                </option>
+                                            Veuillez choisir un type
+                                        </option>
+                                        <option value="immeuble">
+                                            Appartement
+                                        </option>
+                                        <option value="villa">
+                                            Local commercial
+                                        </option>
+                                        <option value="autre">autre</option>
+
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div>
-                                    <div className="flex items-center justify-between">
-                                        <label
-                                            htmlFor="Modifier_ville"
-                                            className="block text-sm font-medium leading-6 text-gray-900"
-                                        >
-                                            Ville
-                                        </label>
-                                    </div>
-
-                                    <div className="mt-2">
-                                        <TextInput
-                                            id="Modifer_ville"
-                                            name="ville"
-                                            type="text"
-                                            value={ville}
-                                            //    value={data.ville}
-                                            autoComplete="current-ville"
-                                            required
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <div className="flex items-center justify-between">
-                                            <label
-                                                htmlFor="Modifier_code_postale "
-                                                className="block text-sm font-medium leading-6 text-gray-900"
-                                            >
-                                                Code Postale
-                                            </label>
-                                        </div>
-
-                                        <div className="mt-2">
-                                            <TextInput
-                                                id="Modifier_code_postale"
-                                                name="code_postale"
-                                                //    value={data.code_postale}
-                                                value={codePostale}
-                                                type="number"
-                                                maxLength="5"
-                                                required
-                                                onChange={handleInputChange}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label
-                                            htmlFor="Modifer_balance"
-                                            className="block text-sm font-medium leading-6 text-gray-900"
-                                        >
-                                            Balance(DH)
-                                        </label>
-                                        <div className="mt-2">
-                                            <TextInput
-                                                id="Modifer_balance"
-                                                name="balance"
-                                                type="number"
-                                                value={balance}
-                                                required
-                                                onChange={handleInputChange}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div className="flex flex-row justify-center">
                                 <PrimaryButton className="w-40  py-2 ">

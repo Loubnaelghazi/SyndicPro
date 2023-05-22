@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Main_content from "@/main _content/Main_content";
-import { HiBuildingOffice, HiUserGroup } from "react-icons/hi2";
+import { HiHome } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head } from "@inertiajs/react";
@@ -67,7 +67,7 @@ const AjouterLot = ({ auth }) => {
 
                     <div>
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
-                            <HiBuildingOffice />
+                            <HiHome />
                         </span>
                         <form
                             className="space-y-6"
@@ -116,41 +116,6 @@ const AjouterLot = ({ auth }) => {
                                         </div>
                                     </div>
 
-                                    <div>
-                                        <div className="flex items-center justify-between">
-                                            <label
-                                                htmlFor="type_id"
-                                                className="block text-sm font-medium leading-6 text-gray-900"
-                                            >
-                                                Type
-                                            </label>
-                                        </div>
-
-                                        <div className="mt-2">
-                                            <select
-                                                id="type_id"
-                                                name="type_id"
-                                                value={type}
-                                                onChange={(e) =>
-                                                    setType(e.target.value)
-                                                }
-                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
-                                            >
-                                                <option disabled value="">
-                                                    Veuillez choisir un type
-                                                </option>
-                                                <option value="immeuble">
-                                                    Appartement
-                                                </option>
-                                                <option value="villa">
-                                                    Local commercial
-                                                </option>
-                                                <option value="autre">
-                                                    autre
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
                                     <div>
                                         <label
                                             htmlFor="locataire"
@@ -251,18 +216,51 @@ const AjouterLot = ({ auth }) => {
                                                 </option>
                                             </select>
                                         </div>
-                                        <div className="flex flex-row justify-center mt-11 w-full">
-                                            <PrimaryButton
-                                                type="submit"
-                                                className="w-full  py-2 "
-                                            >
-                                                Ajouter
-                                            </PrimaryButton>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div className="w-1/2 flex flex-col mx-auto justify-center">
+                                <div className="flex items-center justify-between">
+                                    <label
+                                        htmlFor="type_id"
+                                        className="block text-sm font-medium leading-6 text-gray-900"
+                                    >
+                                        Type
+                                    </label>
+                                </div>
+
+                                <div className="mt-2">
+                                    <select
+                                        id="type_id"
+                                        name="type_id"
+                                        value={type}
+                                        onChange={(e) =>
+                                            setType(e.target.value)
+                                        }
+                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                    >
+                                        <option disabled value="">
+                                            Veuillez choisir un type
+                                        </option>
+                                        <option value="immeuble">
+                                            Appartement
+                                        </option>
+                                        <option value="villa">
+                                            Local commercial
+                                        </option>
+                                        <option value="autre">autre</option>
+                                    </select>
+                                </div>
+                            </div>
                         </form>
+                        <div className="flex flex-row justify-center mt-11">
+                            <PrimaryButton
+                                type="submit"
+                                className="w-40  py-2 "
+                            >
+                                Ajouter
+                            </PrimaryButton>
+                        </div>
                     </div>
                 </div>
             </Main_content>

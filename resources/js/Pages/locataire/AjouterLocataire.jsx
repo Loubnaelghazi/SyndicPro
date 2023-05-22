@@ -1,122 +1,50 @@
 import Main_content from "@/main _content/Main_content";
 import React, { useEffect, useState } from "react";
 import { Head } from "@inertiajs/react";
-import { HiUserGroup } from "react-icons/hi2";
+import { HiUsers } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-export default function ModifierProprietaire({ auth }) {
+export default function AjouterLocataire({ auth }) {
     const [nomP, setNom] = useState("");
     const [prenomP, setPrenom] = useState("");
     const [cni, setCni] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
-    const url = window.location.href;
-    const proprietaireID = url.substring(url.lastIndexOf("/") + 1);
 
-    useEffect(() => {
-        // Fetch the copropriete data from the server and update the state
-        fetchProprietaireData();
-    }, []);
-
-    const fetchProprietaireData = async () => {
-        try {
-            const response = await axios.get(
-                `/api/proprietaires/${proprietaireID}`
-            );
-            const { data } = response;
-            setNom(data.nom);
-            setPrenom(data.prenom);
-            setCni(data.cni);
-            setEmail(data.email);
-            setPhone(data.phone);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-
-        switch (name) {
-            case "nomP":
-                setNom(value);
-                break;
-            case "prenomP":
-                setPrenom(value);
-                break;
-            case "email":
-                setEmail(value);
-                break;
-            case "phone":
-                setPhone(value);
-                break;
-            case "cni":
-                setCni(value);
-                break;
-            default:
-                break;
-        }
-    };
-
-    const handleSubmit = async (e) => {
+    const ajouter = async (e) => {
         e.preventDefault();
-
-        const updatedProprietaire = {
-            nomP,
-            prenomP,
+        const locataire = {
+            nom,
+            prenom,
             cni,
-            email,
             phone,
+            email,
         };
-
         try {
-            const response = await axios.put(
-                `/api/coproprietes/${coproprieteID}`,
-                updatedCopropriete
-            );
-
-            const { data } = response;
-            console.log("Updated copropriete:", data);
+            await axios.post(`/api/`, locataire);
 
             Swal.fire({
-                title: "Êtes-vous sûr de vouloir effectuer ces modifications ?",
-                text: "Vous venez de modifier les informations d'un propriétaire, veuillez confirmer !",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Oui",
-                cancelButtonText: "Annuler",
-                customClass: {
-                    confirmButton:
-                        "mx-2 px-4 py-2 bg-yellow-300 text-white rounded hover:bg-yellow-500 hover:scale-105",
-                    cancelButton:
-                        "mx-2 px-4 py-2 bg-white border-[1px] border-solid border-gray-500 text-gray-500 rounded hover:scale-105",
-                },
+                icon: "success",
+                title: "Votre locataire a été ajoutée avec succès !",
+                showConfirmButton: true,
+                confirmButtonText: "OK",
                 buttonsStyling: false,
+                customClass: {
+                    popup: "success-popup",
+                    confirmButton:
+                        "bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md",
+                },
                 preConfirm: () => {
                     return new Promise((resolve) => {
                         resolve();
                     });
                 },
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Succès",
-                        text: "La modification a été effectuée avec succès !",
-                        icon: "success",
-                        customClass: {
-                            confirmButton:
-                                "px-4 py-2 bg-primary-color text-white rounded hover:bg-green-600 hover:scale-105",
-                        },
-                        buttonsStyling: false,
-                    }).then(() => {
-                        // Redirection vers la page /copropriete après la fermeture du message
-                        window.location.href = "/copropriete";
-                    });
-                }
+            }).then(() => {
+                window.location.href = "/lots";
             });
         } catch (error) {
-            console.error(error);
+            console.log(error);
         }
     };
 
@@ -124,17 +52,22 @@ export default function ModifierProprietaire({ auth }) {
         <>
             <Main_content
                 user={auth.user}
-                Title={"Modifier les informations liées à un propriétaire "}
-                Description={""}
+                Title={"Ajouter un locataire"}
+                Description={
+                    "Entrez les informations correctes pour le locataire"
+                }
             >
                 <div>
-                    <Head title="Modifier les propriétaires " />
+                    <Head title="Ajouter un locataire " />
 
                     <div>
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
-                            <HiUserGroup />
+                            <HiUsers />
                         </span>
-                        <form className="space-y-6" onSubmit={handleSubmit}>
+                        <form
+                            className="space-y-6"
+                            onSubmit={(e) => ajouter(e)}
+                        >
                             <div className="grid grid-rows-3 grid-cols-2 gap-x-16">
                                 <div>
                                     <label
@@ -149,7 +82,9 @@ export default function ModifierProprietaire({ auth }) {
                                             name="nomP"
                                             type="text"
                                             value={nomP}
-                                            onChange={handleInputChange}
+                                            onChange={(e) =>
+                                                setNom(e.target.value)
+                                            }
                                             required
                                         />
                                     </div>
@@ -171,7 +106,9 @@ export default function ModifierProprietaire({ auth }) {
                                                 name="email"
                                                 type="email"
                                                 value={email}
-                                                onChange={handleInputChange}
+                                                onChange={(e) =>
+                                                    setEmail(e.target.value)
+                                                }
                                                 autoComplete="current-email"
                                                 required
                                             />
@@ -192,7 +129,9 @@ export default function ModifierProprietaire({ auth }) {
                                             type="text"
                                             required
                                             value={prenomP}
-                                            onChange={handleInputChange}
+                                            onChange={(e) =>
+                                                setPrenom(e.target.value)
+                                            }
                                         />
                                     </div>
                                 </div>
@@ -211,7 +150,9 @@ export default function ModifierProprietaire({ auth }) {
                                             id="phone"
                                             name="phone"
                                             value={phone}
-                                            onChange={handleInputChange}
+                                            onChange={(e) =>
+                                                setPhone(e.target.value)
+                                            }
                                             type="number"
                                             required
                                         />
@@ -233,7 +174,9 @@ export default function ModifierProprietaire({ auth }) {
                                             name="cni"
                                             type="text"
                                             value={cni}
-                                            onChange={handleInputChange}
+                                            onChange={(e) =>
+                                                setCni(e.target.value)
+                                            }
                                             autoComplete="current-cni"
                                             required
                                         />
@@ -246,7 +189,7 @@ export default function ModifierProprietaire({ auth }) {
                                         type="submit"
                                         className="w-40  py-2 "
                                     >
-                                        Enregistrer
+                                        Ajouter
                                     </PrimaryButton>
                                 </div>
                             </div>
