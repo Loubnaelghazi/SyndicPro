@@ -39,13 +39,13 @@ export default function Nav_bar() {
             <a href="/lots">
                 <Nav_bar_item text="Lots" icon={<HiKey />} className={`${location.pathname.startsWith('/lots') ? selectStyle : simpleStyle}`}/>
             </a>
-            <a href="">
+            <a href="/cotisations">
                 <Nav_bar_item text="Cotisations" icon={<HiCurrencyDollar />} className={`${location.pathname.startsWith('/cotisations') ? selectStyle : simpleStyle}`}/>
             </a>
-            <a href="">
+            <a href="/depenses">
                 <Nav_bar_item text="Dépenses" icon={<HiWallet />} className={`${location.pathname.startsWith('/dépenses') ? selectStyle : simpleStyle}`}/>
             </a>
-            <a href="">
+            <a href="/fournisseurs">
                 <Nav_bar_item text="Fournisseurs" icon={<HiTruck />} className={`${location.pathname.startsWith('/fournisseurs') ? selectStyle : simpleStyle}`}/>
             </a>
             <a href="/copropriete">

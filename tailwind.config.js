@@ -23,6 +23,7 @@ export default {
                 "p-gradient-color": "#5DEF8D",
                 "t-color": "#464F60",
                 "pinky-color": "#2DB29C",
+                "purple-color": "#9C2DB2",
             },
             borderRadius: {
                 40: "25px",

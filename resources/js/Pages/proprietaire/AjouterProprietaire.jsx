@@ -21,16 +21,14 @@ const [email, setEmail] = useState("");
 const ajouter = async (e) => {
     e.preventDefault();
     const proprietaire = {
-        numero,
-        batiment,
-        type,
-        etage,
-        porte,
-        proprietaire,
-        locataire,
+        nomP,
+        prenomP,
+        cni,
+        phone,
+        email,
     };
     try {
-        await axios.post(`/api/`,proprietaires);
+        await axios.post(`/api/`,proprietaire);
 
         Swal.fire({
             icon: "success",
@@ -49,7 +47,7 @@ const ajouter = async (e) => {
                 });
             },
         }).then(() => {
-            window.location.href = "/lots";
+            window.location.href = "/proprietaires";
         });
     } catch (error) {
         console.log(error);

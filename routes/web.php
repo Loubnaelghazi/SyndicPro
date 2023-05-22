@@ -66,17 +66,22 @@ Route::get('/proprietaires/modifier', function () {
     return Inertia::render('proprietaire/ModifierProprietaire');
 });
 
-
-
-
-
-
-
 /* fin */
 
 
+/* Routes of fournisseurs*/
 
+Route::get('/fournisseurs', function () {
+    return Inertia::render('fournisseur/Fournisseurs');
+});
+Route::get('/fournisseurs/ajouter', function () {
+    return Inertia::render('fournisseur/AjouterFournisseur');
+});
+Route::get('/fournisseurs/modifier', function () {
+    return Inertia::render('fournisseur/ModifierFournisseur');
+});
 
+/* fin */
 
 
 
