@@ -41,6 +41,9 @@ export default function Proprietaire({ auth }) {
             cni: 7390,
             tel: 8078389,
             email: "lubna@gmail.com",
+            nationalite: "Marocaine",
+            genre: "female",
+            date_naissance: "29/01/2003",
         },
         {
             id: 2,
@@ -49,6 +52,9 @@ export default function Proprietaire({ auth }) {
             cni: 4899,
             tel: 83092029004,
             email: "lina@gmail.com",
+            nationalite: "Marocaine",
+            genre: "female",
+            date_naissance: "29/01/2003",
         },
         {
             id: 3,
@@ -57,15 +63,15 @@ export default function Proprietaire({ auth }) {
             cni: 4904,
             tel: 94040,
             email: "Brahim@gmail.com",
+            nationalite: "Marocaine",
+            genre: "female",
+            date_naissance: "29/01/2003",
         },
     ];
 
     return (
         <>
-            <Main_content
-                user={auth.user}
-                Title={"Les propriétaires"}
-            >
+            <Main_content user={auth.user} Title={"Les propriétaires"}>
                 <Head title="Propriétaires" />
 
                 <div className="-m-14">
@@ -141,8 +147,19 @@ export default function Proprietaire({ auth }) {
                                             Prénom
                                         </th>
                                         <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
+                                            Genre
+                                        </th>
+                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
+                                            Date de naissance
+                                        </th>
+
+                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
                                             CNI
                                         </th>
+                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
+                                            Nationalité
+                                        </th>
+
                                         <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
                                             N° Téléphone
                                         </th>
@@ -177,8 +194,20 @@ export default function Proprietaire({ auth }) {
                                                 {item.prenom}
                                             </td>
                                             <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                                {item.genre}
+                                            </td>
+                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                                {item.date_naissance}
+                                            </td>
+
+                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
                                                 {item.cni}
                                             </td>
+
+                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                                {item.nationalite}
+                                            </td>
+
                                             <td className="pr-6 whitespace-no-wrap">
                                                 <div className="w-[120px] h-full bg-pinky-color bg-opacity-20 px-[15px] py-[0.5px] rounded-2xl flex justify-center items-center">
                                                     <span className="text-sm text-pinky-color font-medium block ">

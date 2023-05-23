@@ -251,7 +251,7 @@ const handleSubmit = async (e) => {
                                             name="phone"
                                             value={phone}
                                             onChange={handleInputChange}
-                                            type="number"
+                                            type="tel"
                                             required
                                         />
                                     </div>

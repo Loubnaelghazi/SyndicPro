@@ -156,7 +156,7 @@ export default function AjouterFournisseur({auth}) {
                                             onChange={(e) =>
                                                 setPhone(e.target.value)
                                             }
-                                            type="number"
+                                            type="tel"
                                             required
                                         />
                                     </div>

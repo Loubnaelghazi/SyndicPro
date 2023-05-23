@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import { HiBuildingOffice, HiChevronDown, HiPlusSmall } from "react-icons/hi2";
-import Main_content from "@/main _content/Main_content";
-import InputLabel from "@/Components/InputLabel";
 import { HiPencil, HiTrash } from "react-icons/hi2";
-import { RiEdit2Fill } from "react-icons/ri";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { FiAlertTriangle } from "react-icons/fi";
 import { useEffect } from "react";
 import Layout from "@/layout_jsx/Layout";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Head } from "@inertiajs/react";
+import Main_content from "@/main _content/Main_content";
 
 const Copopriete = ({ auth }) => {
     const [coproprietes, setCoproprietes] = useState([]);

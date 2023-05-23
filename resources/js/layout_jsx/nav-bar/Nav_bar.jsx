@@ -14,7 +14,10 @@ import {
 } from "react-icons/hi2";
 import Logout_item from "./Logout_item";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { Link } from "@inertiajs/react";
+
+
+
+
 export default function Nav_bar() {
     const [simpleStyle , setSimpleStyle] = useState("duration-400 hover:bg-third-color hover:text-primary-color p-3 px-6  text-gray-color flex flex-row rounded-md");
     const [selectStyle , setSelectStyle] = useState("middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg bg-gradient-to-tr from-primary-color to-p-gradient-color    text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] w-full flex items-center gap-4 px-4 capitalize");

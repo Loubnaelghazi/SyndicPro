@@ -6,11 +6,16 @@ import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function ModifierProprietaire({ auth }) {
-    const [nomP, setNom] = useState("");
-    const [prenomP, setPrenom] = useState("");
+    const [nom, setNom] = useState("");
+    const [prenom, setPrenom] = useState("");
     const [cni, setCni] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
+    const [genre, setGenre] = useState("");
+    const [date_naissance, setDate_naissance] = useState("");
+    const [nationalite, setNationalite] = useState("");
+
+
     const url = window.location.href;
     const proprietaireID = url.substring(url.lastIndexOf("/") + 1);
 
@@ -30,6 +35,8 @@ export default function ModifierProprietaire({ auth }) {
             setCni(data.cni);
             setEmail(data.email);
             setPhone(data.phone);
+            setGenre(data.genre);
+            setDate_naissance(data.date_naissance);
         } catch (error) {
             console.error(error);
         }
@@ -39,10 +46,10 @@ export default function ModifierProprietaire({ auth }) {
         const { name, value } = e.target;
 
         switch (name) {
-            case "nomP":
+            case "nom":
                 setNom(value);
                 break;
-            case "prenomP":
+            case "prenom":
                 setPrenom(value);
                 break;
             case "email":
@@ -54,6 +61,14 @@ export default function ModifierProprietaire({ auth }) {
             case "cni":
                 setCni(value);
                 break;
+            case "genre":
+                setGenre(value);
+                break;
+            case "date_naissance":
+                setDate_naissance(value);
+            case "nationalite":
+                setNationalite(value);
+                break;
             default:
                 break;
         }
@@ -63,11 +78,14 @@ export default function ModifierProprietaire({ auth }) {
         e.preventDefault();
 
         const updatedProprietaire = {
-            nomP,
-            prenomP,
+            nom,
+            prenom,
             cni,
-            email,
             phone,
+            email,
+            genre,
+            date_naissance,
+            nationalite,
         };
 
         try {
@@ -138,18 +156,116 @@ export default function ModifierProprietaire({ auth }) {
                             <div className="grid grid-rows-3 grid-cols-2 gap-x-16">
                                 <div>
                                     <label
-                                        htmlFor="nomP"
+                                        htmlFor="nom"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
                                         Nom
                                     </label>
                                     <div className="mt-2">
                                         <TextInput
-                                            id="nomP"
-                                            name="nomP"
+                                            id="nom"
+                                            name="nom"
                                             type="text"
-                                            value={nomP}
+                                            value={nom}
                                             onChange={handleInputChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        htmlFor="prenom"
+                                        className="block text-sm font-medium leading-6 text-gray-900"
+                                    >
+                                        Prénom
+                                    </label>
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="prenom"
+                                            name="prenom"
+                                            type="text"
+                                            required
+                                            value={prenom}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label
+                                            htmlFor="genre"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Genre
+                                        </label>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <select
+                                            id="genre"
+                                            name="genre"
+                                            value={genre}
+                                            onChange={(e) =>
+                                                setGenre(e.target.value)
+                                            }
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                        >
+                                            <option disabled value="">
+                                                Vous êtes?
+                                            </option>
+                                            <option value="male">Male</option>
+                                            <option value="female">
+                                                Female
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label
+                                            htmlFor="date_naissance"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Date de naissance
+                                        </label>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="date_naissance"
+                                            name="date_naissance"
+                                            value={date_naissance}
+                                            onChange={(e) =>
+                                                setDate_naissance(
+                                                    e.target.value
+                                                )
+                                            }
+                                            type="date"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label
+                                            htmlFor="phone"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            N° Téléphone
+                                        </label>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="phone"
+                                            name="phone"
+                                            value={phone}
+                                            onChange={handleInputChange}
+                                            type="tel"
                                             required
                                         />
                                     </div>
@@ -178,47 +294,8 @@ export default function ModifierProprietaire({ auth }) {
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <label
-                                        htmlFor="prenomP"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Prénom
-                                    </label>
-                                    <div className="mt-2">
-                                        <TextInput
-                                            id="prenomP"
-                                            name="prenomP"
-                                            type="text"
-                                            required
-                                            value={prenomP}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="flex items-center justify-between">
-                                        <label
-                                            htmlFor="phone"
-                                            className="block text-sm font-medium leading-6 text-gray-900"
-                                        >
-                                            N° Téléphone
-                                        </label>
-                                    </div>
 
-                                    <div className="mt-2">
-                                        <TextInput
-                                            id="phone"
-                                            name="phone"
-                                            value={phone}
-                                            onChange={handleInputChange}
-                                            type="number"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="flex flex-col justify-start mt-2 w-1/2 mx-auto col-span-2">
+                                <div className="flex flex-col justify-start mt-2 w-full mx-auto">
                                     <div className="flex justify-between">
                                         <label
                                             htmlFor="cni"
@@ -235,6 +312,27 @@ export default function ModifierProprietaire({ auth }) {
                                             value={cni}
                                             onChange={handleInputChange}
                                             autoComplete="current-cni"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col justify-start mt-2 w-full mx-auto">
+                                    <div className="flex justify-between">
+                                        <label
+                                            htmlFor="nationalite"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Nationalité
+                                        </label>
+                                    </div>
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="nationalite"
+                                            name="nationalite"
+                                            type="text"
+                                            value={nationalite}
+                                            onChange={handleInputChange}
+                                            autoComplete="current-nationalite"
                                             required
                                         />
                                     </div>

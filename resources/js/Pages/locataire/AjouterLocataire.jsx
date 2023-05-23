@@ -6,11 +6,16 @@ import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function AjouterLocataire({ auth }) {
-    const [nomP, setNom] = useState("");
-    const [prenomP, setPrenom] = useState("");
+    const [nom, setNom] = useState("");
+    const [prenom, setPrenom] = useState("");
     const [cni, setCni] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
+    const [genre, setGenre] = useState("");
+    const [date_naissance, setDate_naissance] = useState("");
+    const [nationalite, setNationalite] = useState("");
+    const [date_debut, setDateDebut] = useState("");
+    const [date_fin, setDateFin] = useState("");
 
     const ajouter = async (e) => {
         e.preventDefault();
@@ -20,6 +25,11 @@ export default function AjouterLocataire({ auth }) {
             cni,
             phone,
             email,
+            genre,
+            date_naissance,
+            nationalite,
+            date_fin,
+            date_debut,
         };
         try {
             await axios.post(`/api/`, locataire);
@@ -71,17 +81,17 @@ export default function AjouterLocataire({ auth }) {
                             <div className="grid grid-rows-3 grid-cols-2 gap-x-16">
                                 <div>
                                     <label
-                                        htmlFor="nomP"
+                                        htmlFor="nom"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
                                         Nom
                                     </label>
                                     <div className="mt-2">
                                         <TextInput
-                                            id="nomP"
-                                            name="nomP"
+                                            id="nom"
+                                            name="nom"
                                             type="text"
-                                            value={nomP}
+                                            value={nom}
                                             onChange={(e) =>
                                                 setNom(e.target.value)
                                             }
@@ -91,50 +101,83 @@ export default function AjouterLocataire({ auth }) {
                                 </div>
 
                                 <div>
-                                    <div>
-                                        <div className="flex items-center justify-between">
-                                            <label
-                                                htmlFor="email"
-                                                className="block text-sm font-medium leading-6 text-gray-900"
-                                            >
-                                                Adresse e-mail
-                                            </label>
-                                        </div>
-                                        <div className="mt-2">
-                                            <TextInput
-                                                id="email"
-                                                name="email"
-                                                type="email"
-                                                value={email}
-                                                onChange={(e) =>
-                                                    setEmail(e.target.value)
-                                                }
-                                                autoComplete="current-email"
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
                                     <label
-                                        htmlFor="prenomP"
+                                        htmlFor="prenom"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
                                         Prénom
                                     </label>
                                     <div className="mt-2">
                                         <TextInput
-                                            id="prenomP"
-                                            name="prenomP"
+                                            id="prenom"
+                                            name="prenom"
                                             type="text"
                                             required
-                                            value={prenomP}
+                                            value={prenom}
                                             onChange={(e) =>
                                                 setPrenom(e.target.value)
                                             }
                                         />
                                     </div>
                                 </div>
+
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label
+                                            htmlFor="genre"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Genre
+                                        </label>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <select
+                                            id="genre"
+                                            name="genre"
+                                            value={genre}
+                                            onChange={(e) =>
+                                                setGenre(e.target.value)
+                                            }
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                        >
+                                            <option disabled value="">
+                                                Vous êtes?
+                                            </option>
+                                            <option value="male">Male</option>
+                                            <option value="female">
+                                                Female
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label
+                                            htmlFor="date_naissance"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Date de naissance
+                                        </label>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="date_naissance"
+                                            name="date_naissance"
+                                            value={date_naissance}
+                                            onChange={(e) =>
+                                                setDate_naissance(
+                                                    e.target.value
+                                                )
+                                            }
+                                            type="date"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
                                 <div>
                                     <div className="flex items-center justify-between">
                                         <label
@@ -153,13 +196,36 @@ export default function AjouterLocataire({ auth }) {
                                             onChange={(e) =>
                                                 setPhone(e.target.value)
                                             }
-                                            type="number"
+                                            type="tel"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label
+                                            htmlFor="email"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Adresse e-mail
+                                        </label>
+                                    </div>
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="email"
+                                            name="email"
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) =>
+                                                setEmail(e.target.value)
+                                            }
+                                            autoComplete="current-email"
                                             required
                                         />
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col justify-start mt-2 w-1/2 mx-auto col-span-2">
+                                <div className="flex flex-col justify-start mt-2 w-full ">
                                     <div className="flex justify-between">
                                         <label
                                             htmlFor="cni"
@@ -179,6 +245,76 @@ export default function AjouterLocataire({ auth }) {
                                             }
                                             autoComplete="current-cni"
                                             required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col justify-start mt-2 w-full">
+                                    <div className="flex justify-between">
+                                        <label
+                                            htmlFor="nationalite"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Nationalité
+                                        </label>
+                                    </div>
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="nationalite"
+                                            name="nationalite"
+                                            type="text"
+                                            value={nationalite}
+                                            onChange={(e) =>
+                                                setNationalite(e.target.value)
+                                            }
+                                            autoComplete="current-nationalite"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col justify-start mt-2 w-full">
+                                    <div className="flex justify-between">
+                                        <label
+                                            htmlFor="date_debut"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Date d'effet de bail
+                                        </label>
+                                    </div>
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="date_debut"
+                                            name="date_debut"
+                                            type="date"
+                                            value={date_debut}
+                                            onChange={(e) =>
+                                                setDateDebut(e.target.value)
+                                            }
+                                            autoComplete="current-date_debut"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col justify-start mt-2 w-full">
+                                    <div className="flex justify-between">
+                                        <label
+                                            htmlFor="date_fin"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Date de fin de bail
+                                        </label>
+                                    </div>
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="date_fin"
+                                            name="date_fin"
+                                            type="date"
+                                            value={date_fin}
+                                            onChange={(e) =>
+                                                setDateFin(e.target.value)
+                                            }
+                                            autoComplete="current-date_fin"
                                         />
                                     </div>
                                 </div>

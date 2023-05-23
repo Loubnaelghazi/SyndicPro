@@ -11,6 +11,11 @@ export default function ModifierLocataire({ auth }) {
     const [cni, setCni] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
+    const [genre, setGenre] = useState("");
+    const [date_naissance, setDate_naissance] = useState("");
+    const [nationalite, setNationalite] = useState("");
+    const [date_debut, setDateDebut] = useState("");
+    const [date_fin, setDateFin] = useState("");
     const url = window.location.href;
     const locataireID = url.substring(url.lastIndexOf("/") + 1);
 
@@ -21,15 +26,18 @@ export default function ModifierLocataire({ auth }) {
 
     const fetchLocatairesData = async () => {
         try {
-            const response = await axios.get(
-                `/api/locataires/${locataireID}`
-            );
+            const response = await axios.get(`/api/locataires/${locataireID}`);
             const { data } = response;
             setNom(data.nom);
             setPrenom(data.prenom);
             setCni(data.cni);
             setEmail(data.email);
             setPhone(data.phone);
+            setGenre(data.genre);
+            setDate_naissance(data.data);
+            setNationalite(data.nationalite);
+            setDateDebut(data.date_debut);
+            setDateFin(data.date_fin);
         } catch (error) {
             console.error(error);
         }
@@ -54,6 +62,20 @@ export default function ModifierLocataire({ auth }) {
             case "cni":
                 setCni(value);
                 break;
+            case "genre":
+                setGenre(value);
+                break;
+            case "date_naissance":
+                setDate_naissance(value);
+            case "nationalite":
+                setNationalite(value);
+                break;
+            case "date_debut":
+                setDateDebut(value);
+                break;
+            case "date_fin":
+                setDateFin(value);
+                break;
             default:
                 break;
         }
@@ -66,8 +88,13 @@ export default function ModifierLocataire({ auth }) {
             nom,
             prenom,
             cni,
-            email,
             phone,
+            email,
+            genre,
+            date_naissance,
+            nationalite,
+            date_fin,
+            date_debut,
         };
 
         try {
@@ -156,6 +183,46 @@ export default function ModifierLocataire({ auth }) {
                                 </div>
 
                                 <div>
+                                    <label
+                                        htmlFor="prenom"
+                                        className="block text-sm font-medium leading-6 text-gray-900"
+                                    >
+                                        Prénom
+                                    </label>
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="prenom"
+                                            name="prenom"
+                                            type="text"
+                                            required
+                                            value={prenom}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label
+                                            htmlFor="phone"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            N° Téléphone
+                                        </label>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="phone"
+                                            name="phone"
+                                            value={phone}
+                                            onChange={handleInputChange}
+                                            type="tel"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div>
                                     <div>
                                         <div className="flex items-center justify-between">
                                             <label
@@ -178,47 +245,8 @@ export default function ModifierLocataire({ auth }) {
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <label
-                                        htmlFor="prenom"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Prénom
-                                    </label>
-                                    <div className="mt-2">
-                                        <TextInput
-                                            id="prenom"
-                                            name="prenom"
-                                            type="text"
-                                            required
-                                            value={prenom}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="flex items-center justify-between">
-                                        <label
-                                            htmlFor="phone"
-                                            className="block text-sm font-medium leading-6 text-gray-900"
-                                        >
-                                            N° Téléphone
-                                        </label>
-                                    </div>
 
-                                    <div className="mt-2">
-                                        <TextInput
-                                            id="phone"
-                                            name="phone"
-                                            value={phone}
-                                            onChange={handleInputChange}
-                                            type="number"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="flex flex-col justify-start mt-2 w-1/2 mx-auto col-span-2">
+                                <div className="flex flex-col justify-start mt-2 w-full">
                                     <div className="flex justify-between">
                                         <label
                                             htmlFor="cni"
@@ -236,6 +264,69 @@ export default function ModifierLocataire({ auth }) {
                                             onChange={handleInputChange}
                                             autoComplete="current-cni"
                                             required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col justify-start mt-2 w-full mx-auto">
+                                    <div className="flex justify-between">
+                                        <label
+                                            htmlFor="nationalite"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Nationalité
+                                        </label>
+                                    </div>
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="nationalite"
+                                            name="nationalite"
+                                            type="text"
+                                            value={nationalite}
+                                            onChange={handleInputChange}
+                                            autoComplete="current-nationalite"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col justify-start mt-2 w-full">
+                                    <div className="flex justify-between">
+                                        <label
+                                            htmlFor="date_debut"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Date d'effet de bail
+                                        </label>
+                                    </div>
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="date_debut"
+                                            name="date_debut"
+                                            type="date"
+                                            value={date_debut}
+                                            onChange={handleInputChange}
+                                            autoComplete="current-date_debut"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col justify-start mt-2 w-full">
+                                    <div className="flex justify-between">
+                                        <label
+                                            htmlFor="date_fin"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Date de fin de bail
+                                        </label>
+                                    </div>
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="date_fin"
+                                            name="date_fin"
+                                            type="date"
+                                            value={date_fin}
+                                            onChange={handleInputChange}
+                                            autoComplete="current-date_fin"
                                         />
                                     </div>
                                 </div>
