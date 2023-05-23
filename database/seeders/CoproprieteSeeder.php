@@ -12,7 +12,7 @@ class CoproprieteSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('copropriete')->insert([
+        DB::table('coproprietes')->insert([
             [
             'nom' => 'Nour',
             'adresse'=> 'Kouilma Tetouan',

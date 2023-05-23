@@ -9,7 +9,6 @@ export default function ModifierFournisseur({auth}) {
 
 const [raison, setRaison] = useState("");
 const [ice, setIce] = useState("");
-const [cni, setCni] = useState("");
 const [phone, setPhone] = useState("");
 const [email, setEmail] = useState("");
 const [ville, setVille] = useState("");
@@ -30,7 +29,6 @@ const fetchFournisseurData = async () => {
         const { data } = response;
         setRaison(data.raison_sociale);
         setIce(data.ice);
-        setCni(data.cni);
         setEmail(data.email);
         setPhone(data.phone);
         setVille(data.ville);
@@ -57,9 +55,6 @@ const handleInputChange = (e) => {
         case "phone":
             setPhone(value);
             break;
-        case "cni":
-            setCni(value);
-            break;
         case "adresse":
             setAdresse(value);
             break;
@@ -77,7 +72,6 @@ const handleSubmit = async (e) => {
     const updatedFournisseur = {
         raison,
         ice,
-        cni,
         phone,
         email,
         ville,
@@ -153,24 +147,6 @@ const handleSubmit = async (e) => {
                         </span>
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid grid-rows-3 grid-cols-2 gap-x-16">
-                                <div>
-                                    <label
-                                        htmlFor="cni"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        CNI
-                                    </label>
-                                    <div className="mt-2">
-                                        <TextInput
-                                            id="cni"
-                                            name="cni"
-                                            type="text"
-                                            value={cni}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                    </div>
-                                </div>
 
                                 <div>
                                     <div>
@@ -279,7 +255,7 @@ const handleSubmit = async (e) => {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col justify-start mt-2 w-1/2 mx-auto col-span-2">
+                                <div className="flex flex-col justify-start mt-2 w-full">
                                     <div className="flex justify-between">
                                         <label
                                             htmlFor="ville"

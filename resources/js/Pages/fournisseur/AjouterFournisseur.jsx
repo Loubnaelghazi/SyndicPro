@@ -8,7 +8,6 @@ import PrimaryButton from "@/Components/PrimaryButton";
 export default function AjouterFournisseur({auth}) {
     const [raison, setRaison] = useState("");
     const [ice, setIce] = useState("");
-    const [cni, setCni] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [ville, setVille] = useState("");
@@ -19,7 +18,6 @@ export default function AjouterFournisseur({auth}) {
         const fournisseur = {
             raison,
             ice,
-            cni,
             phone,
             email,
             ville,
@@ -72,28 +70,7 @@ export default function AjouterFournisseur({auth}) {
                             className="space-y-6"
                             onSubmit={(e) => ajouter(e)}
                         >
-                            <div className="grid grid-rows-3 grid-cols-2 gap-x-16">
-                                <div>
-                                    <label
-                                        htmlFor="cni"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        CNI
-                                    </label>
-                                    <div className="mt-2">
-                                        <TextInput
-                                            id="cni"
-                                            name="cni"
-                                            type="text"
-                                            value={cni}
-                                            onChange={(e) =>
-                                                setCni(e.target.value)
-                                            }
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
+                            <div className="grid  grid-cols-2 gap-x-16">
                                 <div>
                                     <div>
                                         <div className="flex items-center justify-between">
@@ -207,8 +184,7 @@ export default function AjouterFournisseur({auth}) {
                                         />
                                     </div>
                                 </div>
-
-                                <div className="flex flex-col justify-start mt-2 w-1/2 mx-auto col-span-2">
+                                <div className="flex flex-col justify-start mt-2 w-full">
                                     <div className="flex justify-between">
                                         <label
                                             htmlFor="ville"
@@ -231,6 +207,7 @@ export default function AjouterFournisseur({auth}) {
                                         />
                                     </div>
                                 </div>
+
                             </div>
                             <div>
                                 <div className="flex flex-row justify-center mt-11 w-full">
