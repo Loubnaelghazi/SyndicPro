@@ -12,7 +12,9 @@ class LocataireController extends Controller
      */
     public function index()
     {
-        //
+        $locataire = Locataire::all();
+
+        return response()->json($locataire);
     }
 
     /**

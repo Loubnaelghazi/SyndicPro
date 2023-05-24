@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CoproprieteController;
+use App\Http\Controllers\LocataireController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,8 @@ Route::get('/coproprietes/{copropriete}', [CoproprieteController::class, 'show']
 
 //Proprietaires routes
 
+//Locataire routes 
+
+Route::get('/locataires', [LocataireController::class, 'index']);
+
+////////////////////////////////////////

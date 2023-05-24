@@ -71,9 +71,6 @@ export default function AjouterLocataire({ auth }) {
                     <Head title="Ajouter un locataire " />
 
                     <div>
-                        <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
-                            <HiUsers />
-                        </span>
                         <form
                             className="space-y-6"
                             onSubmit={(e) => ajouter(e)}
