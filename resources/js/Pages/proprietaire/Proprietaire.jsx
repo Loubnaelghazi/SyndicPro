@@ -1,14 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Head } from "@inertiajs/react";
-import { HiPencil, HiTrash, HiPlusSmall } from "react-icons/hi2";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+
 import Checkbox from "@/Components/Checkbox";
+import RowCheckbox from "@/Components/Table/RowCheckbox";
+import HeaderCheckbox from "@/Components/Table/HeaderCheckbox";
+import AddButton from "@/Components/Buttons/AddButton";
+import THead from "@/Components/Table/THead";
+import THeader from "@/Components/Table/THeader";
+import TData from "@/Components/Table/TData";
+import TRow from "@/Components/Table/TRow";
+import DeleteButton from "@/Components/Buttons/DeleteButton";
+import ModifyButton from "@/Components/Buttons/ModifyButton";
 
 import Main_content from "@/main _content/Main_content";
 
 export default function Proprietaire({ auth }) {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isModifyHidden, setIsModifyHidden] = useState(false);
+    const [selectedCount, setSelectedCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [proprietaires, setProprietaires] = useState([]);
 
+    const [perPage, setPerPage] = useState(() => {
+        // Check if the perPage value is stored in localStorage
+        const storedPerPage = localStorage.getItem("perPage");
+        return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
+    });
     const handleCheckboxChange = (id) => {
         let updatedCheckboxes;
         if (id === "all") {
@@ -33,41 +51,35 @@ export default function Proprietaire({ auth }) {
         setSelectedCheckboxes(updatedCheckboxes);
     };
 
-    const data = [
-        {
-            id: 1,
-            nom: "Loubna",
-            prenom: "Loubna",
-            cni: 7390,
-            tel: 8078389,
-            email: "lubna@gmail.com",
-            nationalite: "Marocaine",
-            genre: "female",
-            date_naissance: "29/01/2003",
-        },
-        {
-            id: 2,
-            nom: "Yazan",
-            prenom: "lina",
-            cni: 4899,
-            tel: 83092029004,
-            email: "lina@gmail.com",
-            nationalite: "Marocaine",
-            genre: "female",
-            date_naissance: "29/01/2003",
-        },
-        {
-            id: 3,
-            nom: "yussef",
-            prenom: "siham",
-            cni: 4904,
-            tel: 94040,
-            email: "Brahim@gmail.com",
-            nationalite: "Marocaine",
-            genre: "female",
-            date_naissance: "29/01/2003",
-        },
-    ];
+ const fetchProprietaires = async () => {
+     const response = await axios.get(
+         `/api/proprietaires?page=${currentPage}&perPage=${perPage}`
+     );
+     setProprietaires(response.data);
+ };
+
+
+       const data = proprietaires;
+
+    const paginatedData = data.slice(
+        (currentPage - 1) * perPage,
+        currentPage * perPage
+    );
+ const handlePerPageChange = (e) => {
+     const value = parseInt(e.target.value);
+     setPerPage(value);
+     localStorage.setItem("perPage", value); // Store the perPage value in localStorage
+ };
+
+const totalPages = Math.ceil(data.length / perPage);
+
+  useEffect(() => {
+      if (!proprietaires.length) {
+          fetchProprietaires();
+          localStorage.setItem("perPage", perPage);
+      }
+  }, [currentPage, perPage]);
+
 
     return (
         <>
@@ -78,36 +90,22 @@ export default function Proprietaire({ auth }) {
                     <div className="mx-auto container bg-white dark:bg-white-800 w-full  rounded-40">
                         <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
                             <div className="flex flex-row justify-between gap-4 ">
-                                <a
-                                    className={`text-primary-color border-solid border-gray-200 border-[1.5px] p-2  bg-white  hover:bg-primary-color hover:text-white rounded-[7px] ${
-                                        isModifyHidden ? "hidden" : ""
-                                    } focus:shadow-outline-white ${
-                                        selectedCheckboxes.length === 0
-                                            ? "hidden"
-                                            : ""
-                                    }`}
-                                    href="proprietaires/modifier"
-                                >
-                                    <HiPencil />
-                                </a>
-                                <a
-                                    className={`text-red-500 border-solid border-gray-200 border-[1.5px]  p-2 bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:bg-red-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white ${
-                                        selectedCheckboxes.length === 0
-                                            ? "hidden"
-                                            : ""
-                                    }`}
-                                    href="#"
-                                >
-                                    <HiTrash />
-                                </a>
+                                <ModifyButton
+                                    href={"proprietaires/modifier"}
+                                    isModifyHidden={isModifyHidden}
+                                    selectedCheckboxes={selectedCheckboxes}
+                                />
+                                <DeleteButton
+                                    selectedCheckboxes={selectedCheckboxes}
+                                />
+                                <span className="ml-3 my-auto  text-sm font-medium text-gray-500">
+                                    {selectedCount} sélectionné
+                                </span>
                             </div>
-                            <a
-                                className="text-white px-2 pr-4 ml-4 my-1 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white bg-pinky-color  transition duration-150 ease-in-out hover:bg-opacity-80 w-max h-8 rounded-[9px] flex items-center justify-center"
-                                href="/proprietaires/ajouter"
-                            >
-                                <HiPlusSmall className="text-2xl pr-2" />{" "}
+                            <AddButton href={"/proprietaires/ajouter"}>
                                 Ajouter un propriétaire
-                            </a>
+                            </AddButton>
+
                             <div className="absolute right-0 top-5 w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
                                 <div className="lg:ml-6 flex items-center">
                                     <Checkbox
@@ -126,102 +124,107 @@ export default function Proprietaire({ auth }) {
                         </div>
                         <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
                             <table className="min-w-full bg-white dark:bg-white-800">
-                                <thead className="bg-green-50 text-t-color text-md ">
-                                    <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b py-8">
-                                        <th className="pl-8 text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            <Checkbox
-                                                id="all"
-                                                checked={
-                                                    selectedCheckboxes.length ===
-                                                    data.length
+                                <THeader>
+                                    <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b  py-8">
+                                        <HeaderCheckbox
+                                            data={data}
+                                            selectedCheckboxes={
+                                                selectedCheckboxes
+                                            }
+                                            handleCheckboxChange={
+                                                handleCheckboxChange
+                                            }
+                                        />
+                                        <THead>Nom</THead>
+                                        <THead>Prénom</THead>
+                                        <THead>Genre</THead>
+                                        <THead>Date de naissance</THead>
+                                        <THead>CNI</THead>
+                                        <THead>Nationalité</THead>
+                                        <THead>N° Téléphone</THead>
+                                        <THead>Adresse e-mail</THead>
+                                    </tr>
+                                </THeader>
+                                <tbody>
+                                    {paginatedData.map((item) => (
+                                        <TRow
+                                            key={item.id}
+                                            Key={item.id}
+                                            selectedCheckboxes={
+                                                selectedCheckboxes
+                                            }
+                                        >
+                                            <RowCheckbox
+                                                item={item}
+                                                handleCheckboxChange={
+                                                    handleCheckboxChange
                                                 }
-                                                onChange={() =>
-                                                    handleCheckboxChange("all")
+                                                selectedCheckboxes={
+                                                    selectedCheckboxes
                                                 }
                                             />
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            Nom
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            Prénom
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            Genre
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            Date de naissance
-                                        </th>
-
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            CNI
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            Nationalité
-                                        </th>
-
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            N° Téléphone
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            Adresse e-mail
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {data.map((item) => (
-                                        <tr
-                                            key={item.id}
-                                            className="h-14 border-white-300 dark:border-white-200 border-b"
-                                        >
-                                            <td className="pl-8 pr-6 text-left whitespace-no-wrap text-sm text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                <Checkbox
-                                                    id={item.id.toString()}
-                                                    checked={selectedCheckboxes.includes(
-                                                        item.id
-                                                    )}
-                                                    onChange={() =>
-                                                        handleCheckboxChange(
-                                                            item.id
-                                                        )
-                                                    }
-                                                />
-                                            </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.nom}
-                                            </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.prenom}
-                                            </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.genre}
-                                            </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
+                                            <TData>{item.nom}</TData>
+                                            <TData>{item.prenom}</TData>
+                                            <TData>
+                                                {item.genre == "Male"
+                                                    ? "M"
+                                                    : "F"}
+                                            </TData>
+                                            <TData ClassName="text-[11px]">
                                                 {item.date_naissance}
-                                            </td>
-
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.cni}
-                                            </td>
-
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.nationalite}
-                                            </td>
-
-                                            <td className="pr-6 whitespace-no-wrap">
-                                                <div className="w-[120px] h-full bg-pinky-color bg-opacity-20 px-[15px] py-[0.5px] rounded-2xl flex justify-center items-center">
-                                                    <span className="text-sm text-pinky-color font-medium block ">
+                                            </TData>
+                                            <TData>{item.cni}</TData>
+                                            <TData>{item.nationalite}</TData>
+                                            <TData>
+                                                <div className=" h-full bg-pinky-color bg-opacity-20 px-2 rounded-2xl flex justify-center items-center">
+                                                    <span className="text-xs text-pinky-color  block ">
                                                         {item.tel}
                                                     </span>
                                                 </div>
-                                            </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.email}
-                                            </td>
-                                        </tr>
+                                            </TData>
+                                            <TData>{item.email}</TData>
+                                        </TRow>
                                     ))}
                                 </tbody>
                             </table>
+                        </div>
+                        <div className="flex flex-row justify-between items-center">
+                            <div className="ml-5 flex items-center text-xs">
+                                <span>Locataire par page:</span>
+                                <select
+                                    value={perPage}
+                                    onChange={handlePerPageChange}
+                                    className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none"
+                                >
+                                    <option value={5}>5</option>
+                                    <option value={10}>10</option>
+                                    <option value={20}>20</option>
+                                    <option value={30}>30</option>
+                                </select>
+                            </div>
+                            <div className="text-primary-color font-medium flex flex-row gap-10 h-max  items-center justify-end mr-6 text-xs">
+                                <button
+                                    disabled={currentPage === 1}
+                                    onClick={() =>
+                                        setCurrentPage(currentPage - 1)
+                                    }
+                                    className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
+                                >
+                                    <HiChevronLeft /> Précédent
+                                </button>
+                                <span className="text-xs font-regular text-gray-600">
+                                    Page: {currentPage} sur {totalPages}
+                                </span>
+                                <button
+                                    disabled={currentPage === totalPages}
+                                    onClick={() =>
+                                        setCurrentPage(currentPage + 1)
+                                    }
+                                    className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
+                                >
+                                    Suivant <HiChevronRight />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

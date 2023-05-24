@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CoproprieteController;
 use App\Http\Controllers\LocataireController;
+use App\Http\Controllers\ProprietaireController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,5 +24,8 @@ Route::get('/coproprietes/{copropriete}', [CoproprieteController::class, 'show']
 //Locataire routes 
 
 Route::get('/locataires', [LocataireController::class, 'index']);
+
+Route::get('/proprietaires', [ProprietaireController::class, 'index']);
+
 
 ////////////////////////////////////////

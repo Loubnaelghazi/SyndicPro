@@ -12,7 +12,9 @@ class ProprietaireController extends Controller
      */
     public function index()
     {
-        //
+        $proprietaire = Proprietaire::all();
+
+        return response()->json($proprietaire);
     }
 
     /**
