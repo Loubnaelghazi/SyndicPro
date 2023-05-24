@@ -1,6 +1,6 @@
 import Main_content from "@/main _content/Main_content";
 import React, { useEffect, useState } from "react";
-import { HiPencil, HiTrash, HiPlusSmall } from "react-icons/hi2";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { Head } from "@inertiajs/react";
 import Checkbox from "@/Components/Checkbox";
 import RowCheckbox from "@/Components/Table/RowCheckbox";
@@ -18,15 +18,25 @@ export default function Locataire({ auth }) {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isModifyHidden, setIsModifyHidden] = useState(false);
     const [locataires, setLocataires] = useState([]);
+    const [selectedCount, setSelectedCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [perPage, setPerPage] = useState(() => {
+        // Check if the perPage value is stored in localStorage
+        const storedPerPage = localStorage.getItem("perPage");
+        return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
+    });
 
     useEffect(() => {
         if (!locataires.length) {
             fetchLocataires();
+            localStorage.setItem("perPage", perPage);
         }
-    }, []);
+    }, [currentPage, perPage]);
 
     const fetchLocataires = async () => {
-        const response = await axios.get(`/api/locataires`);
+        const response = await axios.get(
+            `/api/locataires?page=${currentPage}&perPage=${perPage}`
+        );
         setLocataires(response.data);
     };
 
@@ -52,16 +62,29 @@ export default function Locataire({ auth }) {
         }
 
         setSelectedCheckboxes(updatedCheckboxes);
+        setSelectedCount(updatedCheckboxes.length);
+        setCurrentPage(1); // Reset current page when checkboxes are selected
+    };
+
+    const handlePerPageChange = (e) => {
+        const value = parseInt(e.target.value);
+        setPerPage(value);
+        localStorage.setItem("perPage", value); // Store the perPage value in localStorage
     };
 
     const data = locataires;
+    const paginatedData = data.slice(
+        (currentPage - 1) * perPage,
+        currentPage * perPage
+    );
+    const totalPages = Math.ceil(data.length / perPage);
 
     return (
         <Main_content user={auth.user} Title={"Les locataires"}>
             <Head title="Locataires" />
 
             <div className="-m-14">
-                <div className="mx-auto container bg-white dark:bg-white-800 w-full  rounded-40">
+                <div className="mx-auto container w-full bg-green-50  rounded-40">
                     <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
                         <div className="flex flex-row justify-between gap-4 ">
                             <ModifyButton
@@ -69,7 +92,12 @@ export default function Locataire({ auth }) {
                                 isModifyHidden={isModifyHidden}
                                 selectedCheckboxes={selectedCheckboxes}
                             />
-                            <DeleteButton selectedCheckboxes={selectedCheckboxes}/>
+                            <DeleteButton
+                                selectedCheckboxes={selectedCheckboxes}
+                            />
+                            <span className="ml-3 my-auto  text-sm font-medium text-gray-500">
+                                {selectedCount} sélectionné
+                            </span>
                         </div>
                         <AddButton href={"/locataires/ajouter"}>
                             Ajouter un locataire
@@ -110,8 +138,12 @@ export default function Locataire({ auth }) {
                                 </tr>
                             </THeader>
                             <tbody>
-                                {data?.map((item) => (
-                                    <TRow key={item.id} Key={item.id} selectedCheckboxes={selectedCheckboxes} >
+                                {paginatedData.map((item) => (
+                                    <TRow
+                                        key={item.id}
+                                        Key={item.id}
+                                        selectedCheckboxes={selectedCheckboxes}
+                                    >
                                         <RowCheckbox
                                             item={item}
                                             handleCheckboxChange={
@@ -123,8 +155,12 @@ export default function Locataire({ auth }) {
                                         />
                                         <TData>{item.nom}</TData>
                                         <TData>{item.prenom}</TData>
-                                        <TData>{item.genre=="Male" ? "M" : "F"}</TData>
-                                        <TData ClassName="text-[11px]">{item.date_naissance}</TData>
+                                        <TData>
+                                            {item.genre == "Male" ? "M" : "F"}
+                                        </TData>
+                                        <TData ClassName="text-[11px]">
+                                            {item.date_naissance}
+                                        </TData>
                                         <TData>{item.cni}</TData>
                                         <TData>{item.nationalite}</TData>
                                         <TData>
@@ -140,7 +176,40 @@ export default function Locataire({ auth }) {
                             </tbody>
                         </table>
                     </div>
-                    
+                    <div className="flex flex-row justify-between items-center">
+                        <div className="ml-5 flex items-center text-xs">
+                            <span>Locataire par page:</span>
+                            <select
+                                value={perPage}
+                                onChange={handlePerPageChange}
+                                className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none"
+                            >
+                                <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={30}>30</option>
+                            </select>
+                        </div>
+                        <div className="text-primary-color font-medium flex flex-row gap-10 h-max  items-center justify-end mr-6 text-xs">
+                            <button
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
+                            >
+                                <HiChevronLeft /> Précédent
+                            </button>
+                            <span className="text-xs font-regular text-gray-600">
+                                Page: {currentPage} sur {totalPages}
+                            </span>
+                            <button
+                                disabled={currentPage === totalPages}
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
+                            >
+                                Suivant <HiChevronRight />
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Main_content>

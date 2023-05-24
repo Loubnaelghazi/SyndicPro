@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Locataire extends Model
 {
     use HasFactory;
+    public function lots()
+    {
+        return $this->hasMany(Lot::class);
+    }
 }
