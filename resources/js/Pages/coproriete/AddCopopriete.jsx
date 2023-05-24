@@ -6,7 +6,6 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { Head } from "@inertiajs/react";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { Inertia } from "@inertiajs/inertia";
 
 const AddCopopriete = ({ auth }) => {
     const [nom, setNom] = useState("");

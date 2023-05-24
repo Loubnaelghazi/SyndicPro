@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Head } from "@inertiajs/react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
-
 import Checkbox from "@/Components/Checkbox";
 import RowCheckbox from "@/Components/Table/RowCheckbox";
 import HeaderCheckbox from "@/Components/Table/HeaderCheckbox";
@@ -12,8 +11,10 @@ import TData from "@/Components/Table/TData";
 import TRow from "@/Components/Table/TRow";
 import DeleteButton from "@/Components/Buttons/DeleteButton";
 import ModifyButton from "@/Components/Buttons/ModifyButton";
-
 import Main_content from "@/main _content/Main_content";
+import Swal from "sweetalert2";
+import axios from "axios";
+
 
 export default function Proprietaire({ auth }) {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
@@ -21,35 +22,52 @@ export default function Proprietaire({ auth }) {
     const [selectedCount, setSelectedCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [proprietaires, setProprietaires] = useState([]);
+    const [selectedProprietaires, setSelectedProprietaires] = useState([]);
 
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
         const storedPerPage = localStorage.getItem("perPage");
         return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
     });
-    const handleCheckboxChange = (id) => {
-        let updatedCheckboxes;
-        if (id === "all") {
-            if (selectedCheckboxes.length === data.length) {
-                updatedCheckboxes = [];
-                setIsModifyHidden(false);
-            } else {
-                updatedCheckboxes = data.map((item) => item.id);
-                setIsModifyHidden(true);
-            }
-        } else {
-            if (selectedCheckboxes.includes(id)) {
-                updatedCheckboxes = selectedCheckboxes.filter(
-                    (checkbox) => checkbox !== id
-                );
-            } else {
-                updatedCheckboxes = [...selectedCheckboxes, id];
-            }
-            setIsModifyHidden(updatedCheckboxes.length !== 1);
-        }
+  useEffect(() => {
+      if (!proprietaires.length) {
+          fetchProprietaires();
+          localStorage.setItem("perPage", perPage);
+      }
+  }, [currentPage, perPage]);
 
-        setSelectedCheckboxes(updatedCheckboxes);
-    };
+  const handleCheckboxChange = (id) => {
+      let updatedSelectedProprietaires;
+      if (id === "all") {
+          if (selectedCheckboxes.length === data.length) {
+              updatedSelectedProprietaires = [];
+              setIsModifyHidden(false);
+          } else {
+              updatedSelectedProprietaires = data.map((item) => item);
+              setIsModifyHidden(true);
+          }
+      } else {
+          if (selectedCheckboxes.includes(id)) {
+              updatedSelectedProprietaires = selectedProprietaires.filter(
+                  (proprietaire) => proprietaire.id !== id
+              );
+          } else {
+              const selectedProprietaire = data.find((item) => item.id === id);
+              updatedSelectedProprietaires = [
+                  ...selectedProprietaires,
+                  selectedProprietaire,
+              ];
+          }
+          setIsModifyHidden(updatedSelectedProprietaires.length !== 1);
+      }
+
+      setSelectedCheckboxes(
+          updatedSelectedProprietaires.map((proprietaire) => proprietaire.id)
+      );
+      setSelectedCount(updatedSelectedProprietaires.length);
+      setCurrentPage(1);
+  };
+
 
  const fetchProprietaires = async () => {
      const response = await axios.get(
@@ -58,8 +76,7 @@ export default function Proprietaire({ auth }) {
      setProprietaires(response.data);
  };
 
-
-       const data = proprietaires;
+    const data = proprietaires;
 
     const paginatedData = data.slice(
         (currentPage - 1) * perPage,
@@ -73,12 +90,60 @@ export default function Proprietaire({ auth }) {
 
 const totalPages = Math.ceil(data.length / perPage);
 
-  useEffect(() => {
-      if (!proprietaires.length) {
-          fetchProprietaires();
-          localStorage.setItem("perPage", perPage);
-      }
-  }, [currentPage, perPage]);
+/* /////////////////////////// */
+
+const supprimerProprietaire = async (proprietaireIds) => {
+    try {
+        const result = await Swal.fire({
+            title: "Attention!",
+            icon: "warning",
+            html: `
+        <h2 class="text-lg font-bold text-red-500">
+          Êtes-vous sûr de vouloir effectuer la suppression ?
+        </h2>
+        <p class="text-gray-800">
+          Vous ne pouvez plus récupérer ces éléments après suppression !
+        </p>`,
+            showCancelButton: true,
+            cancelButtonText: "Annuler",
+            confirmButtonText: "Supprimer",
+            customClass: {
+                confirmButton:
+                    "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
+                cancelButton:
+                    "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
+            },
+            buttonsStyling: false,
+        });
+
+        if (result.isConfirmed) {
+            const requests = proprietaireIds.map((proprietaireId) =>
+                axios.delete(`/api/proprietaires/${proprietaireId}`)
+            );
+            const responses = await Promise.all(requests);
+            setProprietaires((prevProprietaires) =>
+                prevProprietaires.filter(
+                    (proprietaire) => !proprietaireIds.includes(proprietaire.id)
+                )
+            );
+
+            await Swal.fire({
+                title: "Supprimé",
+                text: "Les propriétaires ont été supprimés avec succès.",
+                icon: "success",
+                customClass: {
+                    confirmButton:
+                        "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                },
+                buttonsStyling: false,
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
 
 
     return (
@@ -96,10 +161,17 @@ const totalPages = Math.ceil(data.length / perPage);
                                     selectedCheckboxes={selectedCheckboxes}
                                 />
                                 <DeleteButton
+                                    onClick={() =>
+                                        supprimerProprietaire(
+                                            selectedCheckboxes
+                                        )
+                                    }
                                     selectedCheckboxes={selectedCheckboxes}
                                 />
-                                <span className="ml-3 my-auto  text-sm font-medium text-gray-500">
-                                    {selectedCount} sélectionné
+                                <span className="ml-3 my-auto text-sm font-medium text-gray-500">
+                                    {selectedCount === 0
+                                        ? "0 sélectionné"
+                                        : `${selectedCount} sélectionné`}
                                 </span>
                             </div>
                             <AddButton href={"/proprietaires/ajouter"}>
@@ -123,6 +195,12 @@ const totalPages = Math.ceil(data.length / perPage);
                             </div>
                         </div>
                         <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
+                            {data.length === 0 && (
+                                <div className="p-4 text-center text-red-500  bg-green-50">
+                                    Veuillez remplir votre tableau !
+                                </div>
+                            )}
+                            {/* on va l utiliser si kle tableu devient vide  */}
                             <table className="min-w-full bg-white dark:bg-white-800">
                                 <THeader>
                                     <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b  py-8">
@@ -190,7 +268,7 @@ const totalPages = Math.ceil(data.length / perPage);
                         </div>
                         <div className="flex flex-row justify-between items-center">
                             <div className="ml-5 flex items-center text-xs">
-                                <span>Locataire par page:</span>
+                                <span>Propriétaire par page:</span>
                                 <select
                                     value={perPage}
                                     onChange={handlePerPageChange}

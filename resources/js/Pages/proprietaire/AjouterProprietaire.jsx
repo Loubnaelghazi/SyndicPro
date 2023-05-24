@@ -4,18 +4,18 @@ import { Head } from "@inertiajs/react";
 import { HiUserGroup } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 export default function AjouterProprietaire({ auth }) {
     const [nom, setNom] = useState("");
     const [prenom, setPrenom] = useState("");
     const [cni, setCni] = useState("");
-    const [phone, setPhone] = useState("");
+    const [tel, setTel] = useState("");
     const [email, setEmail] = useState("");
     const [genre, setGenre] = useState("");
     const [date_naissance, setDate_naissance] = useState("");
-        const [nationalite, setNationalite] = useState("");
-
-
+    const [nationalite, setNationalite] = useState("");
 
     const ajouter = async (e) => {
         e.preventDefault();
@@ -23,14 +23,14 @@ export default function AjouterProprietaire({ auth }) {
             nom,
             prenom,
             cni,
-            phone,
+            tel,
             email,
             genre,
             date_naissance,
             nationalite,
         };
         try {
-            await axios.post(`/api/`, proprietaire);
+            await axios.post(`/api/proprietaires`, proprietaire);
 
             Swal.fire({
                 icon: "success",
@@ -178,7 +178,7 @@ export default function AjouterProprietaire({ auth }) {
                                 <div>
                                     <div className="flex items-center justify-between">
                                         <label
-                                            htmlFor="phone"
+                                            htmlFor="tel"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
                                             N° Téléphone
@@ -187,11 +187,11 @@ export default function AjouterProprietaire({ auth }) {
 
                                     <div className="mt-2">
                                         <TextInput
-                                            id="phone"
-                                            name="phone"
-                                            value={phone}
+                                            id="tel"
+                                            name="tel"
+                                            value={tel}
                                             onChange={(e) =>
-                                                setPhone(e.target.value)
+                                                setTel(e.target.value)
                                             }
                                             type="tel"
                                             required

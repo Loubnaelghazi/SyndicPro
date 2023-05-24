@@ -20,12 +20,20 @@ Route::get('/coproprietes/{copropriete}', [CoproprieteController::class, 'show']
 /////////////////////////////////////////
 
 //Proprietaires routes
+Route::get('/proprietaires', [ProprietaireController::class, 'index']);
+Route::post('/proprietaires', [ProprietaireController::class, 'store']);
+Route::delete('proprietaires/{proprietaire}', [ProprietaireController::class, 'destroy']);
+Route::put('/proprietaires/{proprietaire}', [ProprietaireController::class, 'update']);
+Route::get('/proprietaires/{proprietaire}', [ProprietaireController::class, 'show']);
+
+/////////////////////////////////////////
+
+
 
 //Locataire routes 
-
 Route::get('/locataires', [LocataireController::class, 'index']);
 
-Route::get('/proprietaires', [ProprietaireController::class, 'index']);
+
 
 
 ////////////////////////////////////////

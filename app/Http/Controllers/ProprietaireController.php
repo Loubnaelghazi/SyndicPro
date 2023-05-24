@@ -22,46 +22,54 @@ class ProprietaireController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+   
     public function store(Request $request)
     {
-        //
+        $proprietaire = Proprietaire::create([
+            'id' => $request->id,
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'cni' => $request->cni,
+            'tel' => $request->tel,
+            'email' => $request->email,
+            'genre' => $request->genre,
+            'date_naissance' => $request->date_naissance,
+            'nationalite' => $request->nationalite,
+
+
+        ]);
+        return response()->json($proprietaire);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
+  
     public function show(Proprietaire $proprietaire)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+   
+     
     public function edit(Proprietaire $proprietaire)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+  
     public function update(Request $request, Proprietaire $proprietaire)
     {
-        //
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Proprietaire $proprietaire)
     {
-        //
+        $proprietaire->delete();
+        return ['message' => 'Votre propriétaire a été supprimée avec succés !'];
+
+
     }
 }
