@@ -5,7 +5,6 @@ import { Head } from "@inertiajs/react";
 import Checkbox from "@/Components/Checkbox";
 import RowCheckbox from "@/Components/Table/RowCheckbox";
 import HeaderCheckbox from "@/Components/Table/HeaderCheckbox";
-import TableButton from "@/Components/Buttons/ModifyButton";
 import AddButton from "@/Components/Buttons/AddButton";
 import THead from "@/Components/Table/THead";
 import THeader from "@/Components/Table/THeader";

@@ -4,33 +4,33 @@ import { Head } from "@inertiajs/react";
 import { HiTruck } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
-
+import axios from "axios";
+import Swal from "sweetalert2";
 export default function ModifierFournisseur({auth}) {
 
 const [raison, setRaison] = useState("");
 const [ice, setIce] = useState("");
-const [phone, setPhone] = useState("");
+const [tel, setTel] = useState("");
 const [email, setEmail] = useState("");
 const [ville, setVille] = useState("");
 const [adresse, setAdresse] = useState("");
 const url = window.location.href;
-const fournisseurID = url.substring(url.lastIndexOf("/") + 1);
+const fournisseurId = url.substring(url.lastIndexOf("/") + 1);
 
 useEffect(() => {
-    // Fetch the copropriete data from the server and update the state
     fetchFournisseurData();
 }, []);
 
 const fetchFournisseurData = async () => {
     try {
-        /* const response = await axios.get(
-            `/api/proprietaires/${proprietaireID}`
-        ); */
+         const response = await axios.get(
+            `/api/fournisseurs/${fournisseurId}`
+        ); 
         const { data } = response;
-        setRaison(data.raison_sociale);
+        setRaison(data.raison);
         setIce(data.ice);
         setEmail(data.email);
-        setPhone(data.phone);
+        setTel(data.tel);
         setVille(data.ville);
         setAdresse(data.adresse);
 
@@ -52,8 +52,8 @@ const handleInputChange = (e) => {
         case "email":
             setEmail(value);
             break;
-        case "phone":
-            setPhone(value);
+        case "tel":
+            setTel(value);
             break;
         case "adresse":
             setAdresse(value);
@@ -72,24 +72,24 @@ const handleSubmit = async (e) => {
     const updatedFournisseur = {
         raison,
         ice,
-        phone,
+        tel,
         email,
         ville,
         adresse,
     };
 
     try {
-       /*  const response = await axios.put(
-            `/api/coproprietes/${coproprieteID}`,
-            updatedCopropriete
-        ); */
+        const response = await axios.put(
+            `/api/fournisseurs/${fournisseurId}`,
+            updatedFournisseur
+        ); 
 
         const { data } = response;
         console.log("Updated Fournisseur:", data);
 
         Swal.fire({
             title: "Êtes-vous sûr de vouloir effectuer ces modifications ?",
-            text: "Vous venez de modifier les informations d'un propriétaire, veuillez confirmer !",
+            text: "Vous venez de modifier les informations d'un fournisseur, veuillez confirmer !",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Oui",
@@ -118,8 +118,7 @@ const handleSubmit = async (e) => {
                     },
                     buttonsStyling: false,
                 }).then(() => {
-                    // Redirection vers la page /copropriete après la fermeture du message
-                    window.location.href = "/copropriete";
+                    window.location.href = "/fournisseurs";
                 });
             }
         });
@@ -166,7 +165,6 @@ const handleSubmit = async (e) => {
                                                 value={email}
                                                 onChange={handleInputChange}
                                                 autoComplete="current-email"
-                                                required
                                             />
                                         </div>
                                     </div>
@@ -206,7 +204,6 @@ const handleSubmit = async (e) => {
                                             value={raison}
                                             onChange={handleInputChange}
                                             type="text"
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -214,7 +211,7 @@ const handleSubmit = async (e) => {
                                 <div>
                                     <div className="flex items-center justify-between">
                                         <label
-                                            htmlFor="phone"
+                                            htmlFor="tel"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
                                             N° Téléphone
@@ -223,12 +220,11 @@ const handleSubmit = async (e) => {
 
                                     <div className="mt-2">
                                         <TextInput
-                                            id="phone"
-                                            name="phone"
-                                            value={phone}
+                                            id="tel"
+                                            name="tel"
+                                            value={tel}
                                             onChange={handleInputChange}
                                             type="tel"
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -250,7 +246,6 @@ const handleSubmit = async (e) => {
                                             value={adresse}
                                             onChange={handleInputChange}
                                             type="text"
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -272,7 +267,6 @@ const handleSubmit = async (e) => {
                                             value={ville}
                                             onChange={handleInputChange}
                                             autoComplete="current-ville"
-                                            required
                                         />
                                     </div>
                                 </div>

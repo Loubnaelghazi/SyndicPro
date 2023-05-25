@@ -99,64 +99,71 @@ export default function Proprietaire({ auth }) {
 
     /* /////////////////////////// */
 
-    const supprimerProprietaire = async (proprietaireIds) => {
-        try {
-            const result = await Swal.fire({
-                title: "Attention!",
-                icon: "warning",
-                html: `
+     const deleteSelectedItems = async () => {
+         let alertBox = null;
+
+         try {
+             const result = await Swal.fire({
+                 title: "Attention!",
+                 icon: "warning",
+                 html: `
         <h2 class="text-lg font-bold text-red-500">
           Êtes-vous sûr de vouloir effectuer la suppression ?
         </h2>
         <p class="text-gray-800">
           Vous ne pouvez plus récupérer ces éléments après suppression !
         </p>`,
-                showCancelButton: true,
-                cancelButtonText: "Annuler",
-                confirmButtonText: "Supprimer",
-                customClass: {
-                    confirmButton:
-                        "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
-                    cancelButton:
-                        "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
-                },
-                buttonsStyling: false,
-            });
+                 showCancelButton: true,
+                 cancelButtonText: "Annuler",
+                 confirmButtonText: "Supprimer",
+                 customClass: {
+                     confirmButton:
+                         "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
+                     cancelButton:
+                         "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
+                 },
+                 buttonsStyling: false,
+             });
 
-            if (result.isConfirmed) {
-                const requests = proprietaireIds.map((proprietaireId) =>
-                    axios.delete(`/api/proprietaires/${proprietaireId}`)
-                );
-                const responses = await Promise.all(requests);
-                setProprietaires((prevProprietaires) =>
-                    prevProprietaires.filter(
-                        (proprietaire) =>
-                            !proprietaireIds.includes(proprietaire.id)
-                    )
-                );
+             if (result.isConfirmed) {
+                 alertBox = Swal.fire({
+                     title: "Suppression en cours...",
+                     allowOutsideClick: false,
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     },
+                     showConfirmButton: false,
+                 });
 
-                await Swal.fire({
-                    title: "Supprimé",
-                    text: "Les propriétaires ont été supprimés avec succès.",
-                    icon: "success",
-                    customClass: {
-                        confirmButton:
-                            "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
-                    },
-                    buttonsStyling: false,
-                });
-                fetchProprietaires();
-                // Clear the selected checkboxes
-                setSelectedCheckboxes([]);
-                // Reset the selected count and modify button visibility
-                setSelectedCount(0);
-                setIsModifyHidden(false);
-    
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
+                 for (const proprietaireId of selectedCheckboxes) {
+                     await axios.delete(`/api/proprietaires/${proprietaireId}`);
+                 }
+
+                 alertBox.close();
+             }
+
+             fetchProprietaires();
+             setSelectedCheckboxes([]);
+             setSelectedCount(0);
+             setIsModifyHidden(false);
+
+             if (result.isConfirmed) {
+                 await Swal.fire({
+                     title: "Supprimé",
+                     text: "Les propriétaires ont été supprimés avec succès.",
+                     icon: "success",
+                     customClass: {
+                         confirmButton:
+                             "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                     },
+                     buttonsStyling: false,
+                 });
+             }
+         } catch (error) {
+             console.error("Error deleting items:", error);
+             // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
+         }
+     };
 
     return (
         <>
@@ -175,11 +182,7 @@ export default function Proprietaire({ auth }) {
                                     selectedCheckboxes={selectedCheckboxes}
                                 />
                                 <DeleteButton
-                                    onClick={() =>
-                                        supprimerProprietaire(
-                                            selectedCheckboxes
-                                        )
-                                    }
+                                    onClick={deleteSelectedItems}
                                     selectedCheckboxes={selectedCheckboxes}
                                 />
                                 <span className="ml-3 my-auto text-sm font-medium text-gray-500">
@@ -188,7 +191,10 @@ export default function Proprietaire({ auth }) {
                                         : `${selectedCount} sélectionné`}
                                 </span>
                             </div>
-                            <AddButton href={"/proprietaires/ajouter"} ClassName=" bg-pinky-color">
+                            <AddButton
+                                href={"/proprietaires/ajouter"}
+                                ClassName=" bg-pinky-color"
+                            >
                                 Ajouter un propriétaire
                             </AddButton>
 
@@ -208,6 +214,7 @@ export default function Proprietaire({ auth }) {
                                 </div>
                             </div>
                         </div>
+
                         <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
                             {data.length === 0 && (
                                 <div className="p-4 text-center text-red-500  bg-green-50">

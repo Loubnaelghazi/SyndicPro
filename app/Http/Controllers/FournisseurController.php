@@ -7,59 +7,62 @@ use Illuminate\Http\Request;
 
 class FournisseurController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-    }
+        $fournisseur = Fournisseur::all();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json($fournisseur);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    ////////////////////////////////////////////////////////////
     public function store(Request $request)
     {
-        //
+        $fournisseur = Fournisseur::create([
+            'id' => $request->id,
+            'raison' => $request->raison,
+            'ice' => $request->ice,
+            'tel' => $request->tel,
+            'ville' => $request->ville,
+            'adresse' => $request->adresse,
+            'email' => $request->email,
+
+
+        ]);
+        return response()->json($fournisseur);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Fournisseur $fournisseur)
+    /////////////////////////////////////////////////////////////////////////
+
+    public function show($id)
     {
-        //
+
+        $fournisseur = Fournisseur::find($id);
+
+        if (!$fournisseur) {
+            return response()->json(['message' => 'Fournisseur not found'], 404);
+        }
+
+        return response()->json($fournisseur);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Fournisseur $fournisseur)
+
+    /////////////////////////////////////////////////////////////////////////////
+
+
+    public function update(Request $request, $id)
     {
-        //
+        $fournisseur = Fournisseur::findOrFail($id);
+
+        $fournisseur->update($request->all());
+
+        return response()->json(['message' => 'Propietaire updated successfully', 'Fournisseur' => $fournisseur]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Fournisseur $fournisseur)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    /////////////////////////////////////////////////////////////////////////////
     public function destroy(Fournisseur $fournisseur)
     {
-        //
+        $fournisseur->delete();
+        return ['message' => 'Votre propriétaire a été supprimée avec succés !'];
+
+
     }
 }

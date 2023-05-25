@@ -4,11 +4,14 @@ import { Head } from "@inertiajs/react";
 import { HiTruck } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
+import axios from "axios";
+import Swal from "sweetalert2";
+
 
 export default function AjouterFournisseur({auth}) {
     const [raison, setRaison] = useState("");
     const [ice, setIce] = useState("");
-    const [phone, setPhone] = useState("");
+    const [tel, setTel] = useState("");
     const [email, setEmail] = useState("");
     const [ville, setVille] = useState("");
     const [adresse, setAdresse] = useState("");
@@ -18,17 +21,17 @@ export default function AjouterFournisseur({auth}) {
         const fournisseur = {
             raison,
             ice,
-            phone,
+            tel,
             email,
             ville,
             adresse,
         };
         try {
-            await axios.post(`/api/`, fournisseur);
+            await axios.post(`/api/fournisseurs`, fournisseur);
 
             Swal.fire({
                 icon: "success",
-                title: "Votre lot a été ajoutée avec succès !",
+                title: "Votre fournisseur a été ajoutée avec succès !",
                 showConfirmButton: true,
                 confirmButtonText: "OK",
                 buttonsStyling: false,
@@ -118,7 +121,7 @@ export default function AjouterFournisseur({auth}) {
                                 <div>
                                     <div className="flex items-center justify-between">
                                         <label
-                                            htmlFor="phone"
+                                            htmlFor="tel"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
                                             N° Téléphone
@@ -127,11 +130,11 @@ export default function AjouterFournisseur({auth}) {
 
                                     <div className="mt-2">
                                         <TextInput
-                                            id="phone"
-                                            name="phone"
-                                            value={phone}
+                                            id="tel"
+                                            name="tel"
+                                            value={tel}
                                             onChange={(e) =>
-                                                setPhone(e.target.value)
+                                                setTel(e.target.value)
                                             }
                                             type="tel"
                                             required
@@ -184,7 +187,7 @@ export default function AjouterFournisseur({auth}) {
                                         />
                                     </div>
                                 </div>
-                                <div className="flex flex-col justify-start mt-2 w-full">
+                                <div >
                                     <div className="flex justify-between">
                                         <label
                                             htmlFor="ville"

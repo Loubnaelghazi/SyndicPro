@@ -1,15 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Head } from "@inertiajs/react";
-import { HiPencil, HiTrash, HiPlusSmall } from "react-icons/hi2";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import Checkbox from "@/Components/Checkbox";
-
+import RowCheckbox from "@/Components/Table/RowCheckbox";
+import HeaderCheckbox from "@/Components/Table/HeaderCheckbox";
+import AddButton from "@/Components/Buttons/AddButton";
+import THead from "@/Components/Table/THead";
+import THeader from "@/Components/Table/THeader";
+import TData from "@/Components/Table/TData";
+import TRow from "@/Components/Table/TRow";
+import DeleteButton from "@/Components/Buttons/DeleteButton";
+import ModifyButton from "@/Components/Buttons/ModifyButton";
 import Main_content from "@/main _content/Main_content";
+import Swal from "sweetalert2";
+import axios from "axios";
 
-export default function Fournisseurs({auth}) {
-    const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
-    const [isModifyHidden, setIsModifyHidden] = useState(false);
+export default function Fournisseurs({ auth }) {
+     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+     const [isModifyHidden, setIsModifyHidden] = useState(false);
+     const [selectedCount, setSelectedCount] = useState(0);
+     const [currentPage, setCurrentPage] = useState(1);
+     const [fournisseurs, setFournisseurs] = useState([]);
+     const [fournisseurId, setFournisseurId] = useState();
+       const [perPage, setPerPage] = useState(() => {
+           // Check if the perPage value is stored in localStorage
+           const storedPerPage = localStorage.getItem("perPage");
+           return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
+       });
+   useEffect(() => {
+       if (!fournisseurs.length) {
+           fetchFournisseurs();
+           localStorage.setItem("perPage", perPage);
+       }
+   }, [currentPage, perPage]);
+
 
     const handleCheckboxChange = (id) => {
+        setFournisseurId(id);
         let updatedCheckboxes;
         if (id === "all") {
             if (selectedCheckboxes.length === data.length) {
@@ -31,83 +58,130 @@ export default function Fournisseurs({auth}) {
         }
 
         setSelectedCheckboxes(updatedCheckboxes);
+        setSelectedCount(updatedCheckboxes.length);
     };
 
-    const data = [
-        {
-            id: 1,
-            ville: "Nador",
-            adresse: "idk",
-            cni: 7390,
-            tel: 8078389,
-            email: "lubna@gmail.com",
-            raison_sociale: "idk",
-            ice: "20wj",
-        },
-        {
-            id: 2,
-            ville: "Nador",
-            adresse: "idk",
-            cni: 4899,
-            tel: 83092029004,
-            email: "lina@gmail.com",
-            raison_sociale: "idk",
-            ice: "20wj",
-        },
-        {
-            id: 3,
-            ville: "Nador",
-            adresse: "idk",
-            cni: 4904,
-            tel: 94040,
-            email: "Brahim@gmail.com",
-            raison_sociale: "idk",
-            ice: "20wj",
-        },
-    ];
+
+ const fetchFournisseurs = async () => {
+     const response = await axios.get(
+         `/api/fournisseurs?page=${currentPage}&perPage=${perPage}`
+     );
+     setFournisseurs(response.data);
+ };
+
+
+    const handlePerPageChange = (e) => {
+        const value = parseInt(e.target.value);
+        setPerPage(value);
+        localStorage.setItem("perPage", value); // Store the perPage value in localStorage
+    };
+
+  const deleteSelectedItems = async () => {
+      let alertBox = null;
+
+      try {
+          const result = await Swal.fire({
+              title: "Attention!",
+              icon: "warning",
+              html: `
+        <h2 class="text-lg font-bold text-red-500">
+          Êtes-vous sûr de vouloir effectuer la suppression ?
+        </h2>
+        <p class="text-gray-800">
+          Vous ne pouvez plus récupérer ces éléments après suppression !
+        </p>`,
+              showCancelButton: true,
+              cancelButtonText: "Annuler",
+              confirmButtonText: "Supprimer",
+              customClass: {
+                  confirmButton:
+                      "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
+                  cancelButton:
+                      "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
+              },
+              buttonsStyling: false,
+          });
+
+          if (result.isConfirmed) {
+              alertBox = Swal.fire({
+                  title: "Suppression en cours...",
+                  allowOutsideClick: false,
+                  onBeforeOpen: () => {
+                      Swal.showLoading();
+                  },
+                  showConfirmButton: false,
+              });
+
+              for (const fournisseurId of selectedCheckboxes) {
+                  await axios.delete(`/api/fournisseurs/${fournisseurId}`);
+              }
+
+              alertBox.close();
+          }
+
+          fetchFournisseurs();
+          setSelectedCheckboxes([]);
+          setSelectedCount(0);
+          setIsModifyHidden(false);
+
+          if (result.isConfirmed) {
+              await Swal.fire({
+                  title: "Supprimé",
+                  text: "Les propriétaires ont été supprimés avec succès.",
+                  icon: "success",
+                  customClass: {
+                      confirmButton:
+                          "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                  },
+                  buttonsStyling: false,
+              });
+          }
+      } catch (error) {
+          console.error("Error deleting items:", error);
+          // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
+      }
+  };
+
+    const data = fournisseurs;
+    const paginatedData = data.slice(
+        (currentPage - 1) * perPage,
+        currentPage * perPage
+    );
+    const totalPages = Math.ceil(data.length / perPage);
+
 
     return (
         <>
-            <Main_content
-                user={auth.user}
-                Title={"Les fournisseurs"}
-            >
+            <Main_content user={auth.user} Title={"Les fournisseurs"}>
                 <Head title="Fournisseurs" />
 
                 <div className="-m-14">
                     <div className="mx-auto container bg-white dark:bg-white-800 w-full  rounded-40">
                         <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
                             <div className="flex flex-row justify-between gap-4 ">
-                                <a
-                                    className={`text-primary-color border-solid border-gray-200 border-[1.5px] p-2  bg-white  hover:bg-primary-color hover:text-white rounded-[7px] ${
-                                        isModifyHidden ? "hidden" : ""
-                                    } focus:shadow-outline-white ${
-                                        selectedCheckboxes.length === 0
-                                            ? "hidden"
-                                            : ""
-                                    }`}
-                                    href="fournisseurs/modifier"
-                                >
-                                    <HiPencil />
-                                </a>
-                                <a
-                                    className={`text-red-500 border-solid border-gray-200 border-[1.5px]  p-2 bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:bg-red-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white ${
-                                        selectedCheckboxes.length === 0
-                                            ? "hidden"
-                                            : ""
-                                    }`}
-                                    href="#"
-                                >
-                                    <HiTrash />
-                                </a>
+                                <ModifyButton
+                                    href={`/fournisseurs/modifier/${fournisseurId}`}
+                                    isModifyHidden={isModifyHidden}
+                                    selectedCheckboxes={selectedCheckboxes}
+                                />
+                                <DeleteButton
+                                    onClick={deleteSelectedItems}
+                                    selectedCheckboxes={selectedCheckboxes}
+                                />
+                                <span className="ml-3 my-auto text-sm font-medium text-gray-500">
+                                    {selectedCount === 0
+                                        ? "0 sélectionné"
+                                        : `${selectedCount} sélectionné`}
+                                </span>
                             </div>
-                            <a
-                                className="text-white px-2 pr-4 ml-4 my-1 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white bg-purple-color  transition duration-150 ease-in-out hover:bg-opacity-80 w-max h-8 rounded-[9px] flex items-center justify-center"
-                                href="/fournisseurs/ajouter"
+
+                            <AddButton
+                                href={"/fournisseurs/ajouter"}
+                                ClassName=" bg-purple-color"
                             >
-                                <HiPlusSmall className="text-2xl pr-2" />{" "}
                                 Ajouter un fournisseur
-                            </a>
+                            </AddButton>
+
                             <div className="absolute right-0 top-5 w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
                                 <div className="lg:ml-6 flex items-center">
                                     <Checkbox
@@ -124,93 +198,112 @@ export default function Fournisseurs({auth}) {
                                 </div>
                             </div>
                         </div>
+
                         <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
+                            {data.length === 0 && (
+                                <div className="p-4 text-center text-red-500  bg-green-50">
+                                    Veuillez remplir votre tableau !
+                                </div>
+                            )}
                             <table className="min-w-full bg-white dark:bg-white-800">
-                                <thead className="bg-green-50 text-t-color text-md ">
-                                    <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b py-8">
-                                        <th className="pl-8 text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            <Checkbox
-                                                id="all"
-                                                checked={
-                                                    selectedCheckboxes.length ===
-                                                    data.length
+                                <THeader>
+                                    <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b  py-8">
+                                        <HeaderCheckbox
+                                            data={data}
+                                            selectedCheckboxes={
+                                                selectedCheckboxes
+                                            }
+                                            handleCheckboxChange={
+                                                handleCheckboxChange
+                                            }
+                                        />
+                                        <THead> CNI</THead>
+                                        <THead>ICE</THead>
+                                        <THead> Raison sociale</THead>
+                                        <THead>N° Téléphone</THead>
+                                        <THead> Ville</THead>
+                                        <THead>Adresse</THead>
+                                        <THead> Adresse e-mail</THead>
+                                    </tr>
+                                </THeader>
+                                <tbody>
+                                    {paginatedData.map((item) => (
+                                        <TRow
+                                            key={item.id}
+                                            Key={item.id}
+                                            selectedCheckboxes={
+                                                selectedCheckboxes
+                                            }
+                                        >
+                                            <RowCheckbox
+                                                item={item}
+                                                handleCheckboxChange={
+                                                    handleCheckboxChange
                                                 }
-                                                onChange={() =>
-                                                    handleCheckboxChange("all")
+                                                selectedCheckboxes={
+                                                    selectedCheckboxes
                                                 }
                                             />
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            CNI
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            ICE
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            Raison sociale
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            N° Téléphone
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            Ville
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            Adresse
-                                        </th>
-                                        <th className="text-white-600 dark:text-white-400 pr-6 text-left tracking-normal leading-4">
-                                            Adresse e-mail
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {data.map((item) => (
-                                        <tr
-                                            key={item.id}
-                                            className="h-14 border-white-300 dark:border-white-200 border-b"
-                                        >
-                                            <td className="pl-8 pr-6 text-left whitespace-no-wrap text-sm text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                <Checkbox
-                                                    id={item.id.toString()}
-                                                    checked={selectedCheckboxes.includes(
-                                                        item.id
-                                                    )}
-                                                    onChange={() =>
-                                                        handleCheckboxChange(
-                                                            item.id
-                                                        )
-                                                    }
-                                                />
-                                            </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.cni}
-                                            </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.ice}
-                                            </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.raison_sociale}
-                                            </td>
-                                            <td className="pr-6 whitespace-no-wrap">
-                                                <div className="w-[120px] h-full bg-purple-color bg-opacity-20 px-[15px] py-[0.5px] rounded-2xl flex justify-center items-center">
-                                                    <span className="text-sm text-purple-color font-medium ">
+                                            <TData>{item.cni}</TData>
+                                            <TData>{item.ice}</TData>
+                                            <TData ClassName="text-[11px]">
+                                                {item.raison}
+                                            </TData>
+                                            <TData>
+                                                <div className=" h-full bg-purple-color bg-opacity-20 px-2 rounded-2xl flex justify-center items-center">
+                                                    <span className="text-xs text-purple-color  block ">
                                                         {item.tel}
                                                     </span>
                                                 </div>
-                                            </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.ville}
-                                            </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.adresse}
-                                            </td>{" "}
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-white-800 dark:text-white-100 tracking-normal leading-4">
-                                                {item.email}
-                                            </td>
-                                        </tr>
+                                            </TData>
+
+                                            <TData>{item.ville}</TData>
+                                            <TData>{item.adresse}</TData>
+
+                                            <TData>{item.email}</TData>
+                                        </TRow>
                                     ))}
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div className="flex flex-row justify-between items-center">
+                            <div className="ml-5 flex items-center text-xs">
+                                <span>Fournisseurs par page:</span>
+                                <select
+                                    value={perPage}
+                                    onChange={handlePerPageChange}
+                                    className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none focus:ring-transparent"
+                                >
+                                    <option value={5}>5</option>
+                                    <option value={10}>10</option>
+                                    <option value={20}>20</option>
+                                    <option value={30}>30</option>
+                                </select>
+                            </div>
+                            <div className="text-primary-color font-medium flex flex-row gap-10 h-max  items-center justify-end mr-6 text-xs">
+                                <button
+                                    disabled={currentPage === 1}
+                                    onClick={() =>
+                                        setCurrentPage(currentPage - 1)
+                                    }
+                                    className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
+                                >
+                                    <HiChevronLeft /> Précédent
+                                </button>
+                                <span className="text-xs font-regular text-gray-600">
+                                    Page: {currentPage} sur {totalPages}
+                                </span>
+                                <button
+                                    disabled={currentPage === totalPages}
+                                    onClick={() =>
+                                        setCurrentPage(currentPage + 1)
+                                    }
+                                    className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
+                                >
+                                    Suivant <HiChevronRight />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -9,9 +9,6 @@ use Carbon\Carbon;
 
 class LocataireController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $locataire = Locataire::all();
@@ -19,17 +16,6 @@ class LocataireController extends Controller
         return response()->json($locataire);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -60,10 +46,6 @@ class LocataireController extends Controller
     
         return response()->json($locataire);
     }
-
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $locataire = Locataire::find($id);
@@ -75,17 +57,10 @@ class LocataireController extends Controller
         return response()->json($locataire);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Locataire $locataire)
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $locataire = Locataire::findOrFail($id);
@@ -95,9 +70,6 @@ class LocataireController extends Controller
         return response()->json(['message' => 'locataire updated successfully', 'locataire' => $locataire]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Locataire $locataire)
     {
         $locataire->delete();

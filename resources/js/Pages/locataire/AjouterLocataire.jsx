@@ -144,9 +144,9 @@ export default function AjouterLocataire({ auth }) {
                                             <option disabled value="">
                                                 Vous êtes?
                                             </option>
-                                            <option value="male">Male</option>
+                                            <option value="male">Mâle</option>
                                             <option value="female">
-                                                Female
+                                                Femelle
                                             </option>
                                         </select>
                                     </div>

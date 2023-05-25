@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CoproprieteController;
+use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\LocataireController;
 use App\Http\Controllers\LotController;
 use App\Http\Controllers\ProprietaireController;
@@ -29,7 +30,7 @@ Route::get('/proprietaires/{proprietaire}', [ProprietaireController::class, 'sho
 
 /////////////////////////////////////////
 
-//Locataire routes 
+//Locataires routes 
 Route::get('/locataires', [LocataireController::class, 'index']);
 Route::post('/locataires', [LocataireController::class, 'store']);
 Route::put('/locataires/{locataire}', [LocataireController::class, 'update']);
@@ -38,7 +39,7 @@ Route::get('/locataires/{locataire}', [LocataireController::class, 'show']);
 
 ////////////////////////////////////////
 
-//Lot routes 
+//Lots routes 
 Route::get('/lots', [LotController::class, 'index']);
 Route::post('/lots', [LotController::class, 'store']);
 Route::put('/lots/{lot}', [LotController::class, 'update']);
@@ -46,3 +47,12 @@ Route::delete('lots/{lot}', [LotController::class, 'destroy']);
 Route::get('/lots/{lot}', [LotController::class, 'show']);
 
 ////////////////////////////////////////
+
+//fournisseurs routes 
+Route::get('/fournisseurs', [FournisseurController::class, 'index']);
+Route::post('/fournisseurs', [FournisseurController::class, 'store']);
+Route::put('/fournisseurs/{fournisseur}', [FournisseurController::class, 'update']);
+Route::delete('fournisseurs/{fournisseur}', [FournisseurController::class, 'destroy']);
+Route::get('/fournisseurs/{fournisseur}', [FournisseurController::class, 'show']);
+///////////////////////////////////////////////
+

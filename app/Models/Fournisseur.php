@@ -9,6 +9,8 @@ class Fournisseur extends Model
 {
     
     use HasFactory;
+    protected $fillable = ['id', 'raison', 'ice', 'tel', 'ville', 'adresse', 'email'];
+
     public function lots()
     {
         return $this->hasMany(Lot::class);

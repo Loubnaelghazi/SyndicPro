@@ -34,7 +34,7 @@ export default function AjouterProprietaire({ auth }) {
 
             Swal.fire({
                 icon: "success",
-                title: "Votre lot a été ajoutée avec succès !",
+                title: "Votre propriétaire été ajoutée avec succès !",
                 showConfirmButton: true,
                 confirmButtonText: "OK",
                 buttonsStyling: false,
@@ -141,9 +141,9 @@ export default function AjouterProprietaire({ auth }) {
                                             <option disabled value="">
                                                 Vous êtes?
                                             </option>
-                                            <option value="male">Male</option>
+                                            <option value="male">Mâle</option>
                                             <option value="female">
-                                                Female
+                                                Femelle
                                             </option>
                                         </select>
                                     </div>
