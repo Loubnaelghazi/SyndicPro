@@ -159,9 +159,6 @@ export default function ModifierLocataire({ auth }) {
                     <Head title="Modifier les locataires " />
 
                     <div>
-                        <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
-                            <HiUserGroup />
-                        </span>
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid grid-rows-3 grid-cols-2 gap-x-16">
                                 <div>

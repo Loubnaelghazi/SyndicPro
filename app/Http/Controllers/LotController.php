@@ -12,7 +12,9 @@ class LotController extends Controller
      */
     public function index()
     {
-        //
+        $lot = Lot::with('locataire')->with('proprietaire')->get();
+
+        return response()->json($lot);
     }
 
     /**
@@ -28,7 +30,27 @@ class LotController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'numero' => 'required|integer',
+            'batiment' => 'required|string',
+            'type' => 'required|string',
+            'etage' => 'required|integer',
+            'porte' => 'required|string',
+            'proprietaire_id' => 'integer',
+            'locataire_id' => 'integer',
+        ]);
+
+        $lot = Lot::create([
+            'numero' => $validatedData['numero'],
+            'batiment' => $validatedData['batiment'],
+            'type' => $validatedData['type'],
+            'etage' => $validatedData['etage'],
+            'porte' => $validatedData['porte'],
+            'proprietaire_id' => $validatedData['proprietaire_id'],
+            'locataire_id' => $validatedData['locataire_id'],
+        ]);
+        
+        return response()->json($lot);
     }
 
     /**

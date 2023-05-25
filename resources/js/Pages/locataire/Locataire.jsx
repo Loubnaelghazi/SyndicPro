@@ -156,7 +156,7 @@ export default function Locataire({ auth }) {
                                 {selectedCount} sélectionné
                             </span>
                         </div>
-                        <AddButton href={"/locataires/ajouter"}>
+                        <AddButton href={"/locataires/ajouter"} ClassName=" bg-my-red">
                             Ajouter un locataire
                         </AddButton>
                         <div className="absolute right-0 top-5 w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
@@ -235,11 +235,11 @@ export default function Locataire({ auth }) {
                     </div>
                     <div className="flex flex-row justify-between items-center">
                         <div className="ml-5 flex items-center text-xs">
-                            <span>Locataire par page:</span>
+                            <span>Locataires par page:</span>
                             <select
                                 value={perPage}
                                 onChange={handlePerPageChange}
-                                className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none"
+                                className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none focus:ring-transparent"
                             >
                                 <option value={5}>5</option>
                                 <option value={10}>10</option>

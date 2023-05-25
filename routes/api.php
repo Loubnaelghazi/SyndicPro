@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CoproprieteController;
 use App\Http\Controllers\LocataireController;
+use App\Http\Controllers\LotController;
 use App\Http\Controllers\ProprietaireController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,5 +35,14 @@ Route::post('/locataires', [LocataireController::class, 'store']);
 Route::put('/locataires/{locataire}', [LocataireController::class, 'update']);
 Route::delete('locataires/{locataire}', [LocataireController::class, 'destroy']);
 Route::get('/locataires/{locataire}', [LocataireController::class, 'show']);
+
+////////////////////////////////////////
+
+//Lot routes 
+Route::get('/lots', [LotController::class, 'index']);
+Route::post('/lots', [LotController::class, 'store']);
+Route::put('/lots/{lot}', [LotController::class, 'update']);
+Route::delete('lots/{lot}', [LotController::class, 'destroy']);
+Route::get('/lots/{lot}', [LotController::class, 'show']);
 
 ////////////////////////////////////////

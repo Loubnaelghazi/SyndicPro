@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Lot extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['numero', 'batiment', 'type', 'etage', 'porte', 'proprietaire_id ', 'locataire_id '];
+
     public function proprietaire()
     {
         return $this->belongsTo(Proprietaire::class);

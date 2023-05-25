@@ -145,6 +145,13 @@ export default function Proprietaire({ auth }) {
                     },
                     buttonsStyling: false,
                 });
+                fetchProprietaires();
+                // Clear the selected checkboxes
+                setSelectedCheckboxes([]);
+                // Reset the selected count and modify button visibility
+                setSelectedCount(0);
+                setIsModifyHidden(false);
+    
             }
         } catch (error) {
             console.log(error);
@@ -181,7 +188,7 @@ export default function Proprietaire({ auth }) {
                                         : `${selectedCount} sélectionné`}
                                 </span>
                             </div>
-                            <AddButton href={"/proprietaires/ajouter"} >
+                            <AddButton href={"/proprietaires/ajouter"} ClassName=" bg-pinky-color">
                                 Ajouter un propriétaire
                             </AddButton>
 
@@ -275,11 +282,11 @@ export default function Proprietaire({ auth }) {
                         </div>
                         <div className="flex flex-row justify-between items-center">
                             <div className="ml-5 flex items-center text-xs">
-                                <span>Propriétaire par page:</span>
+                                <span>Propriétaires par page:</span>
                                 <select
                                     value={perPage}
                                     onChange={handlePerPageChange}
-                                    className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none"
+                                    className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none focus:ring-transparent"
                                 >
                                     <option value={5}>5</option>
                                     <option value={10}>10</option>

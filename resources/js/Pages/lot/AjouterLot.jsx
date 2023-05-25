@@ -14,8 +14,19 @@ const AjouterLot = ({ auth }) => {
     const [etage, setEtage] = useState("");
     const [porte, setPorte] = useState("");
     const [type, setType] = useState("");
-    const [proprietaire, setProprietaire] = useState("");
-    const [locataire, setLocataire] = useState("");
+    const [proprietaire_id, setProprietaire_id] = useState("");
+    const [locataire_id, setLocataire_id] = useState("");
+    const [locataires, setLocataires] = useState([]);
+    const [proprietaires, setProprietaires] = useState([]);
+
+    useEffect(() => {
+        if (!proprietaires.length) {
+            fetchProprietaires();
+        }
+        if (!locataires.length) {
+            fetchLocataires();
+        }
+    });
 
     const ajouter = async (e) => {
         e.preventDefault();
@@ -25,11 +36,11 @@ const AjouterLot = ({ auth }) => {
             type,
             etage,
             porte,
-            proprietaire,
-            locataire,
+            proprietaire_id,
+            locataire_id,
         };
         try {
-            await axios.post(`/api/`, lot);
+            await axios.post(`/api/lots`, lot);
 
             Swal.fire({
                 icon: "success",
@@ -53,6 +64,20 @@ const AjouterLot = ({ auth }) => {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const fetchLocataires = async () => {
+        const response = await axios.get(
+            `/api/locataires`
+        );
+        setLocataires(response.data);
+    };
+
+    const fetchProprietaires = async () => {
+        const response = await axios.get(
+            `/api/proprietaires`
+        );
+        setProprietaires(response.data);
     };
 
     return (
@@ -127,9 +152,11 @@ const AjouterLot = ({ auth }) => {
                                             <select
                                                 id="locataire"
                                                 name="locataire"
-                                                value={locataire}
+                                                value={locataire_id}
                                                 onChange={(e) =>
-                                                    setLocataire(e.target.value)
+                                                    setLocataire_id(
+                                                        e.target.value
+                                                    )
                                                 }
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
                                             >
@@ -137,6 +164,9 @@ const AjouterLot = ({ auth }) => {
                                                     Veuillez choisir un
                                                     locataire
                                                 </option>
+                                                {locataires.map((locataire) => (
+                                                    <option key={locataire.id} value={locataire.id}>{locataire.nom +' '+ locataire.prenom}</option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
@@ -202,9 +232,9 @@ const AjouterLot = ({ auth }) => {
                                             <select
                                                 id="proprietaire"
                                                 name="proprietaire"
-                                                value={proprietaire}
+                                                value={proprietaire_id}
                                                 onChange={(e) =>
-                                                    setProprietaire(
+                                                    setProprietaire_id(
                                                         e.target.value
                                                     )
                                                 }
@@ -214,6 +244,9 @@ const AjouterLot = ({ auth }) => {
                                                     Veuillez choisir un
                                                     proprietaire
                                                 </option>
+                                                {proprietaires.map((proprietaire) => (
+                                                    <option key={proprietaire.id} value={proprietaire.id}>{proprietaire.nom +' '+ proprietaire.prenom}</option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
@@ -242,10 +275,10 @@ const AjouterLot = ({ auth }) => {
                                         <option disabled value="">
                                             Veuillez choisir un type
                                         </option>
-                                        <option value="immeuble">
+                                        <option value="Appartement">
                                             Appartement
                                         </option>
-                                        <option value="villa">
+                                        <option value="Local commercial">
                                             Local commercial
                                         </option>
                                         <option value="autre">autre</option>
