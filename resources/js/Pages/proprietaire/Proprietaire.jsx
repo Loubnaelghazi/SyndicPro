@@ -99,17 +99,18 @@ export default function Proprietaire({ auth }) {
 
     /* /////////////////////////// */
 
-    const supprimerProprietaire = async (proprietaireIds) => {
+    const deleteSelectedItems = async () => {
+        // Make an API call to delete the selected items using the IDs in the `selectedCheckboxes` state
         try {
             const result = await Swal.fire({
                 title: "Attention!",
                 icon: "warning",
                 html: `
         <h2 class="text-lg font-bold text-red-500">
-          Êtes-vous sûr de vouloir effectuer la suppression ?
+            Êtes-vous sûr de vouloir effectuer la suppression ?
         </h2>
         <p class="text-gray-800">
-          Vous ne pouvez plus récupérer ces éléments après suppression !
+            Vous ne pouvez plus récupérer ces éléments après suppression !
         </p>`,
                 showCancelButton: true,
                 cancelButtonText: "Annuler",
@@ -124,30 +125,31 @@ export default function Proprietaire({ auth }) {
             });
 
             if (result.isConfirmed) {
-                const requests = proprietaireIds.map((proprietaireId) =>
-                    axios.delete(`/api/proprietaires/${proprietaireId}`)
-                );
-                const responses = await Promise.all(requests);
-                setProprietaires((prevProprietaires) =>
-                    prevProprietaires.filter(
-                        (proprietaire) =>
-                            !proprietaireIds.includes(proprietaire.id)
-                    )
-                );
-
-                await Swal.fire({
-                    title: "Supprimé",
-                    text: "Les propriétaires ont été supprimés avec succès.",
-                    icon: "success",
-                    customClass: {
-                        confirmButton:
-                            "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
-                    },
-                    buttonsStyling: false,
-                });
+                for (const locataireId of selectedCheckboxes) {
+                    await axios.delete(`/api/locataires/${locataireId}`);
+                }
             }
+
+            // Refresh the list of locataires after deletion
+            fetchLocataires();
+            // Clear the selected checkboxes
+            setSelectedCheckboxes([]);
+            // Reset the selected count and modify button visibility
+            setSelectedCount(0);
+            setIsModifyHidden(false);
+            await Swal.fire({
+                title: "Supprimé",
+                text: "Les propriétaires ont été supprimés avec succès.",
+                icon: "success",
+                customClass: {
+                    confirmButton:
+                        "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                },
+                buttonsStyling: false,
+            });
         } catch (error) {
-            console.log(error);
+            console.error("Error deleting items:", error);
+            // Handle error case, e.g., show an error message to the user
         }
     };
 

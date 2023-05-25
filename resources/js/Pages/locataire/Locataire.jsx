@@ -13,6 +13,7 @@ import TData from "@/Components/Table/TData";
 import TRow from "@/Components/Table/TRow";
 import DeleteButton from "@/Components/Buttons/DeleteButton";
 import ModifyButton from "@/Components/Buttons/ModifyButton";
+import Swal from "sweetalert2";
 
 export default function Locataire({ auth }) {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
@@ -73,6 +74,60 @@ export default function Locataire({ auth }) {
         localStorage.setItem("perPage", value); // Store the perPage value in localStorage
     };
 
+    const deleteSelectedItems = async () => {
+        // Make an API call to delete the selected items using the IDs in the `selectedCheckboxes` state
+        try {
+            const result = await Swal.fire({
+                title: "Attention!",
+                icon: "warning",
+                html: `
+        <h2 class="text-lg font-bold text-red-500">
+            Êtes-vous sûr de vouloir effectuer la suppression ?
+        </h2>
+        <p class="text-gray-800">
+            Vous ne pouvez plus récupérer ces éléments après suppression !
+        </p>`,
+                showCancelButton: true,
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Supprimer",
+                customClass: {
+                    confirmButton:
+                        "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
+                    cancelButton:
+                        "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
+                },
+                buttonsStyling: false,
+            });
+
+            if (result.isConfirmed) {
+                for (const locataireId of selectedCheckboxes) {
+                    await axios.delete(`/api/locataires/${locataireId}`);
+                }
+            }
+
+            // Refresh the list of locataires after deletion
+            fetchLocataires();
+            // Clear the selected checkboxes
+            setSelectedCheckboxes([]);
+            // Reset the selected count and modify button visibility
+            setSelectedCount(0);
+            setIsModifyHidden(false);
+            await Swal.fire({
+                title: "Supprimé",
+                text: "Les propriétaires ont été supprimés avec succès.",
+                icon: "success",
+                customClass: {
+                    confirmButton:
+                        "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                },
+                buttonsStyling: false,
+            });
+        } catch (error) {
+            console.error("Error deleting items:", error);
+            // Handle error case, e.g., show an error message to the user
+        }
+    };
+
     const data = locataires;
     const paginatedData = data.slice(
         (currentPage - 1) * perPage,
@@ -95,6 +150,7 @@ export default function Locataire({ auth }) {
                             />
                             <DeleteButton
                                 selectedCheckboxes={selectedCheckboxes}
+                                onClick={deleteSelectedItems}
                             />
                             <span className="ml-3 my-auto  text-sm font-medium text-gray-500">
                                 {selectedCount} sélectionné
