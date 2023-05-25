@@ -65,7 +65,6 @@ export default function Locataire({ auth }) {
 
         setSelectedCheckboxes(updatedCheckboxes);
         setSelectedCount(updatedCheckboxes.length);
-        setCurrentPage(1); // Reset current page when checkboxes are selected
     };
 
     const handlePerPageChange = (e) => {

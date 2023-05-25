@@ -74,7 +74,6 @@ export default function Proprietaire({ auth }) {
             updatedSelectedProprietaires.map((proprietaire) => proprietaire.id)
         );
         setSelectedCount(updatedSelectedProprietaires.length);
-        setCurrentPage(1);
     };
 
     const fetchProprietaires = async () => {
@@ -182,7 +181,7 @@ export default function Proprietaire({ auth }) {
                                         : `${selectedCount} sélectionné`}
                                 </span>
                             </div>
-                            <AddButton href={"/proprietaires/ajouter"}>
+                            <AddButton href={"/proprietaires/ajouter"} >
                                 Ajouter un propriétaire
                             </AddButton>
 
