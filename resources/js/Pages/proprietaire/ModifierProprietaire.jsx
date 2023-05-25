@@ -4,23 +4,22 @@ import { Head } from "@inertiajs/react";
 import { HiUserGroup } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function ModifierProprietaire({ auth }) {
     const [nom, setNom] = useState("");
     const [prenom, setPrenom] = useState("");
     const [cni, setCni] = useState("");
-    const [phone, setPhone] = useState("");
+    const [tel, setTel] = useState("");
     const [email, setEmail] = useState("");
     const [genre, setGenre] = useState("");
     const [date_naissance, setDate_naissance] = useState("");
     const [nationalite, setNationalite] = useState("");
-
-
     const url = window.location.href;
     const proprietaireID = url.substring(url.lastIndexOf("/") + 1);
 
     useEffect(() => {
-        // Fetch the copropriete data from the server and update the state
         fetchProprietaireData();
     }, []);
 
@@ -34,8 +33,10 @@ export default function ModifierProprietaire({ auth }) {
             setPrenom(data.prenom);
             setCni(data.cni);
             setEmail(data.email);
-            setPhone(data.phone);
+            setTel(data.tel);
             setGenre(data.genre);
+            setNationalite(data.nationalite);
+
             setDate_naissance(data.date_naissance);
         } catch (error) {
             console.error(error);
@@ -55,8 +56,8 @@ export default function ModifierProprietaire({ auth }) {
             case "email":
                 setEmail(value);
                 break;
-            case "phone":
-                setPhone(value);
+            case "tel":
+                setTel(value);
                 break;
             case "cni":
                 setCni(value);
@@ -81,7 +82,7 @@ export default function ModifierProprietaire({ auth }) {
             nom,
             prenom,
             cni,
-            phone,
+            tel,
             email,
             genre,
             date_naissance,
@@ -90,12 +91,12 @@ export default function ModifierProprietaire({ auth }) {
 
         try {
             const response = await axios.put(
-                `/api/coproprietes/${coproprieteID}`,
-                updatedCopropriete
+                `/api/proprietaires/${proprietaireID}`,
+                updatedProprietaire
             );
 
             const { data } = response;
-            console.log("Updated copropriete:", data);
+            console.log("Updated proprietaires:", data);
 
             Swal.fire({
                 title: "Êtes-vous sûr de vouloir effectuer ces modifications ?",
@@ -128,8 +129,7 @@ export default function ModifierProprietaire({ auth }) {
                         },
                         buttonsStyling: false,
                     }).then(() => {
-                        // Redirection vers la page /copropriete après la fermeture du message
-                        window.location.href = "/copropriete";
+                        window.location.href = "/proprietaires";
                     });
                 }
             });
@@ -168,7 +168,6 @@ export default function ModifierProprietaire({ auth }) {
                                             type="text"
                                             value={nom}
                                             onChange={handleInputChange}
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -185,7 +184,6 @@ export default function ModifierProprietaire({ auth }) {
                                             id="prenom"
                                             name="prenom"
                                             type="text"
-                                            required
                                             value={prenom}
                                             onChange={handleInputChange}
                                         />
@@ -207,9 +205,7 @@ export default function ModifierProprietaire({ auth }) {
                                             id="genre"
                                             name="genre"
                                             value={genre}
-                                            onChange={(e) =>
-                                                setGenre(e.target.value)
-                                            }
+                                            onChange={handleInputChange}
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
                                         >
                                             <option disabled value="">
@@ -238,13 +234,8 @@ export default function ModifierProprietaire({ auth }) {
                                             id="date_naissance"
                                             name="date_naissance"
                                             value={date_naissance}
-                                            onChange={(e) =>
-                                                setDate_naissance(
-                                                    e.target.value
-                                                )
-                                            }
+                                            onChange={handleInputChange}
                                             type="date"
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -252,7 +243,7 @@ export default function ModifierProprietaire({ auth }) {
                                 <div>
                                     <div className="flex items-center justify-between">
                                         <label
-                                            htmlFor="phone"
+                                            htmlFor="tel"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
                                             N° Téléphone
@@ -261,12 +252,11 @@ export default function ModifierProprietaire({ auth }) {
 
                                     <div className="mt-2">
                                         <TextInput
-                                            id="phone"
-                                            name="phone"
-                                            value={phone}
+                                            id="tel"
+                                            name="tel"
+                                            value={tel}
                                             onChange={handleInputChange}
                                             type="tel"
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -289,7 +279,6 @@ export default function ModifierProprietaire({ auth }) {
                                                 value={email}
                                                 onChange={handleInputChange}
                                                 autoComplete="current-email"
-                                                required
                                             />
                                         </div>
                                     </div>
@@ -312,7 +301,6 @@ export default function ModifierProprietaire({ auth }) {
                                             value={cni}
                                             onChange={handleInputChange}
                                             autoComplete="current-cni"
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -333,7 +321,6 @@ export default function ModifierProprietaire({ auth }) {
                                             value={nationalite}
                                             onChange={handleInputChange}
                                             autoComplete="current-nationalite"
-                                            required
                                         />
                                     </div>
                                 </div>

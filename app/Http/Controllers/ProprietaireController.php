@@ -1,31 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Proprietaire;
 use Illuminate\Http\Request;
 
 class ProprietaireController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
     public function index()
     {
         $proprietaire = Proprietaire::all();
 
         return response()->json($proprietaire);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        
-    }
-
-   
+   ////////////////////////////////////////////////////////////
     public function store(Request $request)
     {
         $proprietaire = Proprietaire::create([
@@ -44,27 +32,34 @@ class ProprietaireController extends Controller
         return response()->json($proprietaire);
     }
 
-
+/////////////////////////////////////////////////////////////////////////
   
-    public function show(Proprietaire $proprietaire)
+    public function show($id)
     {
-        //
+
+        $proprietaire = Proprietaire::find($id);
+
+        if (!$proprietaire) {
+            return response()->json(['message' => 'Proprietaire not found'], 404);
+        }
+
+        return response()->json($proprietaire);
     }
 
    
-     
-    public function edit(Proprietaire $proprietaire)
-    {
-        //
-    }
-
+     /////////////////////////////////////////////////////////////////////////////
   
-    public function update(Request $request, Proprietaire $proprietaire)
+  
+    public function update(Request $request, Proprietaire $proprietaire,$id)
     {
-        
+        $proprietaire = Proprietaire::findOrFail($id);
+
+        $proprietaire->update($request->all());
+
+        return response()->json(['message' => 'Propietaire updated successfully', 'proprietaire' => $proprietaire]);
     }
 
-    
+    /////////////////////////////////////////////////////////////////////////////
     public function destroy(Proprietaire $proprietaire)
     {
         $proprietaire->delete();

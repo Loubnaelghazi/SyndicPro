@@ -6,7 +6,6 @@ import { Head } from "@inertiajs/react";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { Inertia } from "@inertiajs/inertia";
 
 const ModifierCopropriete = ({ auth }) => {
     const [nom, setNom] = useState("");
@@ -271,7 +270,6 @@ const ModifierCopropriete = ({ auth }) => {
                                             <TextInput
                                                 id="Modifier_code_postale"
                                                 name="code_postale"
-                                                //    value={data.code_postale}
                                                 value={codePostale}
                                                 type="number"
                                                 maxLength="5"

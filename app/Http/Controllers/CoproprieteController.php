@@ -15,12 +15,7 @@ class CoproprieteController extends Controller
         return response()->json($copropriete); /* json pour qu elle peut etre lue par react */
     }
 
-
-    public function create()
-    {
-        //
-    }
-
+/////////////////////////////////////////////////////////////////////////////////////////
 
     public function store(Request $request)
     {
@@ -36,9 +31,7 @@ class CoproprieteController extends Controller
         return response()->json($copropriete);
     }
 
-    /**
-     * Display the specified resource.
-     */
+  ///////////////////////////////////////////////////////////////////////////////////////
     public function show($id)
     {
         $copropriete = Copropriete::find($id);
@@ -50,12 +43,8 @@ class CoproprieteController extends Controller
         return response()->json($copropriete);
     }
 
-
-    public function edit(Copropriete $copropriete)
-    {
-        //
-    }
-
+/////////////////////////////////////////////////////////////////////////////////////////////
+   
 
     public function update(Request $request, $id)
     {
@@ -65,7 +54,7 @@ class CoproprieteController extends Controller
 
         return response()->json(['message' => 'Copropriete updated successfully', 'copropriete' => $copropriete]);
     }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public function destroy(Copropriete $copropriete)
     {

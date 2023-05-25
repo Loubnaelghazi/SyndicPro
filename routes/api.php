@@ -6,11 +6,11 @@ use App\Http\Controllers\ProprietaireController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
 //coproprietes routes
 Route::get('/coproprietes', [CoproprieteController::class, 'index']);
 Route::post('/coproprietes', [CoproprieteController::class, 'store']);
@@ -27,8 +27,6 @@ Route::put('/proprietaires/{proprietaire}', [ProprietaireController::class, 'upd
 Route::get('/proprietaires/{proprietaire}', [ProprietaireController::class, 'show']);
 
 /////////////////////////////////////////
-
-
 
 //Locataire routes 
 Route::get('/locataires', [LocataireController::class, 'index']);

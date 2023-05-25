@@ -62,7 +62,7 @@ Route::get('/proprietaires', function () {
 Route::get('/proprietaires/ajouter', function () {
     return Inertia::render('proprietaire/AjouterProprietaire');
 });
-Route::get('/proprietaires/modifier', function () {
+Route::get('/proprietaires/modifier/{id}', function () {
     return Inertia::render('proprietaire/ModifierProprietaire');
 });
 
@@ -77,7 +77,7 @@ Route::get('/fournisseurs', function () {
 Route::get('/fournisseurs/ajouter', function () {
     return Inertia::render('fournisseur/AjouterFournisseur');
 });
-Route::get('/fournisseurs/modifier', function () {
+Route::get('/fournisseurs/modifier/{id}', function () {
     return Inertia::render('fournisseur/ModifierFournisseur');
 });
 

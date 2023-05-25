@@ -23,6 +23,8 @@ export default function Proprietaire({ auth }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [proprietaires, setProprietaires] = useState([]);
     const [selectedProprietaires, setSelectedProprietaires] = useState([]);
+    const [selectedProprietaire, setSelectedProprietaire] = useState(null);
+
 
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
@@ -60,7 +62,12 @@ export default function Proprietaire({ auth }) {
           }
           setIsModifyHidden(updatedSelectedProprietaires.length !== 1);
       }
-
+if (updatedSelectedProprietaires.length === 1) {
+    const selectedProprietaire = data.find((item) => item.id === id);
+    setSelectedProprietaire(selectedProprietaire);
+} else {
+    setSelectedProprietaire(null);
+}
       setSelectedCheckboxes(
           updatedSelectedProprietaires.map((proprietaire) => proprietaire.id)
       );
@@ -156,8 +163,10 @@ const supprimerProprietaire = async (proprietaireIds) => {
                         <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
                             <div className="flex flex-row justify-between gap-4 ">
                                 <ModifyButton
-                                    href={"proprietaires/modifier"}
-                                    isModifyHidden={isModifyHidden}
+                                    href={"/proprietaires/modifier"}
+                                    isModifyHidden={
+                                        selectedCheckboxes.length !== 1
+                                    }
                                     selectedCheckboxes={selectedCheckboxes}
                                 />
                                 <DeleteButton
