@@ -4,12 +4,15 @@ import { Head } from "@inertiajs/react";
 import { HiUsers } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
+import axios from "axios";
+import Swal from "sweetalert2";
+
 
 export default function AjouterLocataire({ auth }) {
     const [nom, setNom] = useState("");
     const [prenom, setPrenom] = useState("");
     const [cni, setCni] = useState("");
-    const [phone, setPhone] = useState("");
+    const [tel, setTel] = useState("");
     const [email, setEmail] = useState("");
     const [genre, setGenre] = useState("");
     const [date_naissance, setDate_naissance] = useState("");
@@ -23,7 +26,7 @@ export default function AjouterLocataire({ auth }) {
             nom,
             prenom,
             cni,
-            phone,
+            tel,
             email,
             genre,
             date_naissance,
@@ -32,7 +35,7 @@ export default function AjouterLocataire({ auth }) {
             date_debut,
         };
         try {
-            await axios.post(`/api/`, locataire);
+            await axios.post(`/api/locataires`, locataire);
 
             Swal.fire({
                 icon: "success",
@@ -51,7 +54,7 @@ export default function AjouterLocataire({ auth }) {
                     });
                 },
             }).then(() => {
-                window.location.href = "/lots";
+                window.location.href = "/locataires";
             });
         } catch (error) {
             console.log(error);
@@ -178,7 +181,7 @@ export default function AjouterLocataire({ auth }) {
                                 <div>
                                     <div className="flex items-center justify-between">
                                         <label
-                                            htmlFor="phone"
+                                            htmlFor="tel"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
                                             N° Téléphone
@@ -187,11 +190,11 @@ export default function AjouterLocataire({ auth }) {
 
                                     <div className="mt-2">
                                         <TextInput
-                                            id="phone"
-                                            name="phone"
-                                            value={phone}
+                                            id="tel"
+                                            name="tel"
+                                            value={tel}
                                             onChange={(e) =>
-                                                setPhone(e.target.value)
+                                                setTel(e.target.value)
                                             }
                                             type="tel"
                                             required

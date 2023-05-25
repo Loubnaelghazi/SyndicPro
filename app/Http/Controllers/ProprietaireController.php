@@ -50,7 +50,7 @@ class ProprietaireController extends Controller
      /////////////////////////////////////////////////////////////////////////////
   
   
-    public function update(Request $request, Proprietaire $proprietaire,$id)
+    public function update(Request $request, $id)
     {
         $proprietaire = Proprietaire::findOrFail($id);
 

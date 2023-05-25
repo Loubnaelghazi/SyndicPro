@@ -20,6 +20,7 @@ export default function Locataire({ auth }) {
     const [locataires, setLocataires] = useState([]);
     const [selectedCount, setSelectedCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [locataireID, setLocataireID] = useState();
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
         const storedPerPage = localStorage.getItem("perPage");
@@ -41,6 +42,7 @@ export default function Locataire({ auth }) {
     };
 
     const handleCheckboxChange = (id) => {
+        setLocataireID(id);
         let updatedCheckboxes;
         if (id === "all") {
             if (selectedCheckboxes.length === data.length) {
@@ -88,7 +90,7 @@ export default function Locataire({ auth }) {
                     <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
                         <div className="flex flex-row justify-between gap-4 ">
                             <ModifyButton
-                                href={"/locataires/modifier"}
+                                href={`/locataires/modifier/${locataireID}`}
                                 isModifyHidden={isModifyHidden}
                                 selectedCheckboxes={selectedCheckboxes}
                             />

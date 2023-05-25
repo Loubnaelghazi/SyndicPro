@@ -100,11 +100,12 @@ Route::get('/locataires', function () {
 Route::get('/locataires/ajouter', function () {
     return Inertia::render('locataire/AjouterLocataire'); 
 });
-Route::get('/locataires/modifier', function () {
+Route::get('/locataires/modifier/{id}', function () {
     return Inertia::render('locataire/ModifierLocataire'); 
 });
 
 /* fin locataires */
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

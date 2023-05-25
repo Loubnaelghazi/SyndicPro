@@ -13,7 +13,6 @@ const AddCopopriete = ({ auth }) => {
     const [ville, setVille] = useState("");
     const [code_postale, setCodePostale] = useState("");
     const [type, setType] = useState("");
-
     const [balance, setBalance] = useState("");
 
     /* fonction d ajout */

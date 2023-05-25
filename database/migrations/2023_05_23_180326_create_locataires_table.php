@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nom');
             $table->string('prenom');
             $table->string('cni');
-            $table->string('phone')->nullable();
+            $table->string('tel')->nullable();
             $table->string('email')->nullable();
             $table->enum('genre', ['Male', 'Female']);
             $table->date('date_naissance');

@@ -4,12 +4,13 @@ import { Head } from "@inertiajs/react";
 import { HiUserGroup } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
+import Swal from "sweetalert2";
 
 export default function ModifierLocataire({ auth }) {
     const [nom, setNom] = useState("");
     const [prenom, setPrenom] = useState("");
     const [cni, setCni] = useState("");
-    const [phone, setPhone] = useState("");
+    const [tel, setTel] = useState("");
     const [email, setEmail] = useState("");
     const [genre, setGenre] = useState("");
     const [date_naissance, setDate_naissance] = useState("");
@@ -32,7 +33,7 @@ export default function ModifierLocataire({ auth }) {
             setPrenom(data.prenom);
             setCni(data.cni);
             setEmail(data.email);
-            setPhone(data.phone);
+            setTel(data.tel);
             setGenre(data.genre);
             setDate_naissance(data.data);
             setNationalite(data.nationalite);
@@ -57,7 +58,7 @@ export default function ModifierLocataire({ auth }) {
                 setEmail(value);
                 break;
             case "phone":
-                setPhone(value);
+                setTel(value);
                 break;
             case "cni":
                 setCni(value);
@@ -88,7 +89,7 @@ export default function ModifierLocataire({ auth }) {
             nom,
             prenom,
             cni,
-            phone,
+            tel,
             email,
             genre,
             date_naissance,
@@ -99,7 +100,7 @@ export default function ModifierLocataire({ auth }) {
 
         try {
             const response = await axios.put(
-                `/api/coproprietes/${locataireID}`,
+                `/api/locataires/${locataireID}`,
                 updatedLocataire
             );
 
@@ -138,7 +139,7 @@ export default function ModifierLocataire({ auth }) {
                         buttonsStyling: false,
                     }).then(() => {
                         // Redirection vers la page /copropriete après la fermeture du message
-                        window.location.href = "/copropriete";
+                        window.location.href = "/locataires";
                     });
                 }
             });
@@ -215,7 +216,7 @@ export default function ModifierLocataire({ auth }) {
                                         <TextInput
                                             id="phone"
                                             name="phone"
-                                            value={phone}
+                                            value={tel}
                                             onChange={handleInputChange}
                                             type="tel"
                                             required

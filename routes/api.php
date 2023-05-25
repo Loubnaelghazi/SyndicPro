@@ -30,8 +30,9 @@ Route::get('/proprietaires/{proprietaire}', [ProprietaireController::class, 'sho
 
 //Locataire routes 
 Route::get('/locataires', [LocataireController::class, 'index']);
-
-
-
+Route::post('/locataires', [LocataireController::class, 'store']);
+Route::put('/locataires/{locataire}', [LocataireController::class, 'update']);
+Route::delete('locataires/{locataire}', [LocataireController::class, 'destroy']);
+Route::get('/locataires/{locataire}', [LocataireController::class, 'show']);
 
 ////////////////////////////////////////

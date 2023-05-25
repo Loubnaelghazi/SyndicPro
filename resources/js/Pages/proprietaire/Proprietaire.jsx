@@ -15,7 +15,6 @@ import Main_content from "@/main _content/Main_content";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-
 export default function Proprietaire({ auth }) {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isModifyHidden, setIsModifyHidden] = useState(false);
@@ -24,64 +23,66 @@ export default function Proprietaire({ auth }) {
     const [proprietaires, setProprietaires] = useState([]);
     const [selectedProprietaires, setSelectedProprietaires] = useState([]);
     const [selectedProprietaire, setSelectedProprietaire] = useState(null);
-
+    const [proprietaireId , setProprietaireId] = useState();
 
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
         const storedPerPage = localStorage.getItem("perPage");
         return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
     });
-  useEffect(() => {
-      if (!proprietaires.length) {
-          fetchProprietaires();
-          localStorage.setItem("perPage", perPage);
-      }
-  }, [currentPage, perPage]);
+    useEffect(() => {
+        if (!proprietaires.length) {
+            fetchProprietaires();
+            localStorage.setItem("perPage", perPage);
+        }
+    }, [currentPage, perPage]);
 
-  const handleCheckboxChange = (id) => {
-      let updatedSelectedProprietaires;
-      if (id === "all") {
-          if (selectedCheckboxes.length === data.length) {
-              updatedSelectedProprietaires = [];
-              setIsModifyHidden(false);
-          } else {
-              updatedSelectedProprietaires = data.map((item) => item);
-              setIsModifyHidden(true);
-          }
-      } else {
-          if (selectedCheckboxes.includes(id)) {
-              updatedSelectedProprietaires = selectedProprietaires.filter(
-                  (proprietaire) => proprietaire.id !== id
-              );
-          } else {
-              const selectedProprietaire = data.find((item) => item.id === id);
-              updatedSelectedProprietaires = [
-                  ...selectedProprietaires,
-                  selectedProprietaire,
-              ];
-          }
-          setIsModifyHidden(updatedSelectedProprietaires.length !== 1);
-      }
-if (updatedSelectedProprietaires.length === 1) {
-    const selectedProprietaire = data.find((item) => item.id === id);
-    setSelectedProprietaire(selectedProprietaire);
-} else {
-    setSelectedProprietaire(null);
-}
-      setSelectedCheckboxes(
-          updatedSelectedProprietaires.map((proprietaire) => proprietaire.id)
-      );
-      setSelectedCount(updatedSelectedProprietaires.length);
-      setCurrentPage(1);
-  };
+    const handleCheckboxChange = (id) => {
+        setProprietaireId(id);
+        let updatedSelectedProprietaires;
+        if (id === "all") {
+            if (selectedCheckboxes.length === data.length) {
+                updatedSelectedProprietaires = [];
+                setIsModifyHidden(false);
+            } else {
+                updatedSelectedProprietaires = data.map((item) => item);
+                setIsModifyHidden(true);
+            }
+        } else {
+            if (selectedCheckboxes.includes(id)) {
+                updatedSelectedProprietaires = selectedProprietaires.filter(
+                    (proprietaire) => proprietaire.id !== id
+                );
+            } else {
+                const selectedProprietaire = data.find(
+                    (item) => item.id === id
+                );
+                updatedSelectedProprietaires = [
+                    ...selectedProprietaires,
+                    selectedProprietaire,
+                ];
+            }
+            setIsModifyHidden(updatedSelectedProprietaires.length !== 1);
+        }
+        if (updatedSelectedProprietaires.length === 1) {
+            const selectedProprietaire = data.find((item) => item.id === id);
+            setSelectedProprietaire(selectedProprietaire);
+        } else {
+            setSelectedProprietaire(null);
+        }
+        setSelectedCheckboxes(
+            updatedSelectedProprietaires.map((proprietaire) => proprietaire.id)
+        );
+        setSelectedCount(updatedSelectedProprietaires.length);
+        setCurrentPage(1);
+    };
 
-
- const fetchProprietaires = async () => {
-     const response = await axios.get(
-         `/api/proprietaires?page=${currentPage}&perPage=${perPage}`
-     );
-     setProprietaires(response.data);
- };
+    const fetchProprietaires = async () => {
+        const response = await axios.get(
+            `/api/proprietaires?page=${currentPage}&perPage=${perPage}`
+        );
+        setProprietaires(response.data);
+    };
 
     const data = proprietaires;
 
@@ -89,69 +90,67 @@ if (updatedSelectedProprietaires.length === 1) {
         (currentPage - 1) * perPage,
         currentPage * perPage
     );
- const handlePerPageChange = (e) => {
-     const value = parseInt(e.target.value);
-     setPerPage(value);
-     localStorage.setItem("perPage", value); // Store the perPage value in localStorage
- };
+    const handlePerPageChange = (e) => {
+        const value = parseInt(e.target.value);
+        setPerPage(value);
+        localStorage.setItem("perPage", value); // Store the perPage value in localStorage
+    };
 
-const totalPages = Math.ceil(data.length / perPage);
+    const totalPages = Math.ceil(data.length / perPage);
 
-/* /////////////////////////// */
+    /* /////////////////////////// */
 
-const supprimerProprietaire = async (proprietaireIds) => {
-    try {
-        const result = await Swal.fire({
-            title: "Attention!",
-            icon: "warning",
-            html: `
+    const supprimerProprietaire = async (proprietaireIds) => {
+        try {
+            const result = await Swal.fire({
+                title: "Attention!",
+                icon: "warning",
+                html: `
         <h2 class="text-lg font-bold text-red-500">
           Êtes-vous sûr de vouloir effectuer la suppression ?
         </h2>
         <p class="text-gray-800">
           Vous ne pouvez plus récupérer ces éléments après suppression !
         </p>`,
-            showCancelButton: true,
-            cancelButtonText: "Annuler",
-            confirmButtonText: "Supprimer",
-            customClass: {
-                confirmButton:
-                    "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
-                cancelButton:
-                    "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
-            },
-            buttonsStyling: false,
-        });
-
-        if (result.isConfirmed) {
-            const requests = proprietaireIds.map((proprietaireId) =>
-                axios.delete(`/api/proprietaires/${proprietaireId}`)
-            );
-            const responses = await Promise.all(requests);
-            setProprietaires((prevProprietaires) =>
-                prevProprietaires.filter(
-                    (proprietaire) => !proprietaireIds.includes(proprietaire.id)
-                )
-            );
-
-            await Swal.fire({
-                title: "Supprimé",
-                text: "Les propriétaires ont été supprimés avec succès.",
-                icon: "success",
+                showCancelButton: true,
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Supprimer",
                 customClass: {
                     confirmButton:
-                        "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                        "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
+                    cancelButton:
+                        "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
                 },
                 buttonsStyling: false,
             });
+
+            if (result.isConfirmed) {
+                const requests = proprietaireIds.map((proprietaireId) =>
+                    axios.delete(`/api/proprietaires/${proprietaireId}`)
+                );
+                const responses = await Promise.all(requests);
+                setProprietaires((prevProprietaires) =>
+                    prevProprietaires.filter(
+                        (proprietaire) =>
+                            !proprietaireIds.includes(proprietaire.id)
+                    )
+                );
+
+                await Swal.fire({
+                    title: "Supprimé",
+                    text: "Les propriétaires ont été supprimés avec succès.",
+                    icon: "success",
+                    customClass: {
+                        confirmButton:
+                            "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                    },
+                    buttonsStyling: false,
+                });
+            }
+        } catch (error) {
+            console.log(error);
         }
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-
-
+    };
 
     return (
         <>
@@ -163,7 +162,7 @@ const supprimerProprietaire = async (proprietaireIds) => {
                         <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
                             <div className="flex flex-row justify-between gap-4 ">
                                 <ModifyButton
-                                    href={"/proprietaires/modifier"}
+                                    href={`/proprietaires/modifier/${proprietaireId}`}
                                     isModifyHidden={
                                         selectedCheckboxes.length !== 1
                                     }
