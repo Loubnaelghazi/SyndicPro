@@ -23,6 +23,7 @@ export default function Lot({ auth }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [lots, setLots] = useState([]);
     const [lotID, setLotID] = useState();
+    const [selectedCount, setSelectedCount] = useState(0);
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
         const storedPerPage = localStorage.getItem("perPage");
@@ -81,7 +82,74 @@ export default function Lot({ auth }) {
         currentPage * perPage
     );
     const totalPages = Math.ceil(data.length / perPage);
-    const sans = <div className=" italic text-gray-300 font-light text-2xl">sans</div>
+    const sans = (
+        <div className=" italic text-gray-300 font-light text-2xl">sans</div>
+    );
+
+    const deleteSelectedItems = async () => {
+        let alertBox = null;
+        try {
+            const result = await Swal.fire({
+                title: "Attention!",
+                icon: "warning",
+                html: `
+        <h2 class="text-lg font-bold text-red-500">
+          Êtes-vous sûr de vouloir effectuer la suppression ?
+        </h2>
+        <p class="text-gray-800">
+          Vous ne pouvez plus récupérer ces éléments après suppression !
+        </p>`,
+                showCancelButton: true,
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Supprimer",
+                customClass: {
+                    confirmButton:
+                        "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
+                    cancelButton:
+                        "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
+                },
+                buttonsStyling: false,
+            });
+
+            if (result.isConfirmed) {
+                alertBox = Swal.fire({
+                    title: "Suppression en cours...",
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    },
+                    showConfirmButton: false,
+                });
+
+                for (const lotID of selectedCheckboxes) {
+                    await axios.delete(`/api/lots/${lotID}`);
+                }
+
+                alertBox.close();
+            }
+            
+            fetchLots();
+            setSelectedCheckboxes([]);
+            setSelectedCount(0);
+            setIsModifyHidden(false);
+
+            if (result.isConfirmed) {
+                await Swal.fire({
+                    title: "Supprimé",
+                    text: "Les lots ont été supprimés avec succès.",
+                    icon: "success",
+                    customClass: {
+                        confirmButton:
+                            "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                    },
+                    buttonsStyling: false,
+                });
+            }
+        } catch (error) {
+            console.error("Error deleting items:", error);
+            // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
+        }
+    };
 
     return (
         <Main_content
@@ -97,27 +165,21 @@ export default function Lot({ auth }) {
                 <div className="mx-auto container bg-white dark:bg-white-800 w-full  rounded-40">
                     <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
                         <div className="flex flex-row justify-between gap-4 ">
-                            <a
-                                className={`text-primary-color cursor-pointer border-solid border-gray-200 border-[1.5px] p-2  bg-white  hover:bg-primary-color hover:text-white rounded-[7px] ${
-                                    isModifyHidden ? "hidden" : ""
-                                } focus:shadow-outline-white ${
-                                    selectedCheckboxes.length === 0
-                                        ? "hidden"
-                                        : ""
-                                }`}
-                                href="/lots/modifier"
-                            >
-                                <HiPencil />
-                            </a>
-                            <a
-                                className={`text-red-500 border-solid border-gray-200 border-[1.5px]  p-2 bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:bg-red-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white ${
-                                    selectedCheckboxes.length === 0
-                                        ? "hidden"
-                                        : ""
-                                }`}
-                            >
-                                <HiTrash />
-                            </a>
+                            <ModifyButton
+                                href={`/lots/modifier/${lotID}`}
+                                isModifyHidden={isModifyHidden}
+                                selectedCheckboxes={selectedCheckboxes}
+                            />
+                            <DeleteButton
+                                onClick={deleteSelectedItems}
+                                selectedCheckboxes={selectedCheckboxes}
+                            />
+
+                            <span className="ml-3 my-auto text-sm font-medium text-gray-500">
+                                {selectedCount === 0
+                                    ? "0 sélectionné"
+                                    : `${selectedCount} sélectionné`}
+                            </span>
                         </div>
                         <a
                             className="text-white px-2 pr-4 ml-4 my-1 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-max h-8 rounded-[9px] flex items-center justify-center"
@@ -142,7 +204,7 @@ export default function Lot({ auth }) {
                     </div>
                     <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
                         <table className="min-w-full bg-white dark:bg-white-800">
-                            <thead className="bg-green-50 text-t-color font-semibold">
+                            <thead className="bg-green-50 text-t-color">
                                 <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b py-8">
                                     <HeaderCheckbox
                                         data={data}
@@ -152,8 +214,8 @@ export default function Lot({ auth }) {
                                         }
                                     />
                                     <THead>N°</THead>
-                                    <THead>TYPE</THead>
                                     <THead>BATIMENT</THead>
+                                    <THead>TYPE</THead>
                                     <THead>ETAGE</THead>
                                     <THead>PORTE</THead>
                                     <THead>PROPRIETAIRE</THead>
@@ -187,14 +249,19 @@ export default function Lot({ auth }) {
                                             </div>
                                         </TData>
                                         <TData>{item.porte}</TData>
-                                        <TData>{item.proprietaire_id == null
+                                        <TData>
+                                            {item.proprietaire_id == null
                                                 ? sans
-                                                : item.proprietaire.nom+" "+item.proprietaire.prenom}
+                                                : item.proprietaire.nom +
+                                                  " " +
+                                                  item.proprietaire.prenom}
                                         </TData>
                                         <TData>
                                             {item.locataire_id == null
                                                 ? sans
-                                                : item.locataire.nom+" "+item.locataire.prenom}
+                                                : item.locataire.nom +
+                                                  " " +
+                                                  item.locataire.prenom}
                                         </TData>
                                     </TRow>
                                 ))}

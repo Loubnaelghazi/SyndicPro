@@ -16,24 +16,23 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 export default function Fournisseurs({ auth }) {
-     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
-     const [isModifyHidden, setIsModifyHidden] = useState(false);
-     const [selectedCount, setSelectedCount] = useState(0);
-     const [currentPage, setCurrentPage] = useState(1);
-     const [fournisseurs, setFournisseurs] = useState([]);
-     const [fournisseurId, setFournisseurId] = useState();
-       const [perPage, setPerPage] = useState(() => {
-           // Check if the perPage value is stored in localStorage
-           const storedPerPage = localStorage.getItem("perPage");
-           return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
-       });
-   useEffect(() => {
-       if (!fournisseurs.length) {
-           fetchFournisseurs();
-           localStorage.setItem("perPage", perPage);
-       }
-   }, [currentPage, perPage]);
-
+    const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+    const [isModifyHidden, setIsModifyHidden] = useState(false);
+    const [selectedCount, setSelectedCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [fournisseurs, setFournisseurs] = useState([]);
+    const [fournisseurId, setFournisseurId] = useState();
+    const [perPage, setPerPage] = useState(() => {
+        // Check if the perPage value is stored in localStorage
+        const storedPerPage = localStorage.getItem("perPage");
+        return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
+    });
+    useEffect(() => {
+        if (!fournisseurs.length) {
+            fetchFournisseurs();
+            localStorage.setItem("perPage", perPage);
+        }
+    }, [currentPage, perPage]);
 
     const handleCheckboxChange = (id) => {
         setFournisseurId(id);
@@ -61,14 +60,12 @@ export default function Fournisseurs({ auth }) {
         setSelectedCount(updatedCheckboxes.length);
     };
 
-
- const fetchFournisseurs = async () => {
-     const response = await axios.get(
-         `/api/fournisseurs?page=${currentPage}&perPage=${perPage}`
-     );
-     setFournisseurs(response.data);
- };
-
+    const fetchFournisseurs = async () => {
+        const response = await axios.get(
+            `/api/fournisseurs?page=${currentPage}&perPage=${perPage}`
+        );
+        setFournisseurs(response.data);
+    };
 
     const handlePerPageChange = (e) => {
         const value = parseInt(e.target.value);
@@ -76,71 +73,71 @@ export default function Fournisseurs({ auth }) {
         localStorage.setItem("perPage", value); // Store the perPage value in localStorage
     };
 
-  const deleteSelectedItems = async () => {
-      let alertBox = null;
+    const deleteSelectedItems = async () => {
+        let alertBox = null;
 
-      try {
-          const result = await Swal.fire({
-              title: "Attention!",
-              icon: "warning",
-              html: `
+        try {
+            const result = await Swal.fire({
+                title: "Attention!",
+                icon: "warning",
+                html: `
         <h2 class="text-lg font-bold text-red-500">
           Êtes-vous sûr de vouloir effectuer la suppression ?
         </h2>
         <p class="text-gray-800">
           Vous ne pouvez plus récupérer ces éléments après suppression !
         </p>`,
-              showCancelButton: true,
-              cancelButtonText: "Annuler",
-              confirmButtonText: "Supprimer",
-              customClass: {
-                  confirmButton:
-                      "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
-                  cancelButton:
-                      "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
-              },
-              buttonsStyling: false,
-          });
+                showCancelButton: true,
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Supprimer",
+                customClass: {
+                    confirmButton:
+                        "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
+                    cancelButton:
+                        "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
+                },
+                buttonsStyling: false,
+            });
 
-          if (result.isConfirmed) {
-              alertBox = Swal.fire({
-                  title: "Suppression en cours...",
-                  allowOutsideClick: false,
-                  onBeforeOpen: () => {
-                      Swal.showLoading();
-                  },
-                  showConfirmButton: false,
-              });
+            if (result.isConfirmed) {
+                alertBox = Swal.fire({
+                    title: "Suppression en cours...",
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    },
+                    showConfirmButton: false,
+                });
 
-              for (const fournisseurId of selectedCheckboxes) {
-                  await axios.delete(`/api/fournisseurs/${fournisseurId}`);
-              }
+                for (const fournisseurId of selectedCheckboxes) {
+                    await axios.delete(`/api/fournisseurs/${fournisseurId}`);
+                }
 
-              alertBox.close();
-          }
+                alertBox.close();
+            }
 
-          fetchFournisseurs();
-          setSelectedCheckboxes([]);
-          setSelectedCount(0);
-          setIsModifyHidden(false);
+            fetchFournisseurs();
+            setSelectedCheckboxes([]);
+            setSelectedCount(0);
+            setIsModifyHidden(false);
 
-          if (result.isConfirmed) {
-              await Swal.fire({
-                  title: "Supprimé",
-                  text: "Les propriétaires ont été supprimés avec succès.",
-                  icon: "success",
-                  customClass: {
-                      confirmButton:
-                          "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
-                  },
-                  buttonsStyling: false,
-              });
-          }
-      } catch (error) {
-          console.error("Error deleting items:", error);
-          // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
-      }
-  };
+            if (result.isConfirmed) {
+                await Swal.fire({
+                    title: "Supprimé",
+                    text: "Les propriétaires ont été supprimés avec succès.",
+                    icon: "success",
+                    customClass: {
+                        confirmButton:
+                            "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                    },
+                    buttonsStyling: false,
+                });
+            }
+        } catch (error) {
+            console.error("Error deleting items:", error);
+            // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
+        }
+    };
 
     const data = fournisseurs;
     const paginatedData = data.slice(
@@ -148,7 +145,6 @@ export default function Fournisseurs({ auth }) {
         currentPage * perPage
     );
     const totalPages = Math.ceil(data.length / perPage);
-
 
     return (
         <>

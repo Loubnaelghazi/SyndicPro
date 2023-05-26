@@ -56,9 +56,15 @@ class LotController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Lot $lot)
+    public function show($id)
     {
-        //
+        $lot = Lot::with('locataire')->with('proprietaire')->find($id);
+
+        if (!$lot) {
+            return response()->json(['message' => 'lot not found'], 404);
+        }
+
+        return response()->json($lot);
     }
 
     /**
@@ -72,9 +78,13 @@ class LotController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Lot $lot)
+    public function update(Request $request, $id)
     {
-        //
+        $lot = Lot::findOrFail($id);
+
+        $lot->update($request->all());
+
+        return response()->json(['message' => 'lot updated successfully', 'lot' => $lot]);
     }
 
     /**
@@ -82,6 +92,8 @@ class LotController extends Controller
      */
     public function destroy(Lot $lot)
     {
-        //
+        $lot->delete();
+        return ['message' => 'Le locataire a été supprimée avec succés !'];
+
     }
 }

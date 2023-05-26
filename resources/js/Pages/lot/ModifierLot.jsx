@@ -1,5 +1,5 @@
 import Main_content from "@/main _content/Main_content";
-import { HiHome} from "react-icons/hi2";
+import { HiHome } from "react-icons/hi2";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head } from "@inertiajs/react";
@@ -16,6 +16,10 @@ const ModifierLot = ({ auth }) => {
     const [type, setType] = useState("");
     const [proprietaire, setProprietaire] = useState("");
     const [locataire, setLocataire] = useState("");
+    const [locataires, setLocataires] = useState([]);
+    const [proprietaires, setProprietaires] = useState([]);
+    const [proprietaire_id, setProprietaire_id] = useState("");
+    const [locataire_id, setLocataire_id] = useState("");
     const url = window.location.href;
     const LotID = url.substring(url.lastIndexOf("/") + 1);
 
@@ -23,7 +27,24 @@ const ModifierLot = ({ auth }) => {
         // Fetch the Lot data from the server and update the state
         fetchLotsData();
         console.log(LotID);
+
+        if (!proprietaires.length) {
+            fetchProprietaires();
+        }
+        if (!locataires.length) {
+            fetchLocataires();
+        }
     }, []);
+
+    const fetchLocataires = async () => {
+        const response = await axios.get(`/api/locataires`);
+        setLocataires(response.data);
+    };
+
+    const fetchProprietaires = async () => {
+        const response = await axios.get(`/api/proprietaires`);
+        setProprietaires(response.data);
+    };
 
     const fetchLotsData = async () => {
         try {
@@ -34,8 +55,8 @@ const ModifierLot = ({ auth }) => {
             setEtage(data.etage);
             setPorte(data.porte);
             setType(data.type);
-            setProprietaire(data.proprietaire);
-            setLocataire(data.locataire);
+            setProprietaire_id(data.proprietaire_id); // Set the initial value to the proprietaire_id
+            setLocataire_id(data.locataire_id); // Set the initial value to the locataire_id
         } catch (error) {
             console.error(error);
         }
@@ -60,11 +81,11 @@ const ModifierLot = ({ auth }) => {
             case "type":
                 setType(value);
                 break;
-            case "proprietaire":
-                setProprietaire(value);
+            case "proprietaire_id":
+                setProprietaire_id(value);
                 break;
-            case "locataire":
-                setLocataire(value);
+            case "locataire_id":
+                setLocataire_id(value);
                 break;
             default:
                 break;
@@ -80,15 +101,12 @@ const ModifierLot = ({ auth }) => {
             type,
             etage,
             porte,
-            proprietaire,
-            locataire,
+            proprietaire_id,
+            locataire_id,
         };
 
         try {
-            const response = await axios.put(
-                `/api/lots/${LotID}`,
-                updatedLot
-            );
+            const response = await axios.put(`/api/lots/${LotID}`, updatedLot);
 
             const { data } = response;
             console.log("Updated lot:", data);
@@ -125,7 +143,7 @@ const ModifierLot = ({ auth }) => {
                         buttonsStyling: false,
                     }).then(() => {
                         // Redirection vers la page /lot après la fermeture du message
-                        window.location.href = "/lot";
+                        window.location.href = "/lots";
                     });
                 }
             });
@@ -139,7 +157,9 @@ const ModifierLot = ({ auth }) => {
             <Main_content
                 user={auth.user}
                 Title={"Modifier un lot"}
-                Description={"Vous pouvez modifier librement les lots de votre copropriété"}
+                Description={
+                    "Vous pouvez modifier librement les lots de votre copropriété"
+                }
             >
                 <div>
                     {/* ************************** */}
@@ -147,7 +167,7 @@ const ModifierLot = ({ auth }) => {
 
                     <div>
                         <span className="text-5xl mb-8 justify-center flex flex-row text-primary-color">
-                        <HiHome />
+                            <HiHome />
                         </span>
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid grid-cols-2 gap-x-16 ">
@@ -166,7 +186,6 @@ const ModifierLot = ({ auth }) => {
                                             autoComplete="numero"
                                             value={numero}
                                             onChange={handleInputChange}
-
                                             required
                                         />
                                     </div>
@@ -203,16 +222,26 @@ const ModifierLot = ({ auth }) => {
                                         <div className="mt-2">
                                             <select
                                                 id="Modifier_locataire"
-                                                name="locataire"
+                                                name="locataire_id"
                                                 type="password"
-                                                required
-                                                value={locataire}
+                                                value={locataire_id}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
                                                 onChange={handleInputChange}
                                             >
                                                 <option disabled value="">
-                                                    Veuillez choisir un locataire
+                                                    Veuillez choisir un
+                                                    locataire
                                                 </option>
+                                                {locataires.map((locataire) => (
+                                                    <option
+                                                        key={locataire.id}
+                                                        value={locataire.id}
+                                                    >
+                                                        {locataire.nom +
+                                                            " " +
+                                                            locataire.prenom}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
@@ -276,56 +305,70 @@ const ModifierLot = ({ auth }) => {
                                         <div className="mt-2">
                                             <select
                                                 id="Modifier_proprietaire"
-                                                name="proprietaire"
+                                                name="proprietaire_id"
                                                 type="password"
-                                                required
-                                                value={proprietaire}
+                                                value={proprietaire_id}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
                                                 onChange={handleInputChange}
                                             >
                                                 <option disabled value="">
-                                                    Veuillez choisir un proprietaire
+                                                    Veuillez choisir un
+                                                    proprietaire
                                                 </option>
+                                                {proprietaires.map(
+                                                    (proprietaire) => (
+                                                        <option
+                                                            key={
+                                                                proprietaire.id
+                                                            }
+                                                            value={
+                                                                proprietaire.id
+                                                            }
+                                                        >
+                                                            {proprietaire.nom +
+                                                                " " +
+                                                                proprietaire.prenom}
+                                                        </option>
+                                                    )
+                                                )}
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                                    <div className="w-1/2 flex flex-col mx-auto justify-center">
-                                        <div className="flex items-center justify-between">
-                                            <label
-                                                htmlFor="Modifier_type"
-                                                className="block text-sm font-medium leading-6 text-gray-900"
-                                            >
-                                                Type
-                                            </label>
-                                        </div>
+                            <div className="w-1/2 flex flex-col mx-auto justify-center">
+                                <div className="flex items-center justify-between">
+                                    <label
+                                        htmlFor="Modifier_type"
+                                        className="block text-sm font-medium leading-6 text-gray-900"
+                                    >
+                                        Type
+                                    </label>
+                                </div>
 
-                                        <div className="mt-2">
-                                            <select
-                                                id="Modifier_type"
-                                                name="type"
-                                                type="password"
-                                                required
-                                                value={type}
-                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
-                                                onChange={handleInputChange}
-                                            >
-                                                
-                                                <option disabled value="">
+                                <div className="mt-2">
+                                    <select
+                                        id="Modifier_type"
+                                        name="type"
+                                        type="password"
+                                        required
+                                        value={type}
+                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                        onChange={handleInputChange}
+                                    >
+                                        <option disabled value="">
                                             Veuillez choisir un type
                                         </option>
-                                        <option value="immeuble">
+                                        <option value="Appartement">
                                             Appartement
                                         </option>
-                                        <option value="villa">
+                                        <option value="Local commercial">
                                             Local commercial
                                         </option>
                                         <option value="autre">autre</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
+                                    </select>
+                                </div>
+                            </div>
 
                             <div className="flex flex-row justify-center">
                                 <PrimaryButton className="w-40  py-2 ">

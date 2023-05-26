@@ -9,7 +9,7 @@ class Lot extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['numero', 'batiment', 'type', 'etage', 'porte', 'proprietaire_id ', 'locataire_id '];
+    protected $fillable = ['numero', 'batiment', 'type', 'etage', 'porte', 'proprietaire_id', 'locataire_id'];
 
     public function proprietaire()
     {

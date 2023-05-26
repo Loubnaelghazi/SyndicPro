@@ -67,16 +67,12 @@ const AjouterLot = ({ auth }) => {
     };
 
     const fetchLocataires = async () => {
-        const response = await axios.get(
-            `/api/locataires`
-        );
+        const response = await axios.get(`/api/locataires`);
         setLocataires(response.data);
     };
 
     const fetchProprietaires = async () => {
-        const response = await axios.get(
-            `/api/proprietaires`
-        );
+        const response = await axios.get(`/api/proprietaires`);
         setProprietaires(response.data);
     };
 
@@ -151,7 +147,7 @@ const AjouterLot = ({ auth }) => {
                                         <div className="mt-2">
                                             <select
                                                 id="locataire"
-                                                name="locataire"
+                                                name="locataire_id"
                                                 value={locataire_id}
                                                 onChange={(e) =>
                                                     setLocataire_id(
@@ -165,7 +161,14 @@ const AjouterLot = ({ auth }) => {
                                                     locataire
                                                 </option>
                                                 {locataires.map((locataire) => (
-                                                    <option key={locataire.id} value={locataire.id}>{locataire.nom +' '+ locataire.prenom}</option>
+                                                    <option
+                                                        key={locataire.id}
+                                                        value={locataire.id}
+                                                    >
+                                                        {locataire.nom +
+                                                            " " +
+                                                            locataire.prenom}
+                                                    </option>
                                                 ))}
                                             </select>
                                         </div>
@@ -244,9 +247,22 @@ const AjouterLot = ({ auth }) => {
                                                     Veuillez choisir un
                                                     proprietaire
                                                 </option>
-                                                {proprietaires.map((proprietaire) => (
-                                                    <option key={proprietaire.id} value={proprietaire.id}>{proprietaire.nom +' '+ proprietaire.prenom}</option>
-                                                ))}
+                                                {proprietaires.map(
+                                                    (proprietaire) => (
+                                                        <option
+                                                            key={
+                                                                proprietaire.id
+                                                            }
+                                                            value={
+                                                                proprietaire.id
+                                                            }
+                                                        >
+                                                            {proprietaire.nom +
+                                                                " " +
+                                                                proprietaire.prenom}
+                                                        </option>
+                                                    )
+                                                )}
                                             </select>
                                         </div>
                                     </div>
@@ -285,7 +301,6 @@ const AjouterLot = ({ auth }) => {
                                     </select>
                                 </div>
                             </div>
-                        </form>
                         <div className="flex flex-row justify-center mt-11">
                             <PrimaryButton
                                 type="submit"
@@ -294,6 +309,7 @@ const AjouterLot = ({ auth }) => {
                                 Ajouter
                             </PrimaryButton>
                         </div>
+                        </form>
                     </div>
                 </div>
             </Main_content>

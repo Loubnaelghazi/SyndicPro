@@ -48,7 +48,7 @@ Route::get('/lots', function () {
 Route::get('/lots/ajouter', function () {
     return Inertia::render('lot/AjouterLot'); 
 });
-Route::get('/lots/modifier', function () {
+Route::get('/lots/modifier/{id}', function () {
     return Inertia::render('lot/ModifierLot'); 
 });
 
