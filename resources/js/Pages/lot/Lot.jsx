@@ -1,14 +1,11 @@
 import Main_content from "@/main _content/Main_content";
 import React, { useState } from "react";
-import { HiPencil, HiTrash, HiPlusSmall } from "react-icons/hi2";
+import { HiPlusSmall } from "react-icons/hi2";
 import { Head } from "@inertiajs/react";
 import THead from "@/Components/Table/THead";
 import Checkbox from "@/Components/Checkbox";
 import RowCheckbox from "@/Components/Table/RowCheckbox";
 import HeaderCheckbox from "@/Components/Table/HeaderCheckbox";
-import TableButton from "@/Components/Buttons/ModifyButton";
-import AddButton from "@/Components/Buttons/AddButton";
-import THeader from "@/Components/Table/THeader";
 import TData from "@/Components/Table/TData";
 import TRow from "@/Components/Table/TRow";
 import DeleteButton from "@/Components/Buttons/DeleteButton";

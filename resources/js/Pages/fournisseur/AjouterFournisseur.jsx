@@ -16,42 +16,57 @@ export default function AjouterFournisseur({auth}) {
     const [ville, setVille] = useState("");
     const [adresse, setAdresse] = useState("");
 
-    const ajouter = async (e) => {
-        e.preventDefault();
-        const fournisseur = {
-            raison,
-            ice,
-            tel,
-            email,
-            ville,
-            adresse,
-        };
-        try {
-            await axios.post(`/api/fournisseurs`, fournisseur);
+ const ajouter = async (e) => {
+     e.preventDefault();
+     const fournisseur = {
+         raison,
+         ice,
+         tel,
+         email,
+         ville,
+         adresse,
+     };
+     try {
+         const response = await axios.post(`/api/fournisseurs`, fournisseur);
+         const data = response.data;
 
-            Swal.fire({
-                icon: "success",
-                title: "Votre fournisseur a été ajoutée avec succès !",
-                showConfirmButton: true,
-                confirmButtonText: "OK",
-                buttonsStyling: false,
-                customClass: {
-                    popup: "success-popup",
-                    confirmButton:
-                        "bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md",
-                },
-                preConfirm: () => {
-                    return new Promise((resolve) => {
-                        resolve();
-                    });
-                },
-            }).then(() => {
-                window.location.href = "/fournisseurs";
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    };
+         if (data.success) {
+             Swal.fire({
+                 icon: "success",
+                 title: "Votre fournisseur a été ajouté avec succès !",
+                 showConfirmButton: true,
+                 confirmButtonText: "OK",
+                 buttonsStyling: false,
+                 customClass: {
+                     popup: "success-popup",
+                     confirmButton:
+                         "bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md",
+                 },
+                 preConfirm: () => {
+                     return new Promise((resolve) => {
+                         resolve();
+                     });
+                 },
+             }).then(() => {
+                 window.location.href = "/fournisseurs";
+             });
+         } else {
+             Swal.fire({
+                 icon: "error",
+                 title: "Erreur",
+                 text: "Cet email existe déjà dans la base de données.",
+                 buttonsStyling: false,
+                 customClass: {
+                     popup: "error-popup",
+                     confirmButton:
+                         "bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md",
+                 },
+             });
+         }
+     } catch (error) {
+         console.log(error);
+     }
+ };
 
     return (
         <>

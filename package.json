@@ -26,10 +26,13 @@
         "@inertiajs/inertia-react": "^0.8.1",
         "@mui/material": "^5.13.1",
         "@mui/x-data-grid": "^6.4.0",
+        "draft-js": "^0.11.7",
         "flowbite": "^1.6.5",
         "react-icons": "^4.8.0",
         "react-router-dom": "^6.11.2",
         "react-table": "^7.8.0",
+        "slate": "^0.94.1",
+        "slate-react": "^0.94.2",
         "sweetalert2": "^11.7.5",
         "use-debounce": "^9.0.4"
     }

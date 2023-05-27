@@ -11,6 +11,7 @@ import {
     HiBuildingOffice,
     HiCog8Tooth,
     HiArrowSmallLeft,
+    HiClipboardDocumentList,
 } from "react-icons/hi2";
 import Logout_item from "./Logout_item";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
@@ -31,38 +32,122 @@ export default function Nav_bar() {
                 />
             </div>
             <a href="">
-                <Nav_bar_item text="Tableau de bord" icon={<HiHome />} className={`${location.pathname.startsWith('/tableau_de_bord') ? selectStyle : simpleStyle}`}/>
+                <Nav_bar_item
+                    text="Tableau de bord"
+                    icon={<HiHome />}
+                    className={`${
+                        location.pathname.startsWith("/tableau_de_bord")
+                            ? selectStyle
+                            : simpleStyle
+                    }`}
+                />
             </a>
+            <a href="/reunions">
+                <Nav_bar_item
+                    text="Réunions"
+                    icon={<HiClipboardDocumentList />}
+                    className={`${
+                        location.pathname.startsWith("/reunions")
+                            ? selectStyle
+                            : simpleStyle
+                    }`}
+                />
+            </a>
+
             <a href="/proprietaires">
-                <Nav_bar_item text="Propriétaires" icon={<HiUserGroup />} className={`${location.pathname.startsWith('/proprietaires') ? selectStyle : simpleStyle}`}/>
+                <Nav_bar_item
+                    text="Propriétaires"
+                    icon={<HiUserGroup />}
+                    className={`${
+                        location.pathname.startsWith("/proprietaires")
+                            ? selectStyle
+                            : simpleStyle
+                    }`}
+                />
             </a>
             <a href="/locataires">
-                <Nav_bar_item text="Locataires" icon={<HiUsers />} className={`${location.pathname.startsWith('/locataires') ? selectStyle : simpleStyle}`}/>
+                <Nav_bar_item
+                    text="Locataires"
+                    icon={<HiUsers />}
+                    className={`${
+                        location.pathname.startsWith("/locataires")
+                            ? selectStyle
+                            : simpleStyle
+                    }`}
+                />
             </a>
             <a href="/lots">
-                <Nav_bar_item text="Lots" icon={<HiKey />} className={`${location.pathname.startsWith('/lots') ? selectStyle : simpleStyle}`}/>
+                <Nav_bar_item
+                    text="Lots"
+                    icon={<HiKey />}
+                    className={`${
+                        location.pathname.startsWith("/lots")
+                            ? selectStyle
+                            : simpleStyle
+                    }`}
+                />
             </a>
             <a href="/cotisations">
-                <Nav_bar_item text="Cotisations" icon={<HiCurrencyDollar />} className={`${location.pathname.startsWith('/cotisations') ? selectStyle : simpleStyle}`}/>
+                <Nav_bar_item
+                    text="Cotisations"
+                    icon={<HiCurrencyDollar />}
+                    className={`${
+                        location.pathname.startsWith("/cotisations")
+                            ? selectStyle
+                            : simpleStyle
+                    }`}
+                />
             </a>
             <a href="/depenses">
-                <Nav_bar_item text="Dépenses" icon={<HiWallet />} className={`${location.pathname.startsWith('/dépenses') ? selectStyle : simpleStyle}`}/>
+                <Nav_bar_item
+                    text="Dépenses"
+                    icon={<HiWallet />}
+                    className={`${
+                        location.pathname.startsWith("/dépenses")
+                            ? selectStyle
+                            : simpleStyle
+                    }`}
+                />
             </a>
             <a href="/fournisseurs">
-                <Nav_bar_item text="Fournisseurs" icon={<HiTruck />} className={`${location.pathname.startsWith('/fournisseurs') ? selectStyle : simpleStyle}`}/>
+                <Nav_bar_item
+                    text="Fournisseurs"
+                    icon={<HiTruck />}
+                    className={`${
+                        location.pathname.startsWith("/fournisseurs")
+                            ? selectStyle
+                            : simpleStyle
+                    }`}
+                />
             </a>
             <a href="/copropriete">
-                <Nav_bar_item text="Copropriété" icon={<HiBuildingOffice />} className={`${location.pathname.startsWith('/copropriete') ? selectStyle : simpleStyle}`}/>
+                <Nav_bar_item
+                    text="Copropriété"
+                    icon={<HiBuildingOffice />}
+                    className={`${
+                        location.pathname.startsWith("/copropriete")
+                            ? selectStyle
+                            : simpleStyle
+                    }`}
+                />
             </a>
             <hr className="mx-6 my-1" />
             <a href="">
-                <Nav_bar_item text="Paramètres" icon={<HiCog8Tooth />} className={`${location.pathname.startsWith('/parametres') ? selectStyle : simpleStyle}`}/>
+                <Nav_bar_item
+                    text="Paramètres"
+                    icon={<HiCog8Tooth />}
+                    className={`${
+                        location.pathname.startsWith("/parametres")
+                            ? selectStyle
+                            : simpleStyle
+                    }`}
+                />
             </a>
-            <ResponsiveNavLink method="post" href={route('logout')} as="button">
+            <ResponsiveNavLink method="post" href={route("logout")} as="button">
                 <Logout_item
-                        text="Se déconnecter"
-                        icon={<HiArrowSmallLeft />}
-                    />
+                    text="Se déconnecter"
+                    icon={<HiArrowSmallLeft />}
+                />
             </ResponsiveNavLink>
         </div>
     );

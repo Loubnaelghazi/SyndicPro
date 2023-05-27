@@ -83,7 +83,19 @@ Route::get('/fournisseurs/modifier/{id}', function () {
 
 /* fin */
 
+/* routes of reunions */
 
+Route::get('/reunions', function () {
+    return Inertia::render('reunions/Reunion');
+});
+Route::get('/reunions/ajouter', function () {
+    return Inertia::render('reunions/AjouterReunion');
+});
+Route::get('/reunions/modifier', function () {
+    return Inertia::render('reunions/ModifierReunion');
+});
+
+/* fin */
 
 
 
