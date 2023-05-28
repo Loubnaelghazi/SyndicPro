@@ -32,6 +32,7 @@ export default {
             },
             boxShadow: {
                 csh: "5px 5px 40px rgba(0, 0, 0, 0.09)",
+                cshb: "0px 0px 15px rgba(12, 12, 12, 0.15)",
             },
             gridTemplateRows: {
                 7: "repeat(7, minmax(0, 1fr))",

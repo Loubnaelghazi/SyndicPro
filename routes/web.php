@@ -96,6 +96,19 @@ Route::get('/reunions/modifier', function () {
 });
 
 /* fin */
+/* Routes of recalamations*/
+
+Route::get('/reclamations', function () {
+    return Inertia::render('reclamation/Reclamations');
+});
+Route::get('/reclamations/afficher', function () {
+    return Inertia::render('reclamation/AfficherReclamation');
+});
+
+
+/* fin */
+
+
 
 
 

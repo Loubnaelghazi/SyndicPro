@@ -6,6 +6,8 @@ import THead from "@/Components/Table/THead";
 import Checkbox from "@/Components/Checkbox";
 import RowCheckbox from "@/Components/Table/RowCheckbox";
 import HeaderCheckbox from "@/Components/Table/HeaderCheckbox";
+import AddButton from "@/Components/Buttons/AddButton";
+import THeader from "@/Components/Table/THeader";
 import TData from "@/Components/Table/TData";
 import TRow from "@/Components/Table/TRow";
 import DeleteButton from "@/Components/Buttons/DeleteButton";
@@ -13,6 +15,7 @@ import ModifyButton from "@/Components/Buttons/ModifyButton";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import Select from "react-tailwindcss-select";
 
 export default function Lot({ auth }) {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
@@ -23,7 +26,7 @@ export default function Lot({ auth }) {
     const [selectedCount, setSelectedCount] = useState(0);
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
-        const storedPerPage = localStorage.getItem("perPage");
+    const storedPerPage = localStorage.getItem("perPage");
         return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
     });
 
@@ -124,7 +127,7 @@ export default function Lot({ auth }) {
 
                 alertBox.close();
             }
-            
+
             fetchLots();
             setSelectedCheckboxes([]);
             setSelectedCount(0);
@@ -159,7 +162,7 @@ export default function Lot({ auth }) {
             <Head title="Lots" />
 
             <div className="-m-14">
-                <div className="mx-auto container bg-white dark:bg-white-800 w-full  rounded-40">
+                <div className="mx-auto container bg-white dark:bg-white-800 w-full rounded-40">
                     <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
                         <div className="flex flex-row justify-between gap-4 ">
                             <ModifyButton
@@ -201,7 +204,7 @@ export default function Lot({ auth }) {
                     </div>
                     <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
                         <table className="min-w-full bg-white dark:bg-white-800">
-                            <thead className="bg-green-50 text-t-color">
+                            <THeader>
                                 <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b py-8">
                                     <HeaderCheckbox
                                         data={data}
@@ -218,7 +221,7 @@ export default function Lot({ auth }) {
                                     <THead>PROPRIETAIRE</THead>
                                     <THead>LOCATAIRE</THead>
                                 </tr>
-                            </thead>
+                            </THeader>
                             <tbody>
                                 {paginatedData.map((item) => (
                                     <TRow
@@ -250,15 +253,15 @@ export default function Lot({ auth }) {
                                             {item.proprietaire_id == null
                                                 ? sans
                                                 : item.proprietaire.nom +
-                                                  " " +
-                                                  item.proprietaire.prenom}
+                                                    " " +
+                                                    item.proprietaire.prenom}
                                         </TData>
                                         <TData>
                                             {item.locataire_id == null
                                                 ? sans
                                                 : item.locataire.nom +
-                                                  " " +
-                                                  item.locataire.prenom}
+                                                    " " +
+                                                    item.locataire.prenom}
                                         </TData>
                                     </TRow>
                                 ))}

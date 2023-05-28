@@ -14,6 +14,7 @@ const AjouterReunion = ({ auth }) => {
             user={auth.user}
             Title={"Ajouter une nouvelle réunion"}
             Description={"test test test "}
+            ClassName="p-3"
         >
             <Head title="Réunions" />
 
@@ -52,7 +53,7 @@ const AjouterReunion = ({ auth }) => {
                 </div>
 
                 <form>
-                    <div className="bg-white rounded-lg shadow-md p-6">
+                    <div className="bg-white rounded-lg  border-solid border-[0.5px] border-gray-200 shadow-md p-6">
                         {activeSection === "details" && (
                             <div className="mb-4">
                                 <h2 className="text-lg font-semibold mb-4">
