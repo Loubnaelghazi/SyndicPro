@@ -96,6 +96,7 @@ Route::get('/reunions/modifier', function () {
 });
 
 /* fin */
+
 /* Routes of recalamations*/
 
 Route::get('/reclamations', function () {
@@ -108,10 +109,14 @@ Route::get('/reclamations/afficher', function () {
 
 /* fin */
 
+/* routes of cotisations */
 
 
+Route::get('/cotisations', function () {
+    return Inertia::render('cotisations/Cotisations');
+});
 
-
+/* fin */
 
 
 

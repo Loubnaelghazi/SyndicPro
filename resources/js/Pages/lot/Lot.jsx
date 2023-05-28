@@ -15,7 +15,6 @@ import ModifyButton from "@/Components/Buttons/ModifyButton";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
-import Select from "react-tailwindcss-select";
 
 export default function Lot({ auth }) {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);

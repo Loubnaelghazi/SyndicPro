@@ -244,7 +244,7 @@ export default function Proprietaire({ auth }) {
                                         <THead>Adresse e-mail</THead>
                                     </tr>
                                 </THeader>
-                                <tbody>
+                                <tbody >
                                     {paginatedData.map((item) => (
                                         <TRow
                                             key={item.id}
