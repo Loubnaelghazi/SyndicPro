@@ -16,7 +16,8 @@ export default {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                "primary-color": "#2DB259",
+                /* primary-color:#2DB259 */
+                "primary-color": "#9a97ff",
                 "secondary-color": "#F4FFF8",
                 "third-color": "#D5F2DF",
                 "gray-color": "#A1A0BD",
@@ -24,7 +25,8 @@ export default {
                 "t-color": "#464F60",
                 "pinky-color": "#2DB29C",
                 "purple-color": "#9C2DB2",
-                "my-red": "#ef233c"
+                "my-red": "#ef233c",
+                "reunion-color": "#E4E3FF",
             },
             borderRadius: {
                 40: "25px",
