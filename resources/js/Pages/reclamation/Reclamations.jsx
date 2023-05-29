@@ -49,8 +49,8 @@ export default function Reclamations({ auth }) {
                     <button
                         className={`px-4 py-2 mr-4 text-sm font-medium transition-all ${
                             activeSection === "en attente"
-                                ? "bg-primary-color text-white transform translate-y-0 hover:-translate-y-1"
-                                : "bg-white text-gray-700 hover:bg-primary-color hover:text-white"
+                                ? "bg-blue-500 text-white transform translate-y-0 hover:-translate-y-1"
+                                : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
                         } rounded-md focus:outline-none`}
                         onClick={() => handleSectionChange("en attente")}
                     >
@@ -59,8 +59,8 @@ export default function Reclamations({ auth }) {
                     <button
                         className={`px-4 py-2 mr-4 text-sm font-medium transition-all ${
                             activeSection === "en cours"
-                                ? "bg-primary-color text-white transform translate-y-0 hover:-translate-y-1"
-                                : "bg-white text-gray-700 hover:bg-primary-color hover:text-white"
+                                ? "bg-blue-500 text-white transform translate-y-0 hover:-translate-y-1"
+                                : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
                         } rounded-md focus:outline-none`}
                         onClick={() => handleSectionChange("en cours")}
                     >
@@ -69,8 +69,8 @@ export default function Reclamations({ auth }) {
                     <button
                         className={`px-4 py-2 text-sm font-medium transition-all ${
                             activeSection === "resolue"
-                                ? "bg-primary-color text-white transform translate-y-0 hover:-translate-y-1"
-                                : "bg-white text-gray-700 hover:bg-primary-color hover:text-white"
+                                ? "bg-blue-500 text-white transform translate-y-0 hover:-translate-y-1"
+                                : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
                         } rounded-md focus:outline-none`}
                         onClick={() => handleSectionChange("resolue")}
                     >
@@ -79,16 +79,15 @@ export default function Reclamations({ auth }) {
                     <button
                         className={`px-4 py-2 text-sm font-medium transition-all ${
                             activeSection === "fermee"
-                                ? "bg-primary-color text-white transform translate-y-0 hover:-translate-y-1"
-                                : "bg-white text-gray-700 hover:bg-primary-color hover:text-white"
+                                ? "bg-blue-500 text-white transform translate-y-0 hover:-translate-y-1"
+                                : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
                         } rounded-md focus:outline-none`}
                         onClick={() => handleSectionChange("fermee")}
                     >
                         Fermée
                     </button>
-                    
                 </div>
-                <hr className="mx-28 mb-4 -mt-2"/>
+                <hr className="mx-28 mb-4 -mt-2" />
                 <div className="">
                     {activeSection === "en attente" && (
                         <div className="mb-4">
@@ -118,7 +117,7 @@ export default function Reclamations({ auth }) {
                                     <div className="text-xs italic text-gray-500 mt-1 font-medium">
                                         Par: Ahmed Kanabaoui Lot N°: 2
                                     </div>
-                                    <div className="text-sm  mt-1 font-medium text-primary-color">
+                                    <div className="text-sm  mt-1 font-medium text-blue-500">
                                         21/02/2023
                                     </div>
                                     <div>
@@ -131,11 +130,16 @@ export default function Reclamations({ auth }) {
                                                     id="small-range"
                                                     type="range"
                                                     value={value}
-                                                    min="0" max="5" step="1"
-                                                    className="h-1 w-full accent-primary-color bg-gray-100 rounded-lg appearance-none cursor-pointer  range-sm range range-warning ring-primary-color focus:ring-primary-color " 
+                                                    min="0"
+                                                    max="5"
+                                                    step="1"
+                                                    className="h-1 w-full accent-primary-color bg-gray-100 rounded-lg appearance-none cursor-pointer  range-sm range range-warning ring-primary-color focus:ring-primary-color "
                                                     onChange={handleChange}
-                                                    style={{ "--thumb-color": "green", "--thumb-size": "16px" }}
-                                                    
+                                                    style={{
+                                                        "--thumb-color":
+                                                            "green",
+                                                        "--thumb-size": "16px",
+                                                    }}
                                                 />
                                             </div>
                                         </div>
@@ -148,39 +152,40 @@ export default function Reclamations({ auth }) {
                                             <button className="text-red-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-red-400 hover:bg-red-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2 ">
                                                 <HiXCircle />
                                             </button>
-                                            <button className="text-green-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-green-400 hover:bg-green-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2 "
-                                            >
+                                            <button className="text-green-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-green-400 hover:bg-green-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2 ">
                                                 <HiCheckCircle />
                                             </button>
                                             <div className="border-solid border-[1px] my-1 h-8 border-gray-100"></div>
                                             <a href="/reclamations/afficher">
-                                            <button className="text-blue-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-blue-400 hover:bg-blue-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2 ">
-                                                <HiEye />
-                                            </button>
+                                                <button className="text-blue-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-blue-400 hover:bg-blue-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2 ">
+                                                    <HiEye />
+                                                </button>
                                             </a>
-                                            <button className="text-primary-color border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-green-400 hover:bg-primary-color hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
-                                                <HiPencil />
-                                            </button>
+                                            <a href="/reclamations/modifier">
+                                                <button className="text-primary-color border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-green-400 hover:bg-primary-color hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
+                                                    <HiPencil />
+                                                </button>
+                                            </a>
                                             <button className="text-red-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-red-400 hover:bg-red-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
                                                 <HiTrash />
                                             </button>
                                         </div>
                                     )}
                                 </div>
-                                <div className="bg-white cursor-pointer hover:text-primary-color hover:text-opacity-60 hover:border-opacity-60 hover:border-primary-color text-gray-300 text-8xl flex flex-col items-center justify-center w-64 rounded-20 border-4 border-dashed m-3 border-gray-300 p-4">
-                                    <HiPlus />
-                                    <div className="text-2xl">Ajouter</div>
-                                    <div className="text-2xl">
-                                        une reclamation
-                                    </div>
-                                </div>
+                                    <a className="bg-white  hover:text-primary-color hover:text-opacity-60 hover:border-opacity-60 hover:border-primary-color text-gray-300 text-8xl flex flex-col items-center justify-center w-64 rounded-20 border-4 border-dashed m-3 border-gray-300 p-4"
+                                    href="/reclamations/ajouter">
+                                        <HiPlus />
+                                        <div className="text-2xl">Ajouter</div>
+                                        <div className="text-2xl">
+                                            une reclamation
+                                        </div>
+                                    </a>
                             </div>
                         </div>
                     )}
 
                     {activeSection === "en cours" && (
-                        <div className="mb-4">
-                        </div>
+                        <div className="mb-4"></div>
                     )}
                 </div>
             </div>

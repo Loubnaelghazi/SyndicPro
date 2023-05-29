@@ -105,6 +105,12 @@ Route::get('/reclamations', function () {
 Route::get('/reclamations/afficher', function () {
     return Inertia::render('reclamation/AfficherReclamation');
 });
+Route::get('/reclamations/modifier', function () {
+    return Inertia::render('reclamation/ModifierReclamation');
+});
+Route::get('/reclamations/ajouter', function () {
+    return Inertia::render('reclamation/AjouterReclamation');
+});
 
 
 /* fin */

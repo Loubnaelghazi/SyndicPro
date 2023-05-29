@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
@@ -9,148 +9,145 @@ export default function ModifierReunion({ auth }) {
     const handleSectionChange = (section) => {
         setActiveSection(section);
     };
- const [titre, setTitre] = useState("");
- const [ordre_jour, setOrdre] = useState("");
- const [pv, setPv] = useState("");
- const [decision, setDecision] = useState("");
- const [date, setDate] = useState("");
- const [heure, setHeure] = useState("");
- const [lieu, setLieu] = useState("");
- const [sujet, setSujet] = useState("");
- const [type, setType] = useState("");
- const [chemin_document, setChemin] = useState("");
- const url = window.location.href;
+    const [titre, setTitre] = useState("");
+    const [ordre_jour, setOrdre] = useState("");
+    const [pv, setPv] = useState("");
+    const [decision, setDecision] = useState("");
+    const [date, setDate] = useState("");
+    const [heure, setHeure] = useState("");
+    const [lieu, setLieu] = useState("");
+    const [sujet, setSujet] = useState("");
+    const [type, setType] = useState("");
+    const [chemin_document, setChemin] = useState("");
+    const url = window.location.href;
 
-const reunionId = url.substring(url.lastIndexOf("/") + 1);
+    const reunionId = url.substring(url.lastIndexOf("/") + 1);
 
- useEffect(() => {
-     fetchReunionData();
- }, []);
+    useEffect(() => {
+        fetchReunionData();
+    }, []);
 
- const fetchReunionData = async () => {
-     try {
-         const response = await axios.get(
-             `/api/reunions/${reunionId}`
-         );
-         const { data } = response;
-         setTitre(data.titre);
-         setOrdre(data.ordre_jour);
-         setPv(data.pv);
-         setDecision(data.decision);
-         setDate(data.date);
-         setHeure(data.heure);
-         setLieu(data.lieu);
-         setSujet(data.sujet);
-         setType(data.type);
-         setChemin(data.chemin_document);
+    const fetchReunionData = async () => {
+        try {
+            const response = await axios.get(`/api/reunions/${reunionId}`);
+            const { data } = response;
+            setTitre(data.titre);
+            setOrdre(data.ordre_jour);
+            setPv(data.pv);
+            setDecision(data.decision);
+            setDate(data.date);
+            setHeure(data.heure);
+            setLieu(data.lieu);
+            setSujet(data.sujet);
+            setType(data.type);
+            setChemin(data.chemin_document);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-     } catch (error) {
-         console.error(error);
-     }
- };
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
 
- const handleInputChange = (e) => {
-     const { name, value } = e.target;
+        switch (name) {
+            case "titre":
+                setTitre(value);
+                break;
+            case "ordre_jour":
+                setOrdre(value);
+                break;
+            case "pv":
+                setPv(value);
+                break;
+            case "decision":
+                setDecision(value);
+                break;
+            case "date":
+                setDate(value);
+                break;
+            case "heure":
+                setHeure(value);
+                break;
+            case "lieu":
+                setLieu(value);
+            case "sujet":
+                setSujet(value);
+                break;
+            case "type":
+                setType(value);
+                break;
+            case "chemin_document":
+                chemin_document(value);
+                break;
+            default:
+                break;
+        }
+    };
 
-     switch (name) {
-         case "titre":
-             setTitre(value);
-             break;
-         case "ordre_jour":
-             setOrdre(value);
-             break;
-         case "pv":
-             setPv(value);
-             break;
-         case "decision":
-             setDecision(value);
-             break;
-         case "date":
-             setDate(value);
-             break;
-         case "heure":
-             setHeure(value);
-             break;
-         case "lieu":
-             setLieu(value);
-         case "sujet":
-             setSujet(value);
-             break;
-         case "type":
-             setType(value);
-             break;
-         case "chemin_document":
-             chemin_document(value);
-             break;
-         default:
-             break;
-     }
- };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
- const handleSubmit = async (e) => {
-     e.preventDefault();
+        const updatedReunion = {
+            titre,
+            ordre_jour,
+            pv,
+            decision,
+            date,
+            heure,
+            lieu,
+            sujet,
+            type,
+            chemin_document,
+        };
 
-     const updatedReunion = {
-         titre,
-         ordre_jour,
-         pv,
-         decision,
-         date,
-         heure,
-         lieu,
-         sujet,
-         type,
-         chemin_document,
-     };
+        try {
+            const response = await axios.put(
+                `/api/reunions/${reunionId}`,
+                updatedReunion
+            );
 
-     try {
-         const response = await axios.put(
-             `/api/reunions/${reunionId}`,
-             updatedReunion
-         );
+            const { data } = response;
+            console.log("Updated reunions:", data);
 
-         const { data } = response;
-         console.log("Updated reunions:", data);
-
-         Swal.fire({
-             title: "Êtes-vous sûr de vouloir effectuer ces modifications ?",
-             text: "Vous venez de modifier les informations d'une réunion, veuillez confirmer !",
-             icon: "warning",
-             showCancelButton: true,
-             confirmButtonText: "Oui",
-             cancelButtonText: "Annuler",
-             customClass: {
-                 confirmButton:
-                     "mx-2 px-4 py-2 bg-yellow-300 text-white rounded hover:bg-yellow-500 hover:scale-105",
-                 cancelButton:
-                     "mx-2 px-4 py-2 bg-white border-[1px] border-solid border-gray-500 text-gray-500 rounded hover:scale-105",
-             },
-             buttonsStyling: false,
-             preConfirm: () => {
-                 return new Promise((resolve) => {
-                     resolve();
-                 });
-             },
-         }).then((result) => {
-             if (result.isConfirmed) {
-                 Swal.fire({
-                     title: "Succès",
-                     text: "La modification a été effectuée avec succès !",
-                     icon: "success",
-                     customClass: {
-                         confirmButton:
-                             "px-4 py-2 bg-primary-color text-white rounded hover:bg-green-600 hover:scale-105",
-                     },
-                     buttonsStyling: false,
-                 }).then(() => {
-                     window.location.href = "/reunions";
-                 });
-             }
-         });
-     } catch (error) {
-         console.error(error);
-     }
- };
+            Swal.fire({
+                title: "Êtes-vous sûr de vouloir effectuer ces modifications ?",
+                text: "Vous venez de modifier les informations d'une réunion, veuillez confirmer !",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Oui",
+                cancelButtonText: "Annuler",
+                customClass: {
+                    confirmButton:
+                        "mx-2 px-4 py-2 bg-yellow-300 text-white rounded hover:bg-yellow-500 hover:scale-105",
+                    cancelButton:
+                        "mx-2 px-4 py-2 bg-white border-[1px] border-solid border-gray-500 text-gray-500 rounded hover:scale-105",
+                },
+                buttonsStyling: false,
+                preConfirm: () => {
+                    return new Promise((resolve) => {
+                        resolve();
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Succès",
+                        text: "La modification a été effectuée avec succès !",
+                        icon: "success",
+                        customClass: {
+                            confirmButton:
+                                "px-4 py-2 bg-primary-color text-white rounded hover:bg-green-600 hover:scale-105",
+                        },
+                        buttonsStyling: false,
+                    }).then(() => {
+                        window.location.href = "/reunions";
+                    });
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return (
         <Main_content
             user={auth.user}
@@ -235,7 +232,6 @@ const reunionId = url.substring(url.lastIndexOf("/") + 1);
                                             value={heure}
                                             onChange={handleInputChange}
                                             className="w-full h-10 px-2 border border-gray-300 rounded"
-                                            placeholder="Heure de la réunion"
                                         />
 
                                         <input
@@ -245,7 +241,6 @@ const reunionId = url.substring(url.lastIndexOf("/") + 1);
                                             value={lieu}
                                             onChange={handleInputChange}
                                             className="w-full h-10 px-2 border border-gray-300 rounded"
-                                            placeholder="Lieu de la réunion"
                                         />
 
                                         <input

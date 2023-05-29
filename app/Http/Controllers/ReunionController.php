@@ -63,7 +63,7 @@ class ReunionController extends Controller
     }
 
     ////////////////////////////////////////////
-    public function show(Reunion $id)
+    public function show($id)
     {
         $reunion = Reunion::find($id);
 

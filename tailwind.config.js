@@ -16,9 +16,9 @@ export default {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                /* primary-color:#2DB259 */
-                "primary-color": "#9a97ff",
-                "secondary-color": "#F4FFF8",
+                "primary-color":"#2DB259" ,
+                // "primary-color": "#9a97ff",
+                "secondary-color": "#FFFFFF",
                 "third-color": "#D5F2DF",
                 "gray-color": "#A1A0BD",
                 "p-gradient-color": "#5DEF8D",
@@ -33,7 +33,7 @@ export default {
                 20: "17px",
             },
             boxShadow: {
-                csh: "5px 5px 40px rgba(0, 0, 0, 0.09)",
+                csh: "5px 5px 40px rgba(0, 0, 0, 0)",
                 cshb: "0px 0px 15px rgba(12, 12, 12, 0.15)",
             },
             gridTemplateRows: {
