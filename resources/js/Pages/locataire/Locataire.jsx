@@ -139,8 +139,8 @@ export default function Locataire({ auth }) {
             <Head title="Locataires" />
 
             <div className="-m-14">
-                <div className="mx-auto container w-full bg-green-50  rounded-40">
-                    <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
+                <div className="mx-auto container w-full bg-purple-50  rounded-40">
+                    <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-purple-50 rounded-t-20">
                         <div className="flex flex-row justify-between gap-4 ">
                             <ModifyButton
                                 href={`/locataires/modifier/${locataireID}`}
@@ -155,7 +155,7 @@ export default function Locataire({ auth }) {
                                 {selectedCount} sélectionné
                             </span>
                         </div>
-                        <AddButton href={"/locataires/ajouter"} ClassName=" bg-my-red">
+                        <AddButton href={"/locataires/ajouter"} ClassName="">
                             Ajouter un locataire
                         </AddButton>
                         <div className="absolute right-0 top-5 w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
@@ -220,8 +220,8 @@ export default function Locataire({ auth }) {
                                         <TData>{item.cni}</TData>
                                         <TData>{item.nationalite}</TData>
                                         <TData>
-                                            <div className=" h-full bg-my-red bg-opacity-20 px-2 rounded-2xl flex justify-center items-center">
-                                                <span className="text-xs text-my-red  block ">
+                                            <div className=" h-full bg-[#BDE350] px-2 rounded-2xl flex justify-center items-center">
+                                                <span className="text-xs text-[#679711]  block ">
                                                     {item.tel}
                                                 </span>
                                             </div>

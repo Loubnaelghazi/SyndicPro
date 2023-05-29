@@ -78,7 +78,7 @@ export default function Cotisations({ auth }) {
                                 <HiSearch className="h-4 w-4 absolute top-1 right-2  text-gray-400 pointer-events-none" />
                             </div>
                         </div>
-                        <div>
+                        <div className="flex items-center">
                             <label htmlFor="date" className=" text-sm font-medium text-gray-500">
                                 Date d'aujourd'hui :
                             </label>
@@ -89,7 +89,7 @@ export default function Cotisations({ auth }) {
                         </div>
 
                         <div className="border-[2px] border-purple-600 border-solid rounded-md flex flex-row items-center  ">
-                            <a href="">
+                            <a href="" className="flex items-center">
                                 <button className="px-2 p-0.5 font-medium bg-purple-600 text-white rounded-l-sm hover:bg-purple-700 focus:outline-none flex flex-row items-center gap-3">
                                     <span className="text-sm">
                                         <HiPrinter />
@@ -161,7 +161,7 @@ export default function Cotisations({ auth }) {
                                     <tr className=" appearance-none rounded-40 bg-white dark:hover:bg-gray-700">
                                         <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-xl">
                                             <div>
-                                                <div>Mohamed</div>
+                                                <div className="font-medium">Mohamed</div>
                                                 <div className="font-light">
                                                     El Mrabet
                                                 </div>
@@ -176,10 +176,10 @@ export default function Cotisations({ auth }) {
                                                     <div>Batiment: A, Porte: 1</div>
                                             </div>
                                         </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
+                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
                                             9
                                         </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
+                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
                                             3
                                         </td>
                                         {Array.from({ length: 9 }, () => (
@@ -216,10 +216,10 @@ export default function Cotisations({ auth }) {
                                                     <div>Batiment: A, Porte: 1</div>
                                             </div>
                                         </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
+                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
                                             9
                                         </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
+                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
                                             3
                                         </td>
                                         {Array.from({ length: 9 }, () => (
@@ -256,10 +256,10 @@ export default function Cotisations({ auth }) {
                                                     <div>Batiment: A, Porte: 1</div>
                                             </div>
                                         </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
+                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
                                             9
                                         </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
+                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
                                             3
                                         </td>
                                         {Array.from({ length: 9 }, () => (

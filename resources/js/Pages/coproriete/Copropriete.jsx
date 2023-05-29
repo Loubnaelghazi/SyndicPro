@@ -86,7 +86,7 @@ const Copopriete = ({ auth }) => {
                         className="relative w-full  mt-10 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md "
                         key={copropriete.id}
                     >
-                        <div className="bg-clip-border text-4xl mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-orange-600 to-orange-400 text-white shadow-orange-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
+                        <div className="bg-clip-border text-4xl mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-primary-color to-p-gradient-color  text-white shadow-purple-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
                             <HiBuildingOffice />
                         </div>
                         <div className="p-4 text-right bg-login-bg bg-cover bg-no-repeat bg-center rounded-t-20">

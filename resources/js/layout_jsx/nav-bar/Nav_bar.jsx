@@ -20,14 +20,14 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 
 
 export default function Nav_bar() {
-    const [simpleStyle , setSimpleStyle] = useState("duration-400 hover:bg-third-color hover:text-primary-color p-3 px-6  text-gray-color flex flex-row rounded-md");
-    const [selectStyle , setSelectStyle] = useState("middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg bg-gradient-to-tr from-primary-color to-p-gradient-color    text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] w-full flex items-center gap-4 px-4 capitalize");
+    const [simpleStyle , setSimpleStyle] = useState("duration-400 hover:bg-third-color hover:text-primary-color p-3 px-6  text-primary-color flex flex-row rounded-md");
+    const [selectStyle , setSelectStyle] = useState("middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg bg-gradient-to-tr from-primary-color to-p-gradient-color    text-white shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/40 active:opacity-[0.85] w-full flex items-center gap-4 px-4 capitalize");
     return (
-        <div className="bg-white border-solid border-[1px] border-gray-300 rounded-40 p-2 shadow-csh w-64 h-[calc(100vh-26px)] fixed top-0 left-0  justify-between gap-[3px] my-3 ml-3 translate-x-[-300px] inset-0 lg:translate-x-0 transition-transform duration-300">
+        <div className="bg-white b rounded-40 p-2 shadow-csh w-64 h-[calc(100vh-26px)] fixed top-0 left-0  justify-between gap-[3px] my-3 ml-3 translate-x-[-300px] inset-0 lg:translate-x-0 transition-transform duration-300">
             <div className="my-5 h-min flex justify-center items-center">
                 <img
                     className=" h-20"
-                    src="https://bcassetcdn.com/public/blog/wp-content/uploads/2019/11/15130028/Grab.jpg"
+                    src="https://icones.pro/wp-content/uploads/2021/06/symbole-github-violet.png"
                     alt=""
                 />
             </div>

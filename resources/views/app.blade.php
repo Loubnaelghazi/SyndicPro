@@ -16,7 +16,15 @@
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased bg-secondary-color">
+    <body class="font-sans antialiased bg-gradient-to-r from-lavender to-bright">
+        <style>
+            /* For Webkit-based browsers (e.g., Chrome, Safari) */
+            ::-webkit-scrollbar-thumb {
+              border-radius: 9999px;
+            }
+          
+            /* For Firefox */
+          </style>
         @inertia
     </body>
 </html>

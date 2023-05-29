@@ -29,10 +29,10 @@ export default function Header({ user }) {
         "duration-400 hover:bg-third-color hover:text-primary-color p-3 px-6  text-gray-color flex flex-row rounded-md"
     );
     const [selectStyle, setSelectStyle] = useState(
-        "middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg bg-gradient-to-tr from-primary-color to-p-gradient-color    text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] w-full flex items-center gap-4 px-4 capitalize"
+        "middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg bg-gradient-to-tr from-primary-color to-p-gradient-color    text-white shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/40 active:opacity-[0.85] w-full flex items-center gap-4 px-4 capitalize"
     );
     const [headerStyle, setHeaderStyle] = useState(
-        "transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-2xl p-2 rounded-xl bg-gradient-to-tr from-primary-color to-p-gradient-color text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] w-min flex items-center gap-4  capitalize"
+        "transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-2xl p-2 rounded-xl bg-gradient-to-tr from-primary-color to-p-gradient-color text-white shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/40 active:opacity-[0.85] w-min flex items-center gap-4  capitalize"
     );
 
     function hideElement() {
@@ -47,7 +47,7 @@ export default function Header({ user }) {
     }
 
     return (
-        <div className="bg-white text-primary-color border-solid border-[1px] border-gray-300 h-min mt-4 rounded-20 shadow-csh">
+        <div className="bg-white text-primary-color  h-min mt-4 rounded-20 shadow-csh">
             <div className="  flex flex-row p-1 px-4 justify-between items-center">
                 <div className="flex flex-row justify-between">
                     <a className="lg:hidden duration-500 text-2xl ml-2 mr-5 hover:text-third-color hover:bg-primary-color rounded-md">
