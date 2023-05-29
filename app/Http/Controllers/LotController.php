@@ -67,17 +67,7 @@ class LotController extends Controller
         return response()->json($lot);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Lot $lot)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+   
     public function update(Request $request, $id)
     {
         $lot = Lot::findOrFail($id);

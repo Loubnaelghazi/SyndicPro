@@ -10,7 +10,6 @@ import Main_content from "@/main _content/Main_content";
 
 const Copopriete = ({ auth }) => {
     const [coproprietes, setCoproprietes] = useState([]);
-    const [display, setDesplay] = useState("none");
 
     useEffect(() => {
         if (!coproprietes.length) {
@@ -23,13 +22,7 @@ const Copopriete = ({ auth }) => {
         setCoproprietes(response.data);
     };
 
-    function hideElement() {
-        if (display == "none") {
-            setDesplay("block");
-        } else {
-            setDesplay("none");
-        }
-    }
+   
 
     const supprimerCopropriete = (coproprieteId) => {
         Swal.fire({

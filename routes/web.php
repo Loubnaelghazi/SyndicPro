@@ -91,7 +91,7 @@ Route::get('/reunions', function () {
 Route::get('/reunions/ajouter', function () {
     return Inertia::render('reunions/AjouterReunion');
 });
-Route::get('/reunions/modifier', function () {
+Route::get('/reunions/modifier/{id}', function () {
     return Inertia::render('reunions/ModifierReunion');
 });
 

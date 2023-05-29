@@ -5,6 +5,7 @@ use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\LocataireController;
 use App\Http\Controllers\LotController;
 use App\Http\Controllers\ProprietaireController;
+use App\Http\Controllers\ReunionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -56,3 +57,10 @@ Route::delete('fournisseurs/{fournisseur}', [FournisseurController::class, 'dest
 Route::get('/fournisseurs/{fournisseur}', [FournisseurController::class, 'show']);
 ///////////////////////////////////////////////
 
+//reunions routes
+Route::get('/reunions', [ReunionController::class, 'index']);
+Route::post('/reunions', [ReunionController::class, 'store']);
+Route::put('/reunions/{reunion}', [ReunionController::class, 'update']);
+Route::delete('reunions/{reunion}', [ReunionController::class, 'destroy']);
+Route::get('/reunions/{reunion}', [ReunionController::class, 'show']);
+//////////////////////////////////////////////////////////////////////////////////

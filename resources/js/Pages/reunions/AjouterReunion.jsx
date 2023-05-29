@@ -8,6 +8,61 @@ const AjouterReunion = ({ auth }) => {
     const handleSectionChange = (section) => {
         setActiveSection(section);
     };
+ const [titre, setTitre] = useState("");
+ const [ordre_jour, setOrdre] = useState("");
+ const [pv, setPv] = useState("");
+ const [decision, setDecision] = useState("");
+ const [date, setDate] = useState("");
+  const [heure, setHeure] = useState("");
+ const [lieu, setLieu] = useState("");
+ const [sujet, setSujet] = useState("");
+ const [type, setType] = useState("");
+const [chemin_document ,setChemin]=useState("");
+
+  const ajouter = async (e) => {
+      e.preventDefault();
+      const reunion = {
+          titre,
+          ordre_jour,
+          pv,
+          decision,
+          date,
+          heure,
+          lieu,
+          sujet,
+          type,
+          chemin_document,
+      };
+      try {
+          await axios.post(`/api/reunions`, reunion); 
+
+          Swal.fire({
+             
+              icon: "success",
+              title: "Votre  réunion a été ajouté avec succés !",
+              showConfirmButton: true,
+              confirmButtonText: "OK",
+              buttonsStyling: false,
+              customClass: {
+            popup: "success-popup",
+            confirmButton:
+            "bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md",
+              },
+              preConfirm: () => {
+                  return new Promise((resolve) => {
+                      resolve();
+                  });
+              },
+          }).then(() => {
+              window.location.href = "/reunions";
+          });
+      } catch (error) {
+          console.log(error);
+          console.log('Erreurs');
+      }
+  };
+    
+
 
     return (
         <Main_content
@@ -52,7 +107,7 @@ const AjouterReunion = ({ auth }) => {
                     </button>
                 </div>
 
-                <form>
+                <form onSubmit={(e) => ajouter(e)}>
                     <div className=" bg-reunion-color rounded-b-lg  shadow-md p-6">
                         {activeSection === "details" && (
                             <div className="mb-4">
@@ -62,6 +117,10 @@ const AjouterReunion = ({ auth }) => {
                                 <div>
                                     <div className="flex flex-col gap-5">
                                         <select
+                                            value={type}
+                                            onChange={(e) =>
+                                                setType(e.target.value)
+                                            }
                                             name="type"
                                             id="type"
                                             className="w-full h-10 px-2 border border-gray-300 rounded  focus:ring-primary-color"
@@ -69,33 +128,81 @@ const AjouterReunion = ({ auth }) => {
                                             <option disabled value="">
                                                 Le type de la réunion
                                             </option>
+                                            <option value=" assemblees_generales">
+                                                Assemblées génerales
+                                            </option>
+                                            <option value=" reunion_informations">
+                                                Réunions d'informations
+                                            </option>
                                         </select>
                                         <input
                                             type="date"
                                             name="date"
                                             id="date"
+                                            value={date}
+                                            onChange={(e) =>
+                                                setDate(e.target.value)
+                                            }
                                             className="w-full h-10 px-2 border border-gray-300 rounded"
                                             placeholder="Date de la réunion"
+                                            required
                                         />
                                         <input
                                             type="time"
-                                            name="time"
-                                            id="time"
+                                            name="heure"
+                                            id="heure"
+                                            value={heure}
+                                            onChange={(e) =>
+                                                setHeure(e.target.value)
+                                            }
                                             className="w-full h-10 px-2 border border-gray-300 rounded"
                                             placeholder="Heure de la réunion"
+                                            required
                                         />
+                                      
+                                        <input
+                                            type="text"
+                                            name="lieu"
+                                            id="lieu"
+                                            value={lieu}
+                                            onChange={(e) =>
+                                                setLieu(e.target.value)
+                                            }
+                                            className="w-full h-10 px-2 border border-gray-300 rounded"
+                                            placeholder="Lieu de la réunion"
+                                        />
+
                                         <input
                                             type="text"
                                             id="titre"
                                             name="titre"
+                                            value={titre}
+                                            onChange={(e) =>
+                                                setTitre(e.target.value)
+                                            }
                                             className="w-full h-10 px-2 border border-gray-300 rounded"
                                             placeholder="Titre de la réunion"
+                                        />
+                                        <input
+                                            type="text"
+                                            name="sujet"
+                                            id="sujet"
+                                            value={sujet}
+                                            onChange={(e) =>
+                                                setSujet(e.target.value)
+                                            }
+                                            className="w-full h-10 px-2 border border-gray-300 rounded"
+                                            placeholder="Sujet de la réunion"
                                         />
                                         <textarea
                                             placeholder="Ordre du jour"
                                             className="w-full h-24 px-2 border border-gray-300 rounded focus:ring-primary-color"
                                             name="ordre"
                                             id="ordre"
+                                            value={ordre_jour}
+                                            onChange={(e) =>
+                                                setOrdre(e.target.value)
+                                            }
                                         ></textarea>
                                     </div>
                                 </div>
@@ -107,7 +214,14 @@ const AjouterReunion = ({ auth }) => {
                                 <h2 className="text-lg font-semibold  mb-4  text-gray-700 ">
                                     COMPTE RENDU DE LA REUNION
                                 </h2>
-                                <textarea className="w-full h-40 p-2 border border-gray-300 rounded-md focus:ring-primary-color" />
+                                <textarea
+                                    name="pv"
+                                    id="pv"
+                                    value={pv}
+                                    required
+                                    onChange={(e) => setPv(e.target.value)}
+                                    className="w-full h-40 p-2 border border-gray-300 rounded-md focus:ring-primary-color"
+                                ></textarea>
                             </div>
                         )}
 
@@ -122,7 +236,16 @@ const AjouterReunion = ({ auth }) => {
                                 <h2 className="text-lg font-semibold mb-4  text-gray-700 ">
                                     DECISIONS PRISES A LA FIN DE LA REUNION
                                 </h2>
-                                <textarea className="w-full h-40 p-2 border border-gray-300 rounded-md  focus:ring-primary-color" />
+                                <textarea
+                                    id="decision"
+                                    name="decision"
+                                    value={decision}
+                                    onChange={(e) =>
+                                        setDecision(e.target.value)
+                                    }
+                                    required
+                                    className="w-full h-40 p-2 border border-gray-300 rounded-md  focus:ring-primary-color"
+                                ></textarea>
                             </div>
                         </div>
                     </div>
