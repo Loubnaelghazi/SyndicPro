@@ -88,7 +88,18 @@ class ReunionController extends Controller
     public function destroy(Reunion $reunion)
     {
         $reunion->delete();
-        return ['message' => 'Le locataire a été supprimée avec succés !'];
+        return ['message' => 'La réunion a été supprimée avec succés !'];
 
     }
+    ////////////////////////////////////////////////////
+   /*  public function download($fileName)
+    {
+        $filePath = storage_path('app/public/' . $fileName);
+
+        if (file_exists($filePath)) {
+            return response()->download($filePath);
+        }
+
+        return abort(404);
+    } */
 }

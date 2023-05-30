@@ -63,4 +63,6 @@ Route::post('/reunions', [ReunionController::class, 'store']);
 Route::put('/reunions/{reunion}', [ReunionController::class, 'update']);
 Route::delete('reunions/{reunion}', [ReunionController::class, 'destroy']);
 Route::get('/reunions/{reunion}', [ReunionController::class, 'show']);
+//Route::get('/download/{fileName}', 'ReunionController@download')->name('download');
+
 //////////////////////////////////////////////////////////////////////////////////

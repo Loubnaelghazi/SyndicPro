@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
 import Swal from "sweetalert2";
+import {TbFileUpload} from "react-icons/tb"
+
+
+
+
+
+
+
 const AjouterReunion = ({ auth }) => {
+
+
+
+
+
+
+
     const [activeSection, setActiveSection] = useState("details");
     const handleSectionChange = (section) => {
         setActiveSection(section);
@@ -20,6 +35,7 @@ const AjouterReunion = ({ auth }) => {
 const [chemin_document ,setChemin]=useState("");
 
   const ajouter = async (e) => {
+    
       e.preventDefault();
       const reunion = {
           titre,
@@ -159,7 +175,7 @@ const [chemin_document ,setChemin]=useState("");
                                             placeholder="Heure de la réunion"
                                             required
                                         />
-                                      
+
                                         <input
                                             type="text"
                                             name="lieu"
@@ -196,9 +212,9 @@ const [chemin_document ,setChemin]=useState("");
                                         />
                                         <textarea
                                             placeholder="Ordre du jour"
-                                            className="w-full h-24 px-2 border border-gray-300 rounded focus:ring-primary-color"
-                                            name="ordre"
-                                            id="ordre"
+                                            className="  w-full h-24 px-2 border border-gray-300 rounded focus:ring-primary-color"
+                                            name="ordre_jour"
+                                            id="ordre_jour"
                                             value={ordre_jour}
                                             onChange={(e) =>
                                                 setOrdre(e.target.value)
@@ -211,9 +227,18 @@ const [chemin_document ,setChemin]=useState("");
 
                         {activeSection === "report" && (
                             <div className="mb-4">
-                                <h2 className="text-lg font-semibold  mb-4  text-gray-700 ">
-                                    COMPTE RENDU DE LA REUNION
-                                </h2>
+                                <div className="flex justify-between  mb-2 ">
+                                    <h2 className="text-lg font-semibold  mb-4  text-gray-700 ">
+                                        COMPTE RENDU DE LA REUNION
+                                    </h2>
+                                    <button className="w-min bg-primary-color text-white rounded-md hover:opacity-90 focus:outline-none  flex items-center ">
+                                        <TbFileUpload className=" text-2xl inline-block m-1" />
+                                        <span className="mr-2 mt-1">
+                                            Déposer{" "}
+                                        </span>
+                                    </button>
+                                    <input type="file" className="hidden" />
+                                </div>
                                 <textarea
                                     name="pv"
                                     id="pv"
@@ -252,7 +277,7 @@ const [chemin_document ,setChemin]=useState("");
                     <div className="mt-6 flex justify-start ">
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-[#9a97ff]  hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-color  text-white rounded-md mr-2"
+                            className="px-4 py-2 bg-primary-color  hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-color  text-white rounded-md mr-2"
                         >
                             Ajouter
                         </button>

@@ -95,6 +95,10 @@ Route::get('/reunions/modifier/{id}', function () {
     return Inertia::render('reunions/ModifierReunion');
 });
 
+Route::get('/reunions/consulter/{id}', function () {
+    return Inertia::render('reunions/ConsulterReunion');
+});
+
 /* fin */
 
 /* Routes of recalamations*/

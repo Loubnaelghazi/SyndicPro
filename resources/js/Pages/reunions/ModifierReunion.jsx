@@ -77,7 +77,7 @@ export default function ModifierReunion({ auth }) {
                 setType(value);
                 break;
             case "chemin_document":
-                chemin_document(value);
+                setChemin(value);
                 break;
             default:
                 break;
@@ -264,8 +264,8 @@ export default function ModifierReunion({ auth }) {
                                         <textarea
                                             placeholder="Ordre du jour"
                                             className="w-full h-24 px-2 border border-gray-300 rounded focus:ring-primary-color"
-                                            name="ordre"
-                                            id="ordre"
+                                            name="ordre_jour"
+                                            id="ordre_jour"
                                             value={ordre_jour}
                                             onChange={handleInputChange}
                                         ></textarea>

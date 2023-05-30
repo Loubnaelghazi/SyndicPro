@@ -122,11 +122,9 @@ export default function Reunion({ auth }) {
             <Head title=" Réunions" />
             <div className="-m-14">
                 <div className="mx-auto container bg-white dark:bg-white-800 w-full rounded-40">
-                    <div className="w-full flex flex-row items-center pt-3 px-5 pb-1 rounded-t-20">
-                        <div className="flex-grow"></div>
-
+                    <div className="w-full flex flex-row items-center justify-center pt-3 px-5 pb-1 rounded-t-20">
                         <a
-                            className="text-white px-2 pr-4 my-1 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white bg-green-500 transition duration-150 ease-in-out hover:bg-green-600 w-max h-8 rounded-[9px] flex items-center justify-center"
+                            className="text-white px-2 pr-4 my-1 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white bg-primary-color transition duration-150 ease-in-out hover:opacity-90 w-max h-8 rounded-[9px] flex items-center justify-center"
                             href="/reunions/ajouter"
                         >
                             <HiPlusSmall className="text-2xl pr-2" /> Ajouter
@@ -200,9 +198,7 @@ export default function Reunion({ auth }) {
                                             <tr
                                                 className="hover:bg-gray-50"
                                                 key={reunion.id}
-                                            >
-                                                {/* ...contenu de chaque colonne */}
-                                            </tr>
+                                            ></tr>
                                         ))}
                                     </tbody>
                                 ) : (
@@ -240,10 +236,14 @@ export default function Reunion({ auth }) {
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex justify-end">
                                                         <div className="flex items-center space-x-2">
-                                                            <button className="px-2 py-2 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">
-                                                                <AiOutlineEye className="h-4 w-4 inline-block mr-1" />
-                                                                Consulter
-                                                            </button>
+                                                            <a
+                                                                href={`/reunions/consulter/${reunion.id}`}
+                                                            >
+                                                                <button className="px-2 py-2 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">
+                                                                    <AiOutlineEye className="h-4 w-4 inline-block mr-1" />
+                                                                    Consulter
+                                                                </button>
+                                                            </a>
                                                             <a
                                                                 href={`/reunions/modifier/${reunion.id}`}
                                                             >
