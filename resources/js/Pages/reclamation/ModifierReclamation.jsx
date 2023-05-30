@@ -2,12 +2,23 @@ import Main_content from "@/main _content/Main_content";
 import React from "react";
 import { useState } from "react";
 import { HiPencil, HiUserCircle } from "react-icons/hi2";
+import Datepicker from "react-tailwindcss-datepicker";
 
 export default function ModifierReclamation({ auth }) {
+    const [valueR, setValueR] = useState(0);
     const [value, setValue] = useState(0);
+    const [value2, setValue2] = useState(0);
 
     const handleChange = (event) => {
-        setValue(event.target.value);
+        setValueR(event.target.value);
+    };
+    const handleValueChange = (newValue) => {
+        console.log("newValue:", newValue);
+        setValue(newValue);
+    };
+    const handleValueChange2 = (newValue) => {
+        console.log("newValue:", newValue);
+        setValue2(newValue);
     };
 
     return (
@@ -16,8 +27,8 @@ export default function ModifierReclamation({ auth }) {
             Title={"Reclamation N°"}
             ClassName="p-3 h-min"
         >
-            <div className="flex flex-row gap-8 rounded-40 h-min">
-                <div className=" grid grid-rows-3 gap-2 h-full rounded-40 p-3 border-solid border-gray-200 border-[0.5px]">
+            <div className="flex flex-row gap-2 rounded-40 h-min">
+                <div className=" grid grid-rows-3 gap-2 h-full rounded-40 p-3 ">
                     <div className=" w-56 h-32">
                         <img
                             src="https://i.pinimg.com/474x/60/c5/c0/60c5c07e4ed74dcd1d874cc36ffbb32e.jpg"
@@ -44,7 +55,7 @@ export default function ModifierReclamation({ auth }) {
                     <textarea
                         id="message"
                         defaultValue="Une fuite d'eau sous l'évier de votre cuisine. L'eau s'accumule et commence à endommager le placard en dessous."
-                        rows="2"
+                        rows="3"
                         className="block font-semibold p-2.5 w-full text-2xl text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-min"
                         placeholder="Write your thoughts here..."
                     ></textarea>
@@ -54,15 +65,53 @@ export default function ModifierReclamation({ auth }) {
                         rows="6"
                         className="block p-2.5 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-min"
                     />
-                    <div className="flex flex-row gap-10 items-center mt-4">
-                        <select
-                            id="countries"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        >
+                    <div className="flex flex-row items-center gap-4 ">
+                        <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-color focus:border-primary-color block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-color dark:focus:border-primary-color">
                             <option selected>
-                                Sélectionnez un propriétaire
+                                Sélectionnez le propriétaire
                             </option>
                         </select>
+                        <div className="flex flex-row text-gray-400">
+                            {" "}
+                            <div>-</div> <div>ou</div>
+                            <div>-</div>
+                        </div>
+                        <input
+                            type="text"
+                            className="bg-gray-50 whitespace-normal w-1/2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:ring-purple-500 dark:focus:border-purple-500"
+                            placeholder="Entrer un nom (si le reclameur n'est pas un propriétaire)"
+                            required
+                        ></input>
+                    </div>
+                    <div className="flex flex-row justify-between gap-2">
+                        <div className="w-1/2">
+                            <Datepicker
+                                placeholder={"Date de reclamation"}
+                                asSingle={true}
+                                primaryColor={"violet"}
+                                value={value}
+                                onChange={handleValueChange}
+                                useRange={false}
+                                showShortcuts={true}
+                                i18n={"fr"}
+                                configs={{
+                                    shortcuts: {
+                                        today: "Aujourd'hui",
+                                    },
+                                    footer: {},
+                                }}
+                            />
+                        </div>
+                        <div className="w-1/2">
+                            <Datepicker
+                                placeholder={"Date de résolution (optionnel)"}
+                                asSingle={true}
+                                primaryColor={"violet"}
+                                value={value2}
+                                onChange={handleValueChange2}
+                                useRange={false}
+                            />
+                        </div>
                     </div>
                     <div className="flex flex-row gap-10 mt-7 justify-between items-start">
                         <div className=" -mt-[10px] items-start align-top font-medium rounded-l-lg bg-white w-max text-gray-500">
@@ -73,7 +122,7 @@ export default function ModifierReclamation({ auth }) {
                                 <input
                                     id="small-range"
                                     type="range"
-                                    defaultValue={value}
+                                    defaultValue={valueR}
                                     min="0"
                                     max="4"
                                     step="1"

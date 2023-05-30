@@ -23,7 +23,7 @@ export default function Proprietaire({ auth }) {
     const [proprietaires, setProprietaires] = useState([]);
     const [selectedProprietaires, setSelectedProprietaires] = useState([]);
     const [selectedProprietaire, setSelectedProprietaire] = useState(null);
-    const [proprietaireId , setProprietaireId] = useState();
+    const [proprietaireId, setProprietaireId] = useState();
 
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
@@ -99,71 +99,71 @@ export default function Proprietaire({ auth }) {
 
     /* /////////////////////////// */
 
-     const deleteSelectedItems = async () => {
-         let alertBox = null;
+    const deleteSelectedItems = async () => {
+        let alertBox = null;
 
-         try {
-             const result = await Swal.fire({
-                 title: "Attention!",
-                 icon: "warning",
-                 html: `
+        try {
+            const result = await Swal.fire({
+                title: "Attention!",
+                icon: "warning",
+                html: `
         <h2 class="text-lg font-bold text-red-500">
           Êtes-vous sûr de vouloir effectuer la suppression ?
         </h2>
         <p class="text-gray-800">
           Vous ne pouvez plus récupérer ces éléments après suppression !
         </p>`,
-                 showCancelButton: true,
-                 cancelButtonText: "Annuler",
-                 confirmButtonText: "Supprimer",
-                 customClass: {
-                     confirmButton:
-                         "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
-                     cancelButton:
-                         "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
-                 },
-                 buttonsStyling: false,
-             });
+                showCancelButton: true,
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Supprimer",
+                customClass: {
+                    confirmButton:
+                        "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
+                    cancelButton:
+                        "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
+                },
+                buttonsStyling: false,
+            });
 
-             if (result.isConfirmed) {
-                 alertBox = Swal.fire({
-                     title: "Suppression en cours...",
-                     allowOutsideClick: false,
-                     onBeforeOpen: () => {
-                         Swal.showLoading();
-                     },
-                     showConfirmButton: false,
-                 });
+            if (result.isConfirmed) {
+                alertBox = Swal.fire({
+                    title: "Suppression en cours...",
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    },
+                    showConfirmButton: false,
+                });
 
-                 for (const proprietaireId of selectedCheckboxes) {
-                     await axios.delete(`/api/proprietaires/${proprietaireId}`);
-                 }
+                for (const proprietaireId of selectedCheckboxes) {
+                    await axios.delete(`/api/proprietaires/${proprietaireId}`);
+                }
 
-                 alertBox.close();
-             }
+                alertBox.close();
+            }
 
-             fetchProprietaires();
-             setSelectedCheckboxes([]);
-             setSelectedCount(0);
-             setIsModifyHidden(false);
+            fetchProprietaires();
+            setSelectedCheckboxes([]);
+            setSelectedCount(0);
+            setIsModifyHidden(false);
 
-             if (result.isConfirmed) {
-                 await Swal.fire({
-                     title: "Supprimé",
-                     text: "Les propriétaires ont été supprimés avec succès.",
-                     icon: "success",
-                     customClass: {
-                         confirmButton:
-                             "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
-                     },
-                     buttonsStyling: false,
-                 });
-             }
-         } catch (error) {
-             console.error("Error deleting items:", error);
-             // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
-         }
-     };
+            if (result.isConfirmed) {
+                await Swal.fire({
+                    title: "Supprimé",
+                    text: "Les propriétaires ont été supprimés avec succès.",
+                    icon: "success",
+                    customClass: {
+                        confirmButton:
+                            "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                    },
+                    buttonsStyling: false,
+                });
+            }
+        } catch (error) {
+            console.error("Error deleting items:", error);
+            // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
+        }
+    };
 
     return (
         <>
@@ -172,7 +172,7 @@ export default function Proprietaire({ auth }) {
 
                 <div className="-m-14">
                     <div className="mx-auto container bg-white dark:bg-white-800 w-full  rounded-40">
-                        <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
+                        <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-purple-50 rounded-t-20">
                             <div className="flex flex-row justify-between gap-4 ">
                                 <ModifyButton
                                     href={`/proprietaires/modifier/${proprietaireId}`}
@@ -193,7 +193,6 @@ export default function Proprietaire({ auth }) {
                             </div>
                             <AddButton
                                 href={"/proprietaires/ajouter"}
-                                ClassName=" bg-pinky-color"
                             >
                                 Ajouter un propriétaire
                             </AddButton>
@@ -215,14 +214,14 @@ export default function Proprietaire({ auth }) {
                             </div>
                         </div>
 
-                        <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
+                        <div className="w-full overflow-x-scroll xl:overflow-x-hidden ">
                             {data.length === 0 && (
                                 <div className="p-4 text-center text-red-500  bg-green-50">
                                     Veuillez remplir votre tableau !
                                 </div>
                             )}
                             {/* on va l utiliser si kle tableu devient vide  */}
-                            <table className="min-w-full bg-white dark:bg-white-800">
+                            <table className="w-full bg-white dark:bg-white-800">
                                 <THeader>
                                     <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b  py-8">
                                         <HeaderCheckbox
@@ -244,7 +243,7 @@ export default function Proprietaire({ auth }) {
                                         <THead>Adresse e-mail</THead>
                                     </tr>
                                 </THeader>
-                                <tbody >
+                                <tbody>
                                     {paginatedData.map((item) => (
                                         <TRow
                                             key={item.id}

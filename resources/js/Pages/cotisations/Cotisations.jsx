@@ -158,8 +158,8 @@ export default function Cotisations({ auth }) {
                                     </tr>
                                 </thead>
                                 <tbody className="">
-                                    <tr className=" appearance-none rounded-40 bg-white dark:hover:bg-gray-700">
-                                        <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-xl">
+                                    <tr className=" appearance-none bg-white dark:hover:bg-gray-700">
+                                        <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-lg">
                                             <div>
                                                 <div className="font-medium">Mohamed</div>
                                                 <div className="font-light">
@@ -193,7 +193,7 @@ export default function Cotisations({ auth }) {
                                         <td className="py-4 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-purple-200">
                                             <VscCircleLargeFilled />
                                         </td>
-                                        <td className="py-4 pr-6 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-purple-200 rounded-r-xl">
+                                        <td className="py-4 pr-6 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-purple-200 rounded-r-lg">
                                             <VscCircleLargeFilled />
                                         </td>
                                     </tr>

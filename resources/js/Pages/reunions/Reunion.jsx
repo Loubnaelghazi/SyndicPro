@@ -1,117 +1,111 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
 import { HiPlusSmall } from "react-icons/hi2";
-import { AiOutlinePrinter, AiOutlineEye  } from "react-icons/ai";
+import { AiOutlinePrinter, AiOutlineEye } from "react-icons/ai";
 import { HiPencil, HiTrash } from "react-icons/hi2";
-import {TbSearch} from "react-icons/tb";
+import { TbSearch } from "react-icons/tb";
 import Swal from "sweetalert2";
+import AddButton from "@/Components/Buttons/AddButton";
 
 export default function Reunion({ auth }) {
+    const [reunions, setReunions] = useState([]);
 
- const [reunions, setReunions] = useState([]);
+    const fetchReunions = async () => {
+        const response = await axios.get(`/api/reunions`);
+        setReunions(response.data);
+    };
 
+    useEffect(() => {
+        if (!reunions.length) {
+            fetchReunions();
+        }
+    }, []);
 
- const fetchReunions = async () => {
-     const response = await axios.get(`/api/reunions`);
-     setReunions(response.data);
- };
+    const supprimer = async (reunionId) => {
+        let alertBox = null;
 
-   useEffect(() => {
-       if (!reunions.length) {
-           fetchReunions();
-       }
-   }, []);
-
-  const supprimer = async (reunionId) => {
-      let alertBox = null;
-
-      Swal.fire({
-          title: "Attention!",
-          icon: "warning",
-          html: `
+        Swal.fire({
+            title: "Attention!",
+            icon: "warning",
+            html: `
       <h2 class="text-lg font-bold text-red-500">
         Êtes-vous sûr de vouloir effectuer la suppression ?
       </h2>
       <p class="text-gray-800">
         Vous ne pouvez plus récupérer cet élément après suppression !
       </p>`,
-          showCancelButton: true,
-          cancelButtonText: "Annuler",
-          confirmButtonText: "Supprimer",
-          customClass: {
-              confirmButton:
-                  "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
-              cancelButton:
-                  "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
-          },
-          buttonsStyling: false,
-      }).then(async (result) => {
-          if (result.isConfirmed) {
-              alertBox = Swal.fire({
-                  title: "Suppression en cours...",
-                  allowOutsideClick: false,
-                  onBeforeOpen: () => {
-                      Swal.showLoading();
-                  },
-                  showConfirmButton: false,
-              });
+            showCancelButton: true,
+            cancelButtonText: "Annuler",
+            confirmButtonText: "Supprimer",
+            customClass: {
+                confirmButton:
+                    "px-4 py-2 mr-2 bg-red-500 text-white rounded hover:bg-red-600 hover:scale-105",
+                cancelButton:
+                    "px-4 py-2 bg-white border-[1px] border-solid border-red-500 text-red-500 rounded hover:scale-105",
+            },
+            buttonsStyling: false,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                alertBox = Swal.fire({
+                    title: "Suppression en cours...",
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    },
+                    showConfirmButton: false,
+                });
 
-              try {
-                  const response = await axios.delete(
-                      `api/reunions/${reunionId}`
-                  );
-                  setReunions((prevReunions) =>
-                      prevReunions.filter((reunion) => reunion.id !== reunionId)
-                  );
-                  Swal.fire({
-                      title: "Supprimé",
-                      text: response.data.message,
-                      icon: "success",
-                      customClass: {
-                          confirmButton:
-                              "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
-                      },
-                      buttonsStyling: false,
-                  });
-              } catch (error) {
-                  console.log(error);
-              } finally {
-                  alertBox.close();
-              }
-          }
-      });
-  };
+                try {
+                    const response = await axios.delete(
+                        `api/reunions/${reunionId}`
+                    );
+                    setReunions((prevReunions) =>
+                        prevReunions.filter(
+                            (reunion) => reunion.id !== reunionId
+                        )
+                    );
+                    Swal.fire({
+                        title: "Supprimé",
+                        text: response.data.message,
+                        icon: "success",
+                        customClass: {
+                            confirmButton:
+                                "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                        },
+                        buttonsStyling: false,
+                    });
+                } catch (error) {
+                    console.log(error);
+                } finally {
+                    alertBox.close();
+                }
+            }
+        });
+    };
 
- const [selectedType, setSelectedType] = useState("tout");
- const [searchResults, setSearchResults] = useState([]);
+    const [selectedType, setSelectedType] = useState("tout");
+    const [searchResults, setSearchResults] = useState([]);
 
- const handleTypeChange = (e) => {
-     const selectedValue = e.target.value;
-     setSelectedType(selectedValue === "tout" ? "" : selectedValue);
- };
- const handleSearch = async () => {
-     if (selectedType === "") {
-         await fetchReunions();
-     } else {
-         try {
-             const response = await axios.get(
-                 `/api/reunions?type=${selectedType}`
-             );
-             setReunions(response.data);
-         } catch (error) {
-             console.log(error);
-         }
-     }
- };
-
-
-
-
-
-
-
+    const handleTypeChange = (e) => {
+        const selectedValue = e.target.value;
+        setSelectedType(selectedValue === "tout" ? "" : selectedValue);
+    };
+    const handleSearch = async () => {
+        if (selectedType === "") {
+            await fetchReunions();
+        } else {
+            try {
+                const response = await axios.get(
+                    `/api/reunions?type=${selectedType}`
+                );
+                setReunions(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
 
     return (
         <Main_content
@@ -122,14 +116,11 @@ export default function Reunion({ auth }) {
             <Head title=" Réunions" />
             <div className="-m-14">
                 <div className="mx-auto container bg-white dark:bg-white-800 w-full rounded-40">
-                    <div className="w-full flex flex-row items-center justify-center pt-3 px-5 pb-1 rounded-t-20">
-                        <a
-                            className="text-white px-2 pr-4 my-1 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white bg-primary-color transition duration-150 ease-in-out hover:opacity-90 w-max h-8 rounded-[9px] flex items-center justify-center"
-                            href="/reunions/ajouter"
-                        >
-                            <HiPlusSmall className="text-2xl pr-2" /> Ajouter
-                            une réunion
-                        </a>
+                    <div className="w-full flex flex-row items-center pt-3 px-5 pb-1 rounded-t-20">
+                        <div className="flex-grow"></div>
+                        <AddButton href={"/reunions/ajouter"}>
+                            Ajouter une réunion
+                        </AddButton>
                     </div>
                     <div className="flex items-center justify-center space-x-4 mb-3 mt-4">
                         <select

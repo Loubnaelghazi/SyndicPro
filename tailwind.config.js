@@ -8,6 +8,7 @@ export default {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.jsx",
+        "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
     ],
 
     theme: {
@@ -44,7 +45,7 @@ export default {
             },
             backgroundImage: {
                 "login-bg":
-                    "url('https://www.nomadeprocess.com/images/diaporama/copropriete-loi-elan.jpg')",
+                    "url('https://ganaellesoussensavocat.com/wp-content/uploads/2019/11/SOUSSENSAvocats-vente-appartement-coproprie%CC%81te%CC%81.jpeg')",
                 "l-bg": "url('https://www.usnews.com/object/image/00000181-d8ce-d1b7-a1d1-dddf4ac90000/gettyimages-1069330600.jpg?update-time=1657199952878&size=responsive970')",
             },
         },

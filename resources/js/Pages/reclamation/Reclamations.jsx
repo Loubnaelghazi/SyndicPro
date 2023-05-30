@@ -49,8 +49,8 @@ export default function Reclamations({ auth }) {
                     <button
                         className={`px-4 py-2 mr-4 text-sm font-medium transition-all ${
                             activeSection === "en attente"
-                                ? "bg-blue-500 text-white transform translate-y-0 hover:-translate-y-1"
-                                : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
+                                ? "text-white bg-primary-color transform translate-y-0 hover:-translate-y-1"
+                                : " text-gray-700 hover:bg-primary-color hover:text-white"
                         } rounded-md focus:outline-none`}
                         onClick={() => handleSectionChange("en attente")}
                     >
@@ -59,8 +59,8 @@ export default function Reclamations({ auth }) {
                     <button
                         className={`px-4 py-2 mr-4 text-sm font-medium transition-all ${
                             activeSection === "en cours"
-                                ? "bg-blue-500 text-white transform translate-y-0 hover:-translate-y-1"
-                                : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
+                                ? "text-white bg-primary-color transform translate-y-0 hover:-translate-y-1"
+                                : " text-gray-700 hover:bg-primary-color hover:text-white"
                         } rounded-md focus:outline-none`}
                         onClick={() => handleSectionChange("en cours")}
                     >
@@ -69,8 +69,8 @@ export default function Reclamations({ auth }) {
                     <button
                         className={`px-4 py-2 text-sm font-medium transition-all ${
                             activeSection === "resolue"
-                                ? "bg-blue-500 text-white transform translate-y-0 hover:-translate-y-1"
-                                : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
+                                ? "text-white bg-primary-color transform translate-y-0 hover:-translate-y-1"
+                                : " text-gray-700 hover:bg-primary-color hover:text-white"
                         } rounded-md focus:outline-none`}
                         onClick={() => handleSectionChange("resolue")}
                     >
@@ -79,9 +79,9 @@ export default function Reclamations({ auth }) {
                     <button
                         className={`px-4 py-2 text-sm font-medium transition-all ${
                             activeSection === "fermee"
-                                ? "bg-blue-500 text-white transform translate-y-0 hover:-translate-y-1"
-                                : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
-                        } rounded-md focus:outline-none`}
+                            ? "text-white bg-primary-color transform translate-y-0 hover:-translate-y-1"
+                            : " text-gray-700 hover:bg-primary-color hover:text-white"
+                    } rounded-md focus:outline-none`}
                         onClick={() => handleSectionChange("fermee")}
                     >
                         Fermée
@@ -117,12 +117,12 @@ export default function Reclamations({ auth }) {
                                     <div className="text-xs italic text-gray-500 mt-1 font-medium">
                                         Par: Ahmed Kanabaoui Lot N°: 2
                                     </div>
-                                    <div className="text-sm  mt-1 font-medium text-blue-500">
+                                    <div className="text-sm  mt-1 font-medium text-primary-color">
                                         21/02/2023
                                     </div>
                                     <div>
                                         <div className="w-full mt-2 border-solid rounded-lg border-[1.5px] border-white text-left flex flex-row gap-1 pr-3 items-center  h-min">
-                                            <div className="p-1 font-medium px-3 rounded-l-lg bg-white w-max text-gray-500">
+                                            <div className=" font-medium pr-2 rounded-l-lg bg-white w-max text-gray-500">
                                                 <span>Priorité:</span>
                                             </div>
                                             <div className="w-full flex items-center">
@@ -162,7 +162,7 @@ export default function Reclamations({ auth }) {
                                                 </button>
                                             </a>
                                             <a href="/reclamations/modifier">
-                                                <button className="text-primary-color border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-green-400 hover:bg-primary-color hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
+                                                <button className="text-primary-color border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-purple-400 hover:bg-primary-color hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
                                                     <HiPencil />
                                                 </button>
                                             </a>

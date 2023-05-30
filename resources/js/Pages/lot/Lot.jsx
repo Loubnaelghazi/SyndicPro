@@ -25,7 +25,7 @@ export default function Lot({ auth }) {
     const [selectedCount, setSelectedCount] = useState(0);
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
-    const storedPerPage = localStorage.getItem("perPage");
+        const storedPerPage = localStorage.getItem("perPage");
         return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
     });
 
@@ -162,7 +162,7 @@ export default function Lot({ auth }) {
 
             <div className="-m-14">
                 <div className="mx-auto container bg-white dark:bg-white-800 w-full rounded-40">
-                    <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
+                    <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-purple-50 rounded-t-20">
                         <div className="flex flex-row justify-between gap-4 ">
                             <ModifyButton
                                 href={`/lots/modifier/${lotID}`}
@@ -180,13 +180,9 @@ export default function Lot({ auth }) {
                                     : `${selectedCount} sélectionné`}
                             </span>
                         </div>
-                        <a
-                            className="text-white px-2 pr-4 ml-4 my-1 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-max h-8 rounded-[9px] flex items-center justify-center"
-                            href="/lots/ajouter"
-                        >
-                            <HiPlusSmall className="text-2xl pr-2" /> Ajouter un
-                            lot
-                        </a>
+                        <AddButton href="/lots/ajouter">
+                            Ajouter un lot
+                        </AddButton>
                         <div className="absolute right-0 top-5 w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
                             <div className="lg:ml-6 flex items-center">
                                 <Checkbox
@@ -201,7 +197,7 @@ export default function Lot({ auth }) {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
+                    <div className="w-full overflow-x-scroll xl:overflow-x-hidden ">
                         <table className="min-w-full bg-white dark:bg-white-800">
                             <THeader>
                                 <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b py-8">
@@ -252,15 +248,15 @@ export default function Lot({ auth }) {
                                             {item.proprietaire_id == null
                                                 ? sans
                                                 : item.proprietaire.nom +
-                                                    " " +
-                                                    item.proprietaire.prenom}
+                                                  " " +
+                                                  item.proprietaire.prenom}
                                         </TData>
                                         <TData>
                                             {item.locataire_id == null
                                                 ? sans
                                                 : item.locataire.nom +
-                                                    " " +
-                                                    item.locataire.prenom}
+                                                  " " +
+                                                  item.locataire.prenom}
                                         </TData>
                                     </TRow>
                                 ))}

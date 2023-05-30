@@ -41,7 +41,7 @@ export default function AfficherReclamation({ auth }) {
                     </div>
                 </div>
                 <div className="py-3 pr-10 flex flex-col gap-2 h-min">
-                    <div className="text-3xl font-medium h-full">
+                    <div className="text-2xl font-medium h-full">
                         Une fuite d'eau sous l'évier de votre cuisine. L'eau
                         s'accumule et commence à endommager le placard en
                         dessous.
@@ -58,7 +58,8 @@ export default function AfficherReclamation({ auth }) {
                         proprietaires et les locatairesVous devez d'abord
                         ajouter les proprietaires et les locataires ...
                     </div>
-                    <div className="flex flex-row gap-10 items-center mt-4">
+                    <div className="text-sm font-medium text-primary-color">22/06/2023</div>
+                    <div className="flex flex-row gap-10 items-center mt-2">
                         <div className="flex flex-row gap-1 items-center">
                             <div className="text-3xl text-gray-400">
                                 <HiUserCircle />

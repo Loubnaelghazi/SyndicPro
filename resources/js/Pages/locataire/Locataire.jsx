@@ -135,11 +135,11 @@ export default function Locataire({ auth }) {
     const totalPages = Math.ceil(data.length / perPage);
 
     return (
-        <Main_content user={auth.user} Title={"Les locataires"}>
+        <Main_content user={auth.user} Title={"Les locataires"} ClassName="p-0">
             <Head title="Locataires" />
 
-            <div className="-m-14">
-                <div className="mx-auto container w-full bg-purple-50  rounded-40">
+            <div className="w-full">
+                <div className=" w-full  rounded-40">
                     <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-purple-50 rounded-t-20">
                         <div className="flex flex-row justify-between gap-4 ">
                             <ModifyButton
@@ -172,8 +172,8 @@ export default function Locataire({ auth }) {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
-                        <table className="min-w-full bg-white dark:bg-white-800">
+                    <div className="w-full overflow-x-scroll xl:overflow-x-hidden ">
+                        <table className="w-full bg-white dark:bg-white-800">
                             <THeader>
                                 <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b  py-8">
                                     <HeaderCheckbox
@@ -232,7 +232,7 @@ export default function Locataire({ auth }) {
                             </tbody>
                         </table>
                     </div>
-                    <div className="flex flex-row justify-between items-center">
+                    <div className="flex w-full flex-row justify-between items-center">
                         <div className="ml-5 flex items-center text-xs">
                             <span>Locataires par page:</span>
                             <select
