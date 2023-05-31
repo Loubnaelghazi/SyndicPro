@@ -3,9 +3,9 @@ import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
 import AddButton from "@/Components/Buttons/AddButton";
 import { TbSearch } from "react-icons/tb";
+import { HiPencil, HiTrash, HiEye, HiPrinter } from "react-icons/hi2";
 
 export default function Depense({ auth }) {
-
     const [selectedMonth, setSelectedMonth] = useState("");
 
     const handleMonthChange = (event) => {
@@ -51,6 +51,12 @@ export default function Depense({ auth }) {
                                     >
                                         Statut
                                     </th>
+                                    <th
+                                        scope="col"
+                                        className="px-4 py-4 text-center text-sm font-medium text-purple-500 "
+                                    >
+                                        Actions
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="">
@@ -72,6 +78,23 @@ export default function Depense({ auth }) {
                                             Payée
                                         </div>
                                     </td>
+                                    <td className="px-2 py-4 whitespace-nowrap text-left text-sm text-gray-600 dark:text-gray-200">
+                                        <div className="flex items-center justify-center space-x-2">
+                                            <a>
+                                                <button className="text-blue-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-blue-400 hover:bg-blue-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2 ">
+                                                    <HiEye />
+                                                </button>
+                                            </a>
+                                            <a>
+                                                <button className="text-primary-color border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-purple-400 hover:bg-primary-color hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
+                                                    <HiPencil />
+                                                </button>
+                                            </a>
+                                            <button className="text-red-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-red-400 hover:bg-red-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
+                                                <HiTrash />
+                                            </button>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <div className="my-2"></div>
                                 <tr className=" appearance-none bg-primary-color dark:hover:bg-gray-700 ">
@@ -82,6 +105,7 @@ export default function Depense({ auth }) {
                                     <td className="px-2 py-1 whitespace-nowrap text-sm text-white dark:text-gray-200">
                                         80 000 DH
                                     </td>
+                                    <td className="px-2 py-1 whitespace-nowrap text-left text-sm text-white dark:text-gray-200"></td>
                                     <td className="px-2 py-1 whitespace-nowrap text-left text-sm text-white dark:text-gray-200"></td>
                                     <td className="px-2 py-1 whitespace-nowrap text-left text-sm text-white dark:text-gray-200 rounded-r-md"></td>
                                 </tr>
@@ -157,7 +181,6 @@ export default function Depense({ auth }) {
                                 >
                                     <option value=""> hey</option>
                                 </select>
-                                
                             </div>
                         </div>
                         <div className="bg-white shadow-csh2 rounded-20 text-sm">
