@@ -104,7 +104,7 @@ export default function Nav_bar() {
                     text="Dépenses"
                     icon={<HiWallet />}
                     className={`${
-                        location.pathname.startsWith("/dépenses")
+                        location.pathname.startsWith("/depenses")
                             ? selectStyle
                             : simpleStyle
                     }`}

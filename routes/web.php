@@ -116,11 +116,9 @@ Route::get('/reclamations/ajouter', function () {
     return Inertia::render('reclamation/AjouterReclamation');
 });
 
-
 /* fin */
 
 /* routes of cotisations */
-
 
 Route::get('/cotisations', function () {
     return Inertia::render('cotisations/Cotisations');
@@ -128,9 +126,16 @@ Route::get('/cotisations', function () {
 
 /* fin */
 
+/* Routes of depenses */
+
+Route::get('/depenses', function () {
+    return Inertia::render('depenses/Depense');
+});
 
 
 
+
+/* fin */
 
 
 /* locataires routes */
