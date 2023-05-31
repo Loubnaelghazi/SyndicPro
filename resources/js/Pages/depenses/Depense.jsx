@@ -6,11 +6,48 @@ import { TbSearch } from "react-icons/tb";
 import { HiPencil, HiTrash, HiEye, HiPrinter } from "react-icons/hi2";
 
 export default function Depense({ auth }) {
-    const [selectedMonth, setSelectedMonth] = useState("");
-
-    const handleMonthChange = (event) => {
-        setSelectedMonth(event.target.value);
-    };
+    const data = [
+        {
+            id: 1,
+            designation: "Product 1",
+            fournisseur: "Supplier 1",
+            montant: 1000,
+            datePaiement: "2023-05-01",
+            statut: "Paid",
+        },
+        {
+            id: 2,
+            designation: "Product 2",
+            fournisseur: "Supplier 2",
+            montant: 1500,
+            datePaiement: "2023-05-05",
+            statut: "Pending",
+        },
+        {
+            id: 3,
+            designation: "Product 3",
+            fournisseur: "Supplier 3",
+            montant: 2000,
+            datePaiement: "2023-05-10",
+            statut: "Paid",
+        },
+        {
+            id: 4,
+            designation: "Product 4",
+            fournisseur: "Supplier 4",
+            montant: 1200,
+            datePaiement: "2023-05-15",
+            statut: "Pending",
+        },
+        {
+            id: 5,
+            designation: "Product 5",
+            fournisseur: "Supplier 5",
+            montant: 1800,
+            datePaiement: "2023-05-20",
+            statut: "Paid",
+        },
+    ];
 
     return (
         <Main_content user={auth.user} Title={"Les dépenses"} ClassName={"p-0"}>
@@ -60,25 +97,27 @@ export default function Depense({ auth }) {
                                 </tr>
                             </thead>
                             <tbody className="">
+                            {data.map((item) => (
+                                <>
                                 <tr className="shadow-csh2 bg-white dark:hover:bg-gray-700 ">
                                     <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-md">
-                                        lubna
+                                        {item.designation}
                                     </td>
                                     <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                        0612960535
+                                        {item.fournisseur}
                                     </td>
                                     <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                        1000
+                                        {item.montant}
                                     </td>
                                     <td className="px-2 py-4 whitespace-nowrap text-left text-sm text-gray-600 dark:text-gray-200">
-                                        808098765
+                                        {item.datePaiement}
                                     </td>
-                                    <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200 rounded-r-md">
+                                    <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
                                         <div className="px-2 p-0.5 text-white bg-[#2AD46E] rounded-2xl">
-                                            Payée
+                                            {item.statut}
                                         </div>
                                     </td>
-                                    <td className="px-2 py-4 whitespace-nowrap text-left text-sm text-gray-600 dark:text-gray-200">
+                                    <td className="px-2 py-4 whitespace-nowrap text-left text-sm text-gray-600 dark:text-gray-200 rounded-r-md">
                                         <div className="flex items-center justify-center space-x-2">
                                             <a>
                                                 <button className="text-blue-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-blue-400 hover:bg-blue-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2 ">
@@ -97,6 +136,8 @@ export default function Depense({ auth }) {
                                     </td>
                                 </tr>
                                 <div className="my-2"></div>
+                                </>
+                                ))}
                                 <tr className=" appearance-none bg-primary-color dark:hover:bg-gray-700 ">
                                     <td className="px-2 pl-6 py-1 whitespace-nowrap text-sm text-white dark:text-gray-200 rounded-l-md">
                                         Total des dépenses
