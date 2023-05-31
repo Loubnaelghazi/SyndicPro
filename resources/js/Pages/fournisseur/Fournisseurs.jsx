@@ -152,8 +152,8 @@ export default function Fournisseurs({ auth }) {
                 <Head title="Fournisseurs" />
 
                 <div className="-m-14">
-                    <div className="mx-auto container bg-white dark:bg-white-800 w-full  rounded-40">
-                        <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-green-50 rounded-t-20">
+                    <div className=" bg-white dark:bg-white-800 w-full  rounded-40">
+                        <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-purple-50 rounded-t-20">
                             <div className="flex flex-row justify-between gap-4 ">
                                 <ModifyButton
                                     href={`/fournisseurs/modifier/${fournisseurId}`}
@@ -173,7 +173,6 @@ export default function Fournisseurs({ auth }) {
 
                             <AddButton
                                 href={"/fournisseurs/ajouter"}
-                                ClassName=" bg-purple-color"
                             >
                                 Ajouter un fournisseur
                             </AddButton>
@@ -197,7 +196,7 @@ export default function Fournisseurs({ auth }) {
 
                         <div className="w-full overflow-x-scroll xl:overflow-x-hidden rounded-b-40">
                             {data.length === 0 && (
-                                <div className="p-4 text-center text-red-500  bg-green-50">
+                                <div className="p-4 text-center text-red-500  bg-purple-50">
                                     Veuillez remplir votre tableau !
                                 </div>
                             )}

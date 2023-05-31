@@ -172,7 +172,7 @@ export default function Reclamations({ auth }) {
                                         </div>
                                     )}
                                 </div>
-                                    <a className="bg-white  hover:text-primary-color hover:text-opacity-60 hover:border-opacity-60 hover:border-primary-color text-gray-300 text-8xl flex flex-col items-center justify-center w-64 rounded-20 border-4 border-dashed m-3 border-gray-300 p-4"
+                                    <a className="bg-white  hover:text-primary-color hover:border-primary-color text-gray-300 text-8xl flex flex-col items-center justify-center w-64 rounded-20 border-4 border-dashed m-3 border-gray-300 p-4"
                                     href="/reclamations/ajouter">
                                         <HiPlus />
                                         <div className="text-2xl">Ajouter</div>

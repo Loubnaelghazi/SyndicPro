@@ -171,7 +171,7 @@ export default function Proprietaire({ auth }) {
                 <Head title="Propriétaires" />
 
                 <div className="-m-14">
-                    <div className="mx-auto container bg-white dark:bg-white-800 w-full  rounded-40">
+                    <div className="bg-white dark:bg-white-800 w-full  rounded-40">
                         <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-purple-50 rounded-t-20">
                             <div className="flex flex-row justify-between gap-4 ">
                                 <ModifyButton
@@ -216,7 +216,7 @@ export default function Proprietaire({ auth }) {
 
                         <div className="w-full overflow-x-scroll xl:overflow-x-hidden ">
                             {data.length === 0 && (
-                                <div className="p-4 text-center text-red-500  bg-green-50">
+                                <div className="p-4 text-center text-red-500  bg-purple-50">
                                     Veuillez remplir votre tableau !
                                 </div>
                             )}

@@ -5,7 +5,7 @@ import logo from "../ressources/logo-syndico-01.svg"
 
 export default function Guest({ children }) {
     return (
-        <div className="flex  flex-1 bg-fixed bg-no-repeat bg-cover bg-center flex-col justify-center px-6  py-12 lg:px-8">
+        <div className="flex bg-fixed bg-no-repeat bg-cover bg-center flex-col justify-center px-6  items-center py-12 lg:px-8">
             <div className=" w-max mx-auto my-auto">
                 <div className="p-10 shadow-csh bg-white rounded-[10px] overflow-hidden">
                     <div className="mx-[100px] mb-8">

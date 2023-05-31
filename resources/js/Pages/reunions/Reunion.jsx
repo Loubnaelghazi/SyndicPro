@@ -200,7 +200,7 @@ export default function Reunion({ auth }) {
                                                 key={reunion.id}
                                             >
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">
+                                                    <div className="text-sm whitespace-normal text-gray-900 ">
                                                         {reunion.titre}
                                                     </div>
                                                 </td>
@@ -215,12 +215,12 @@ export default function Reunion({ auth }) {
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">
+                                                    <div className="text-sm whitespace-normal  text-gray-900">
                                                         {reunion.lieu}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">
+                                                    <div className="text-sm whitespace-normal text-gray-900">
                                                         {reunion.sujet}
                                                     </div>
                                                 </td>

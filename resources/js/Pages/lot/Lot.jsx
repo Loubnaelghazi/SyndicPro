@@ -161,7 +161,7 @@ export default function Lot({ auth }) {
             <Head title="Lots" />
 
             <div className="-m-14">
-                <div className="mx-auto container bg-white dark:bg-white-800 w-full rounded-40">
+                <div className=" bg-white dark:bg-white-800 w-full rounded-40">
                     <div className="w-full flex flex-row justify-between items-center pt-3 px-5 pb-1 bg-purple-50 rounded-t-20">
                         <div className="flex flex-row justify-between gap-4 ">
                             <ModifyButton
