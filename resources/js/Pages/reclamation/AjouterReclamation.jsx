@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { HiPencil, HiPhoto, HiUserCircle } from "react-icons/hi2";
 import Datepicker from "react-tailwindcss-datepicker";
-
+import { Head } from "@inertiajs/react";
 export default function AjouterReclamation({ auth }) {
     const [valueR, setValueR] = useState(0);
     const [value, setValue] = useState(0);
@@ -27,6 +27,8 @@ export default function AjouterReclamation({ auth }) {
             Title={"Reclamation N°"}
             ClassName="p-2 h-min"
         >
+            <Head title="Ajouter réclamation" />
+
             <div className="flex flex-row gap-2 rounded-40 h-min">
                 <div className=" grid grid-rows-3 gap-5 h-full rounded-40 p-3 ">
                     <div className=" w-56 h-32 flex items-center justify-center">
@@ -102,13 +104,13 @@ export default function AjouterReclamation({ auth }) {
                 <div className="py-3 w-full pr-2 flex flex-col gap-2 h-min">
                     <textarea
                         id="message"
-                        placeholder="Sujet de la reclamtion"
+                        placeholder="Sujet de la réclamation"
                         rows="2"
                         className="block font-semibold p-2.5 w-full text-2xl text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-color focus:border-primary-color dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-color dark:focus:border-primary-color h-min"
                     ></textarea>
                     <textarea
                         id="message"
-                        placeholder="Description de la reclamation ..."
+                        placeholder="Description de la réclamation ..."
                         rows="6"
                         className="block p-2.5 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-color focus:border-primary-color dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-color dark:focus:border-primary-color h-min"
                     />
@@ -126,14 +128,14 @@ export default function AjouterReclamation({ auth }) {
                         <input
                             type="text"
                             class="bg-gray-50 whitespace-normal w-1/2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:ring-purple-500 dark:focus:border-purple-500"
-                            placeholder="Entrer un nom (si le reclameur n'est pas un propriétaire)"
+                            placeholder="Entrer un nom (si le réclameur n'est pas un propriétaire)"
                             required
                         ></input>
                     </div>
                     <div className="flex flex-row justify-between gap-2">
                         <div className="w-1/2">
                             <Datepicker
-                                placeholder={"Date de reclamation"}
+                                placeholder={"Date de réclamation"}
                                 asSingle={true}
                                 primaryColor={"violet"}
                                 value={value}

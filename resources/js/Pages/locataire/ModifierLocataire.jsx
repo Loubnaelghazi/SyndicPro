@@ -35,7 +35,7 @@ export default function ModifierLocataire({ auth }) {
             setEmail(data.email);
             setTel(data.tel);
             setGenre(data.genre);
-            setDate_naissance(data.data);
+            setDate_naissance(data.date_naissance);
             setNationalite(data.nationalite);
             setDateDebut(data.date_debut);
             setDateFin(data.date_fin);
@@ -198,6 +198,58 @@ export default function ModifierLocataire({ auth }) {
                                         />
                                     </div>
                                 </div>
+
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label
+                                            htmlFor="genre"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Genre
+                                        </label>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <select
+                                            id="genre"
+                                            name="genre"
+                                            value={genre}
+                                            onChange={handleInputChange}
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                        >
+                                            <option disabled value="">
+                                                Vous êtes?
+                                            </option>
+                                            <option value="male">Mâle</option>
+                                            <option value="female">
+                                                Femelle
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label
+                                            htmlFor="date_naissance"
+                                            className="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                            Date de naissance
+                                        </label>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <TextInput
+                                            id="date_naissance"
+                                            name="date_naissance"
+                                            value={date_naissance}
+                                            onChange={handleInputChange}
+                                            type="date"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
 
                                 <div>
                                     <div className="flex items-center justify-between">

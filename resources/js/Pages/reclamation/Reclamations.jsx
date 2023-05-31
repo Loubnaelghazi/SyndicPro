@@ -13,7 +13,8 @@ import {
     HiEllipsisVertical,
 } from "react-icons/hi2";
 import { useState } from "react";
-
+import { Head } from "@inertiajs/react";
+0
 export default function Reclamations({ auth }) {
     const [showActions, setShowActions] = useState(false);
     const [display, setDesplay] = useState("none");
@@ -38,12 +39,11 @@ export default function Reclamations({ auth }) {
     return (
         <Main_content
             user={auth.user}
-            Title={"Les reclamations"}
-            Description={
-                "Vous devez d'abord ajouter les proprietaires et les locataires"
-            }
+            Title={"Les réclamations"}
             ClassName="p-0"
         >
+            <Head title="Réclamations" />
+
             <div className="p-2">
                 <div className="flex flex-row justify-between px-32  py-6">
                     <button
@@ -79,9 +79,9 @@ export default function Reclamations({ auth }) {
                     <button
                         className={`px-4 py-2 text-sm font-medium transition-all ${
                             activeSection === "fermee"
-                            ? "text-white bg-primary-color transform translate-y-0 hover:-translate-y-1"
-                            : " text-gray-700 hover:bg-primary-color hover:text-white"
-                    } rounded-md focus:outline-none`}
+                                ? "text-white bg-primary-color transform translate-y-0 hover:-translate-y-1"
+                                : " text-gray-700 hover:bg-primary-color hover:text-white"
+                        } rounded-md focus:outline-none`}
                         onClick={() => handleSectionChange("fermee")}
                     >
                         Fermée
@@ -172,14 +172,16 @@ export default function Reclamations({ auth }) {
                                         </div>
                                     )}
                                 </div>
-                                    <a className="bg-white  hover:text-primary-color hover:border-primary-color text-gray-300 text-8xl flex flex-col items-center justify-center w-64 rounded-20 border-4 border-dashed m-3 border-gray-300 p-4"
-                                    href="/reclamations/ajouter">
-                                        <HiPlus />
-                                        <div className="text-2xl">Ajouter</div>
-                                        <div className="text-2xl">
-                                            une reclamation
-                                        </div>
-                                    </a>
+                                <a
+                                    className="bg-white  hover:text-primary-color hover:border-primary-color text-gray-300 text-8xl flex flex-col items-center justify-center w-64 rounded-20 border-4 border-dashed m-3 border-gray-300 p-4"
+                                    href="/reclamations/ajouter"
+                                >
+                                    <HiPlus />
+                                    <div className="text-2xl">Ajouter</div>
+                                    <div className="text-2xl">
+                                        une réclamation
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     )}
