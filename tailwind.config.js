@@ -38,7 +38,7 @@ export default {
             },
             boxShadow: {
                 csh: "0px 0px 10px rgba(0, 0, 0, 0.07)",
-                csh2: "0px 0px 10px rgba(0, 0, 0, 0.09)",
+                csh2: "0px 0px 10px rgba(0, 0, 0, 0.06)",
                 cshb: "0px 0px 15px rgba(12, 12, 12, 0.15)",
             },
             gridTemplateRows: {
@@ -46,7 +46,7 @@ export default {
             },
             backgroundImage: {
                 "login-bg":
-                    "url('https://ganaellesoussensavocat.com/wp-content/uploads/2019/11/SOUSSENSAvocats-vente-appartement-coproprie%CC%81te%CC%81.jpeg')",
+                    "url('https://cdn-s-www.lalsace.fr/images/1862732B-B81E-4FFC-AE9E-0640EB705144/NW_raw/l-entretien-de-l-immeuble-la-maintenance-de-l-ascenseur-les-travaux-les-honoraires-du-syndic-de-nombreuses-charges-pesent-sur-ceux-qui-habitent-dans-des-logements-collectifs-photo-adobe-stock-1675097063.jpg')",
                 "l-bg": "url('https://www.usnews.com/object/image/00000181-d8ce-d1b7-a1d1-dddf4ac90000/gettyimages-1069330600.jpg?update-time=1657199952878&size=responsive970')",
             },
         },

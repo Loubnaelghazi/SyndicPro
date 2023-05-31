@@ -52,7 +52,7 @@ export default function Depense({ auth }) {
     return (
         <Main_content user={auth.user} Title={"Les dépenses"} ClassName={"p-0"}>
             <Head title="Dépenses" />
-            <div className="bg-[#F8F8FF] dark:bg-gray-700 p-4  rounded-20 grid grid-cols-4 gap-3">
+            <div className="bg-[#F8F8FF] dark:bg-gray-700 p-4  rounded-20 grid grid-cols-4 gap-6">
                 <div className="col-span-3 z-10">
                     <div className=" dark:bg-gray-700 rounded overflow-x-auto">
                         <table className="w-full">
@@ -192,7 +192,7 @@ export default function Depense({ auth }) {
                                 <select
                                     name="fournisseur"
                                     id="fournisseur"
-                                    className=" block text-sm w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color"
+                                    className=" block text-sm w-full rounded-md  border-0 py-1.5 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color"
                                 >
                                     <option value=""> hey </option>{" "}
                                     <option value=""> hey </option>{" "}
@@ -208,7 +208,7 @@ export default function Depense({ auth }) {
                                 <select
                                     name="annee"
                                     id="annee"
-                                    className="text-sm w-full  h-min rounded-md py-1.5  border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color "
+                                    className="text-sm w-full  h-min rounded-md py-1.5  border-0 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color "
                                 >
                                     <option value="">hey </option>
                                 </select>
@@ -218,7 +218,7 @@ export default function Depense({ auth }) {
                                 <select
                                     name="mois"
                                     id="mois"
-                                    className=" block text-sm w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color"
+                                    className=" block text-sm w-full rounded-md  border-0 py-1.5 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color"
                                 >
                                     <option value=""> hey</option>
                                 </select>

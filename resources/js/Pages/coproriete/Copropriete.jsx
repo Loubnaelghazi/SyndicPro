@@ -89,7 +89,7 @@ const Copopriete = ({ auth }) => {
                         <div className="bg-clip-border text-4xl mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-primary-color to-p-gradient-color  text-white shadow-purple-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
                             <HiBuildingOffice />
                         </div>
-                        <div className="p-4 text-right bg-login-bg bg-cover bg-no-repeat bg-center rounded-t-20">
+                        <div className="p-4 text-right bg-login-bg bg-cover bg-no-repeat  rounded-t-20">
                             <p className="block antialiased text-sm leading-normal font-normal text-blue-gray-600">
                                 Residence
                             </p>

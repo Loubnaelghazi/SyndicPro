@@ -160,7 +160,7 @@ export default function Reunion({ auth }) {
                                 </div>
                             )}
                         </div>
-                        <div>
+                        <div className="w-1/3">
                             <AddButton href={"/reunions/ajouter"}>
                                 Ajouter une réunion
                             </AddButton>
