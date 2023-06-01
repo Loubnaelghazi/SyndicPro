@@ -191,9 +191,7 @@ export default function Proprietaire({ auth }) {
                                         : `${selectedCount} sélectionné`}
                                 </span>
                             </div>
-                            <AddButton
-                                href={"/proprietaires/ajouter"}
-                            >
+                            <AddButton href={"/proprietaires/ajouter"}>
                                 Ajouter un propriétaire
                             </AddButton>
 
@@ -274,8 +272,8 @@ export default function Proprietaire({ auth }) {
                                             <TData>{item.cni}</TData>
                                             <TData>{item.nationalite}</TData>
                                             <TData>
-                                                <div className=" h-full bg-pinky-color bg-opacity-20 px-2 rounded-2xl flex justify-center items-center">
-                                                    <span className="text-xs text-pinky-color  block ">
+                                                <div className="h-full bg-purple-color bg-opacity-20 px-2 rounded-2xl flex justify-center items-center">
+                                                    <span className="text-xs text-purple-color  block ">
                                                         {item.tel}
                                                     </span>
                                                 </div>

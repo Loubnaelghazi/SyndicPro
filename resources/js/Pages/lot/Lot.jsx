@@ -200,7 +200,7 @@ export default function Lot({ auth }) {
                     <div className="w-full overflow-x-scroll xl:overflow-x-hidden ">
                         <table className="min-w-full bg-white dark:bg-white-800">
                             <THeader>
-                                <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b py-8">
+                                <tr className="w-full h-16 border-white-300 dark:border-white-200 border-b  py-8">
                                     <HeaderCheckbox
                                         data={data}
                                         selectedCheckboxes={selectedCheckboxes}
@@ -237,8 +237,8 @@ export default function Lot({ auth }) {
                                         <TData>{item.batiment}</TData>
                                         <TData>{item.type}</TData>
                                         <TData>
-                                            <div className="w-min h-min bg-blue-300 px-[15px] py-[0.5px] rounded-2xl">
-                                                <span className="text-sm text-white font-medium">
+                                            <div className="h-full bg-purple-color bg-opacity-20 px-2 rounded-2xl flex justify-center items-center">
+                                                <span className="text-xs text-purple-color  block">
                                                     {item.etage}
                                                 </span>
                                             </div>

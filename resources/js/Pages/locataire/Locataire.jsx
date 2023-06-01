@@ -220,8 +220,8 @@ export default function Locataire({ auth }) {
                                         <TData>{item.cni}</TData>
                                         <TData>{item.nationalite}</TData>
                                         <TData>
-                                            <div className=" h-full bg-[#BDE350] px-2 rounded-2xl flex justify-center items-center">
-                                                <span className="text-xs text-[#679711]  block ">
+                                            <div className=" h-full bg-purple-color bg-opacity-20 px-2 rounded-2xl flex justify-center items-center">
+                                                <span className="text-xs text-purple-color  block ">
                                                     {item.tel}
                                                 </span>
                                             </div>

@@ -31,7 +31,6 @@ export default function ModifierDepense({ auth }) {
                                         type="text"
                                         id="designation"
                                         className="mb-0"
-                                        required
                                     />
                                 </div>
                                 <div>
@@ -43,9 +42,9 @@ export default function ModifierDepense({ auth }) {
                                     </label>
                                     <textarea
                                         id="description"
-                                        placeholder="Vous pouvez ajouter plus d'informations içi "
+                                        placeholder="Vous pouvez modifier vos informations içi "
                                         rows="3"
-                                        className="block mt-2  p-2.5 w-full text-l text-gray-900  rounded-lg border border-gray-300 focus:ring-primary-color focus:border-primary-color dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-color dark:focus:border-primary-color h-min"
+                                        className="block  p-2.5 w-full text-l text-gray-900  rounded-lg border border-gray-300 focus:ring-primary-color focus:border-primary-color dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-color dark:focus:border-primary-color h-min"
                                     ></textarea>
                                 </div>
 
@@ -66,7 +65,7 @@ export default function ModifierDepense({ auth }) {
                                                 disabled
                                                 value="Selectionez le fournisseur"
                                             >
-                                                Selectionez le fournisseur
+                                                Le fournisseur
                                             </option>
                                             <option value=" ">1</option>
                                             <option value="">2</option>
@@ -78,8 +77,8 @@ export default function ModifierDepense({ auth }) {
                                         </div>
                                         <TextInput
                                             type="text"
-                                            placeholder="Entrer un nom"
                                             className="mb-0"
+                                            placeholder="Modifier le nom içi"
                                         />
                                     </div>
                                 </div>
@@ -137,9 +136,8 @@ export default function ModifierDepense({ auth }) {
                                         type="date"
                                         name="date"
                                         id="date"
-                                        className="w-full mt-2 h-10 px-2 border border-gray-300 rounded  focus:ring-primary-color focus:border-purple-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:ring-purple-500 dark:focus:border-purple-500"
+                                        className="w-full  h-10 px-2 border border-gray-300 rounded  focus:ring-primary-color focus:border-purple-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:ring-purple-500 dark:focus:border-purple-500"
                                         placeholder="Date de la réunion"
-                                        required
                                     />
                                 </div>
                             </div>
@@ -148,7 +146,7 @@ export default function ModifierDepense({ auth }) {
                 </div>
                 <div className="mt-4 flex justify-center ">
                     <PrimaryButton type="submit" className="w-40  py-2 ">
-                        Ajouter
+                        Enregistrer
                     </PrimaryButton>
                 </div>
             </form>

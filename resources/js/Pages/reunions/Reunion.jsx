@@ -186,7 +186,7 @@ export default function Reunion({ auth }) {
                                         <th className="px-6 py-3 text-left text-xs font-medium text-primary-color uppercase tracking-wider">
                                             Sujet
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-primary-color uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-center text-xs font-medium text-primary-color uppercase tracking-wider">
                                             Actions
                                         </th>
                                     </tr>
@@ -238,7 +238,7 @@ export default function Reunion({ auth }) {
                                                             <a
                                                                 href={`/reunions/consulter/${reunion.id}`}
                                                             >
-                                                                <button className="text-blue-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-blue-400 hover:bg-blue-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2 ">
+                                                                <button className="text-blue-500 border-solid w-min border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-blue-400 hover:bg-blue-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  p-2 ">
                                                                     <HiEye />
                                                                 </button>
                                                             </a>
