@@ -201,14 +201,14 @@ export default function Cotisations({ auth }) {
                                     <tr className=" appearance-none rounded-40 bg-white dark:hover:bg-gray-700">
                                         <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-xl">
                                             <div>
-                                                <div>Mohamed</div>
+                                                <div>lubna</div>
                                                 <div className="font-light">
-                                                    El Mrabet
+                                                    El 
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                            0612960535
+                                            06890200
                                         </td>
                                         <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
                                             <div className="font-regular flex flex-col gap-1 text-xs leading-1">
@@ -241,9 +241,9 @@ export default function Cotisations({ auth }) {
                                     <tr className=" appearance-none rounded-40 bg-white dark:hover:bg-gray-700">
                                         <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-xl">
                                             <div>
-                                                <div>Mohamed</div>
+                                                <div>lina</div>
                                                 <div className="font-light">
-                                                    El Mrabet
+                                                    El 
                                                 </div>
                                             </div>
                                         </td>

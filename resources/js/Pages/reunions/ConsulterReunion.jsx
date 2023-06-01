@@ -7,7 +7,7 @@ import axios from "axios";
 
 export default function ConsulterReunion({ auth }) {
     const [titre, setTitre] = useState("");
-    const [ordre, setOrdre] = useState("");
+    const [ordre_jour, setOrdre] = useState("");
     const [decision, setDecision] = useState("");
     const [date, setDate] = useState("");
     const [heure, setHeure] = useState("");
@@ -91,7 +91,7 @@ export default function ConsulterReunion({ auth }) {
                                 Ordre du jour :
                             </span>
                             <ul className="list-disc list-inside">
-                                {ordre.split("\n").map((ligne, index) => (
+                                {ordre_jour.split("\n").map((ligne, index) => (
                                     <li key={index}>{ligne}</li>
                                 ))}
                             </ul>
