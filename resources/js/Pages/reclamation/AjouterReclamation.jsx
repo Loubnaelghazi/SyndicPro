@@ -116,7 +116,10 @@ export default function AjouterReclamation({ auth }) {
                     />
                     <div className="flex flex-row items-center gap-4 ">
                         <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-color focus:border-primary-color block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-color dark:focus:border-primary-color">
-                            <option selected>
+                            <option
+                                disabled
+                                value="  Sélectionnez le propriétaire"
+                            >
                                 Sélectionnez le propriétaire
                             </option>
                         </select>

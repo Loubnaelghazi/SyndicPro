@@ -97,46 +97,46 @@ export default function Depense({ auth }) {
                                 </tr>
                             </thead>
                             <tbody className="">
-                            {data.map((item) => (
-                                <>
-                                <tr className="shadow-csh2 bg-white dark:hover:bg-gray-700 ">
-                                    <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-md">
-                                        {item.designation}
-                                    </td>
-                                    <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                        {item.fournisseur}
-                                    </td>
-                                    <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                        {item.montant}
-                                    </td>
-                                    <td className="px-2 py-4 whitespace-nowrap text-left text-sm text-gray-600 dark:text-gray-200">
-                                        {item.datePaiement}
-                                    </td>
-                                    <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
-                                        <div className="px-2 p-0.5 text-white bg-[#2AD46E] rounded-2xl">
-                                            {item.statut}
-                                        </div>
-                                    </td>
-                                    <td className="px-2 py-4 whitespace-nowrap text-left text-sm text-gray-600 dark:text-gray-200 rounded-r-md">
-                                        <div className="flex items-center justify-center space-x-2">
-                                            <a>
-                                                <button className="text-blue-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-blue-400 hover:bg-blue-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2 ">
-                                                    <HiEye />
-                                                </button>
-                                            </a>
-                                            <a>
-                                                <button className="text-primary-color border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-purple-400 hover:bg-primary-color hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
-                                                    <HiPencil />
-                                                </button>
-                                            </a>
-                                            <button className="text-red-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-red-400 hover:bg-red-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
-                                                <HiTrash />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <div className="my-2"></div>
-                                </>
+                                {data.map((item) => (
+                                    <>
+                                        <tr className="shadow-csh2 bg-white dark:hover:bg-gray-700 ">
+                                            <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-md">
+                                                {item.designation}
+                                            </td>
+                                            <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
+                                                {item.fournisseur}
+                                            </td>
+                                            <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
+                                                {item.montant}
+                                            </td>
+                                            <td className="px-2 py-4 whitespace-nowrap text-left text-sm text-gray-600 dark:text-gray-200">
+                                                {item.datePaiement}
+                                            </td>
+                                            <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
+                                                <div className="px-2 p-0.5 text-white bg-[#2AD46E] rounded-2xl">
+                                                    {item.statut}
+                                                </div>
+                                            </td>
+                                            <td className="px-2 py-4 whitespace-nowrap text-left text-sm text-gray-600 dark:text-gray-200 rounded-r-md">
+                                                <div className="flex items-center justify-center space-x-2">
+                                                    <a>
+                                                        <button className="text-blue-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-blue-400 hover:bg-blue-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2 ">
+                                                            <HiEye />
+                                                        </button>
+                                                    </a>
+                                                    <a href="/depenses/modifier">
+                                                        <button className="text-primary-color border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-purple-400 hover:bg-primary-color hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
+                                                            <HiPencil />
+                                                        </button>
+                                                    </a>
+                                                    <button className="text-red-500 border-solid border-gray-200 border-[1.5px] bg-white dark:bg-white-700 dark:hover:bg-white-600 hover:border-red-400 hover:bg-red-500 hover:text-white cursor-pointer rounded-[7px] focus:outline-none focus:border-white-800 focus:shadow-outline-white  w-min p-2  ">
+                                                        <HiTrash />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <div className="my-2"></div>
+                                    </>
                                 ))}
                                 <tr className=" appearance-none bg-primary-color dark:hover:bg-gray-700 ">
                                     <td className="px-2 pl-6 py-1 whitespace-nowrap text-sm text-white dark:text-gray-200 rounded-l-md">
@@ -157,7 +157,10 @@ export default function Depense({ auth }) {
                 <div className="col-span-1 mt-4 z-0">
                     <div className="flex flex-col dark:bg-gray-700 rounded-20 gap-2">
                         <div className="w-full">
-                            <AddButton ClassName="w-full m-0">
+                            <AddButton
+                                href={"/depenses/ajouter"}
+                                ClassName="w-full m-0"
+                            >
                                 Ajouter une dépense
                             </AddButton>
                         </div>

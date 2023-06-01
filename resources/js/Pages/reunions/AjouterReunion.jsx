@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
@@ -12,12 +12,6 @@ import {TbFileUpload} from "react-icons/tb"
 
 
 const AjouterReunion = ({ auth }) => {
-
-
-
-
-
-
 
     const [activeSection, setActiveSection] = useState("details");
     const handleSectionChange = (section) => {
@@ -87,7 +81,7 @@ const [chemin_document ,setChemin]=useState("");
             Description={"test test test "}
             ClassName="p-3"
         >
-            <Head title="Réunions" />
+            <Head title=" Ajouter Réunions" />
 
             <div className="p-6">
                 <div className="flex">
@@ -141,7 +135,10 @@ const [chemin_document ,setChemin]=useState("");
                                             id="type"
                                             className="w-full h-10 px-2 border border-gray-300 rounded  focus:ring-primary-color"
                                         >
-                                            <option disabled value="">
+                                            <option
+                                                disabled
+                                                value="   Le type de la réunion"
+                                            >
                                                 Le type de la réunion
                                             </option>
                                             <option value=" assemblees_generales">
