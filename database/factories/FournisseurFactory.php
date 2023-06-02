@@ -19,7 +19,7 @@ class FournisseurFactory extends Factory
         return [
             'raison' => fake()->company(),
             'ice' => fake()->unique()->randomNumber(6),
-            'phone' => fake()->phoneNumber(),
+            'tel' => fake()->phoneNumber(),
             'ville' => fake()->city(),
             'adresse' => fake()->address(),
             'email' => fake()->unique()->safeEmail(),

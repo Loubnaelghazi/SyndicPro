@@ -9,12 +9,6 @@ import {
 } from "react-icons/hi2";
 import { VscCircleLargeFilled } from "react-icons/vsc";
 import { HiSearch } from "react-icons/hi";
-import THead from "@/Components/Table/THead";
-import THeadC from "@/Components/Table/THeadC";
-import TDataC from "@/Components/Table/TDataC";
-import THeader from "@/Components/Table/THeader";
-import TRow from "@/Components/Table/TRow";
-import TData from "@/Components/Table/TData";
 export default function Cotisations({ auth }) {
     const rows = [
         {

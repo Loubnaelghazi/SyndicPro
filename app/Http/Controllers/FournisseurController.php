@@ -9,7 +9,7 @@ class FournisseurController extends Controller
 {
     public function index()
     {
-        $fournisseur = Fournisseur::all();
+        $fournisseur = Fournisseur::paginate(10);
 
         return response()->json($fournisseur);
     }

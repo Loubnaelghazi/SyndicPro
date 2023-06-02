@@ -62,10 +62,42 @@ export default function Fournisseurs({ auth }) {
 
     const fetchFournisseurs = async () => {
         const response = await axios.get(
-            `/api/fournisseurs?page=${currentPage}&perPage=${perPage}`
+            `/api/fournisseurs?page=${currentPage}`
         );
         setFournisseurs(response.data);
     };
+
+    const fetchPrevnextItems = (link) => {
+        try {
+            const url = new URL(link);
+            setCurrentPage(url.searchParams.get('page'));
+        } catch (error) {
+            console.error("Invalid URL:", link);
+            // Handle the error, e.g., show an error message to the user
+        }
+    };
+
+    const renderPagination = () => (
+        <>
+            {fournisseurs.links?.map((link, index) => (
+                <>
+                    <button
+                        key={index}
+                        className={`${
+                            link.active
+                                ? "bg-primary-color text-white py-1 px-2 rounded-md"
+                                : ""
+                        } flex flex-row gap-3 items-center my-4 disabled:text-gray-400 `}
+                        onClick={()=>fetchPrevnextItems(link.url)}
+                    >
+                        {link.label
+                            .replace("&laquo;", "")
+                            .replace("&raquo;", "")}
+                    </button>
+                </>
+            ))}
+        </>
+    );
 
     const handlePerPageChange = (e) => {
         const value = parseInt(e.target.value);
@@ -140,12 +172,6 @@ export default function Fournisseurs({ auth }) {
     };
 
     const data = fournisseurs;
-    const paginatedData = data.slice(
-        (currentPage - 1) * perPage,
-        currentPage * perPage
-    );
-    const totalPages = Math.ceil(data.length / perPage);
-
     return (
         <>
             <Main_content user={auth.user} Title={"Les fournisseurs"}>
@@ -171,9 +197,7 @@ export default function Fournisseurs({ auth }) {
                                 </span>
                             </div>
 
-                            <AddButton
-                                href={"/fournisseurs/ajouter"}
-                            >
+                            <AddButton href={"/fournisseurs/ajouter"}>
                                 Ajouter un fournisseur
                             </AddButton>
 
@@ -212,7 +236,6 @@ export default function Fournisseurs({ auth }) {
                                                 handleCheckboxChange
                                             }
                                         />
-                                        <THead> CNI</THead>
                                         <THead>ICE</THead>
                                         <THead> Raison sociale</THead>
                                         <THead>N° Téléphone</THead>
@@ -222,10 +245,9 @@ export default function Fournisseurs({ auth }) {
                                     </tr>
                                 </THeader>
                                 <tbody>
-                                    {paginatedData.map((item) => (
+                                    {fournisseurs.data?.map((item) => (
                                         <TRow
                                             key={item.id}
-                                            Key={item.id}
                                             selectedCheckboxes={
                                                 selectedCheckboxes
                                             }
@@ -239,7 +261,6 @@ export default function Fournisseurs({ auth }) {
                                                     selectedCheckboxes
                                                 }
                                             />
-                                            <TData>{item.cni}</TData>
                                             <TData>{item.ice}</TData>
                                             <TData ClassName="text-[11px]">
                                                 {item.raison}
@@ -265,39 +286,20 @@ export default function Fournisseurs({ auth }) {
                         <div className="flex flex-row justify-between items-center">
                             <div className="ml-5 flex items-center text-xs">
                                 <span>Fournisseurs par page:</span>
-                                <select
-                                    value={perPage}
-                                    onChange={handlePerPageChange}
-                                    className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none focus:ring-transparent"
-                                >
+                                <select className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none focus:ring-transparent">
                                     <option value={5}>5</option>
                                     <option value={10}>10</option>
                                     <option value={20}>20</option>
                                     <option value={30}>30</option>
                                 </select>
                             </div>
+                            <div>
+                                Showing {fournisseurs.from || 0} to{" "}
+                                {fournisseurs.to || 0} from {fournisseurs.total}{" "}
+                                results.
+                            </div>
                             <div className="text-primary-color font-medium flex flex-row gap-10 h-max  items-center justify-end mr-6 text-xs">
-                                <button
-                                    disabled={currentPage === 1}
-                                    onClick={() =>
-                                        setCurrentPage(currentPage - 1)
-                                    }
-                                    className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
-                                >
-                                    <HiChevronLeft /> Précédent
-                                </button>
-                                <span className="text-xs font-regular text-gray-600">
-                                    Page: {currentPage} sur {totalPages}
-                                </span>
-                                <button
-                                    disabled={currentPage === totalPages}
-                                    onClick={() =>
-                                        setCurrentPage(currentPage + 1)
-                                    }
-                                    className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
-                                >
-                                    Suivant <HiChevronRight />
-                                </button>
+                                {renderPagination()}
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
+import InputLabel from "@/Components/InputLabel";
 
 
 export default function ModifierDepense({ auth }) {
@@ -126,13 +127,13 @@ export default function ModifierDepense({ auth }) {
                                     </select>
                                 </div>
                                 <div>
-                                    <label
+                                    <InputLabel
                                         htmlFor="date"
                                         className="font-medium"
                                     >
                                         Date de paiement :
-                                    </label>
-                                    <input
+                                    </InputLabel>
+                                    <TextInput
                                         type="date"
                                         name="date"
                                         id="date"
