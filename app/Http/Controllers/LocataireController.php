@@ -9,9 +9,10 @@ use Carbon\Carbon;
 
 class LocataireController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $locataire = Locataire::all();
+        $perPage = $request->input('per_page', 5);
+        $locataire = Locataire::paginate($perPage);
 
         return response()->json($locataire);
     }

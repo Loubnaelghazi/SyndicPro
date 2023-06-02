@@ -21,8 +21,6 @@ export default function Proprietaire({ auth }) {
     const [selectedCount, setSelectedCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [proprietaires, setProprietaires] = useState([]);
-    const [selectedProprietaires, setSelectedProprietaires] = useState([]);
-    const [selectedProprietaire, setSelectedProprietaire] = useState(null);
     const [proprietaireId, setProprietaireId] = useState();
 
     const [perPage, setPerPage] = useState(() => {
