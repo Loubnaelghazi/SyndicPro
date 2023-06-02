@@ -62,11 +62,12 @@ export default function Fournisseurs({ auth }) {
 
     const fetchFournisseurs = async () => {
         const response = await axios.get(
-            `/api/fournisseurs?page=${currentPage}`
+            `/api/fournisseurs?page=${currentPage}&per_page=${perPage}`
         );
         setFournisseurs(response.data);
     };
-
+    
+    fournisseurs.per_page=perPage;
     const fetchPrevnextItems = (link) => {
         try {
             const url = new URL(link);
@@ -75,6 +76,10 @@ export default function Fournisseurs({ auth }) {
             console.error("Invalid URL:", link);
             // Handle the error, e.g., show an error message to the user
         }
+    };
+
+    const handlePerPageChange = (e) => {
+        setPerPage(parseInt(e.target.value));
     };
 
     const renderPagination = () => (
@@ -99,11 +104,6 @@ export default function Fournisseurs({ auth }) {
         </>
     );
 
-    const handlePerPageChange = (e) => {
-        const value = parseInt(e.target.value);
-        setPerPage(value);
-        localStorage.setItem("perPage", value); // Store the perPage value in localStorage
-    };
 
     const deleteSelectedItems = async () => {
         let alertBox = null;
@@ -170,6 +170,7 @@ export default function Fournisseurs({ auth }) {
             // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
         }
     };
+    
 
     const data = fournisseurs;
     return (
@@ -286,7 +287,9 @@ export default function Fournisseurs({ auth }) {
                         <div className="flex flex-row justify-between items-center">
                             <div className="ml-5 flex items-center text-xs">
                                 <span>Fournisseurs par page:</span>
-                                <select className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none focus:ring-transparent">
+                                <select className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none focus:ring-transparent"
+                                value={perPage}
+                                onChange={handlePerPageChange}>
                                     <option value={5}>5</option>
                                     <option value={10}>10</option>
                                     <option value={20}>20</option>

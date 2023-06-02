@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class FournisseurController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $fournisseur = Fournisseur::paginate(10);
+        $perPage = $request->input('per_page', 5);
+        $fournisseur = Fournisseur::paginate($perPage);
 
         return response()->json($fournisseur);
     }
