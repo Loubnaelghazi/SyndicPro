@@ -10,9 +10,10 @@ class LotController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $lot = Lot::with('locataire')->with('proprietaire')->get();
+        $perPage = $request->input('per_page', 5);
+        $lot = Lot::with('locataire')->with('proprietaire')->paginate($perPage);
 
         return response()->json($lot);
     }

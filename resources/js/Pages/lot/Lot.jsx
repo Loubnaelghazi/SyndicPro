@@ -38,7 +38,7 @@ export default function Lot({ auth }) {
 
     const fetchLots = async () => {
         const response = await axios.get(
-            `/api/lots?page=${currentPage}&perPage=${perPage}`
+            `/api/lots?page=${currentPage}&per_page=${perPage}`
         );
         setLots(response.data);
     };
@@ -75,12 +75,40 @@ export default function Lot({ auth }) {
         localStorage.setItem("perPage", value); // Store the perPage value in localStorage
     };
 
-    const data = lots;
-    const paginatedData = data.slice(
-        (currentPage - 1) * perPage,
-        currentPage * perPage
+    const fetchPrevnextItems = (link) => {
+        try {
+            const url = new URL(link);
+            setCurrentPage(url.searchParams.get("page"));
+        } catch (error) {
+            console.error("Invalid URL:", link);
+            // Handle the error, e.g., show an error message to the user
+        }
+    };
+
+    const renderPagination = () => (
+        <>
+            {lots.links?.map((link, index) => (
+                <div key={index}>
+                    <button
+                        key={index}
+                        className={`${
+                            link.active
+                                ? "bg-primary-color text-white py-1 px-2 rounded-md"
+                                : ""
+                        } flex flex-row gap-3 items-center my-4 disabled:text-gray-400 `}
+                        onClick={() => fetchPrevnextItems(link.url)}
+                    >
+                        {link.label
+                            .replace("&laquo; Previous", "Précédent")
+                            .replace("Next &raquo;", "Suivant")}
+                    </button>
+                </div>
+            ))}
+        </>
     );
-    const totalPages = Math.ceil(data.length / perPage);
+
+    const data = lots.data !== undefined ? lots.data : [];
+
     const sans = (
         <div className=" italic text-gray-300 font-light text-2xl">sans</div>
     );
@@ -218,7 +246,7 @@ export default function Lot({ auth }) {
                                 </tr>
                             </THeader>
                             <tbody>
-                                {paginatedData.map((item) => (
+                                {data.map((item) => (
                                     <TRow
                                         key={item.id}
                                         Key={item.id}
@@ -277,24 +305,13 @@ export default function Lot({ auth }) {
                                 <option value={30}>30</option>
                             </select>
                         </div>
-                        <div className="text-primary-color font-medium flex flex-row gap-10 h-max  items-center justify-end mr-6 text-xs">
-                            <button
-                                disabled={currentPage === 1}
-                                onClick={() => setCurrentPage(currentPage - 1)}
-                                className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
-                            >
-                                <HiChevronLeft /> Précédent
-                            </button>
-                            <span className="text-xs font-regular text-gray-600">
-                                Page: {currentPage} sur {totalPages}
-                            </span>
-                            <button
-                                disabled={currentPage === totalPages}
-                                onClick={() => setCurrentPage(currentPage + 1)}
-                                className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
-                            >
-                                Suivant <HiChevronRight />
-                            </button>
+                        <div className="text-sm text-gray-400">
+                            Affichage de {lots.from || 0} à{" "}
+                            {lots.to || 0} sur {lots.total}{" "}
+                            résultats.
+                        </div>
+                        <div className="text-primary-color font-medium flex flex-row gap-7 h-max  items-center justify-end mr-6 text-xs">
+                            {renderPagination()}
                         </div>
                     </div>
                 </div>
