@@ -39,61 +39,78 @@ export default function Proprietaire({ auth }) {
 
     const handleCheckboxChange = (id) => {
         setProprietaireId(id);
-        let updatedSelectedProprietaires;
+        let updatedCheckboxes;
         if (id === "all") {
             if (selectedCheckboxes.length === data.length) {
-                updatedSelectedProprietaires = [];
+                updatedCheckboxes = [];
                 setIsModifyHidden(false);
             } else {
-                updatedSelectedProprietaires = data.map((item) => item);
+                updatedCheckboxes = data.map((item) => item.id);
                 setIsModifyHidden(true);
             }
         } else {
             if (selectedCheckboxes.includes(id)) {
-                updatedSelectedProprietaires = selectedProprietaires.filter(
-                    (proprietaire) => proprietaire.id !== id
+                updatedCheckboxes = selectedCheckboxes.filter(
+                    (checkbox) => checkbox !== id
                 );
             } else {
-                const selectedProprietaire = data.find(
-                    (item) => item.id === id
-                );
-                updatedSelectedProprietaires = [
-                    ...selectedProprietaires,
-                    selectedProprietaire,
-                ];
+                updatedCheckboxes = [...selectedCheckboxes, id];
             }
-            setIsModifyHidden(updatedSelectedProprietaires.length !== 1);
+            setIsModifyHidden(updatedCheckboxes.length !== 1);
         }
-        if (updatedSelectedProprietaires.length === 1) {
-            const selectedProprietaire = data.find((item) => item.id === id);
-            setSelectedProprietaire(selectedProprietaire);
-        } else {
-            setSelectedProprietaire(null);
-        }
-        setSelectedCheckboxes(
-            updatedSelectedProprietaires.map((proprietaire) => proprietaire.id)
-        );
-        setSelectedCount(updatedSelectedProprietaires.length);
-    };
 
+        setSelectedCheckboxes(updatedCheckboxes);
+        setSelectedCount(updatedCheckboxes.length);
+    };
     const fetchProprietaires = async () => {
         const response = await axios.get(
-            `/api/proprietaires?page=${currentPage}&perPage=${perPage}`
+            `/api/proprietaires?page=${currentPage}&per_page=${perPage}`
         );
         setProprietaires(response.data);
     };
 
-    const data = proprietaires;
+    const data = proprietaires.data !== undefined ? proprietaires.data : [];
 
-    const paginatedData = data.slice(
-        (currentPage - 1) * perPage,
-        currentPage * perPage
-    );
     const handlePerPageChange = (e) => {
         const value = parseInt(e.target.value);
         setPerPage(value);
         localStorage.setItem("perPage", value); // Store the perPage value in localStorage
     };
+
+        const fetchPrevnextItems = (link) => {
+        try {
+            const url = new URL(link);
+            setCurrentPage(url.searchParams.get("page"));
+        } catch (error) {
+            console.error("Invalid URL:", link);
+            // Handle the error, e.g., show an error message to the user
+        }
+    };
+
+    const renderPagination = () => (
+        <>
+            {proprietaires.links?.map((link, index) => (
+                <div key={index}>
+                    <button
+                        key={index}
+                        className={`${
+                            link.active
+                                ? "bg-primary-color text-white py-1 px-2 rounded-md"
+                                : ""
+                        } flex flex-row gap-3 items-center my-4 disabled:text-gray-400 `}
+                        onClick={() => fetchPrevnextItems(link.url)}
+                    >
+                        {link.label
+                            .replace("&laquo; Previous", "Précédent")
+                            .replace("Next &raquo;", "Suivant")}
+                    </button>
+                </div>
+            ))}
+        </>
+    );
+
+
+
 
     const totalPages = Math.ceil(data.length / perPage);
 
@@ -242,10 +259,9 @@ export default function Proprietaire({ auth }) {
                                     </tr>
                                 </THeader>
                                 <tbody>
-                                    {paginatedData.map((item) => (
+                                    {data.map((item) => (
                                         <TRow
                                             key={item.id}
-                                            Key={item.id}
                                             selectedCheckboxes={
                                                 selectedCheckboxes
                                             }
@@ -298,28 +314,12 @@ export default function Proprietaire({ auth }) {
                                     <option value={30}>30</option>
                                 </select>
                             </div>
-                            <div className="text-primary-color font-medium flex flex-row gap-10 h-max  items-center justify-end mr-6 text-xs">
-                                <button
-                                    disabled={currentPage === 1}
-                                    onClick={() =>
-                                        setCurrentPage(currentPage - 1)
-                                    }
-                                    className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
-                                >
-                                    <HiChevronLeft /> Précédent
-                                </button>
-                                <span className="text-xs font-regular text-gray-600">
-                                    Page: {currentPage} sur {totalPages}
-                                </span>
-                                <button
-                                    disabled={currentPage === totalPages}
-                                    onClick={() =>
-                                        setCurrentPage(currentPage + 1)
-                                    }
-                                    className="flex flex-row gap-3 items-center my-4 disabled:text-gray-400"
-                                >
-                                    Suivant <HiChevronRight />
-                                </button>
+                            <div className="text-sm text-gray-400">
+                                Affichage de {proprietaires.from || 0} à {proprietaires.to || 0} sur {proprietaires.total}{" "}
+                                résultats.
+                            </div>
+                            <div className="text-primary-color font-medium flex flex-row gap-7 h-max  items-center justify-end mr-6 text-xs">
+                                {renderPagination()}
                             </div>
                         </div>
                     </div>

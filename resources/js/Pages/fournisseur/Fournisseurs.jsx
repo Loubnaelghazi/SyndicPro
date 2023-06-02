@@ -22,7 +22,6 @@ export default function Fournisseurs({ auth }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [fournisseurs, setFournisseurs] = useState([]);
     const [fournisseurId, setFournisseurId] = useState();
-    const [L, setL] = useState(0);
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
         const storedPerPage = localStorage.getItem("perPage");
@@ -67,8 +66,13 @@ export default function Fournisseurs({ auth }) {
         );
         setFournisseurs(response.data);
     };
+    
+    const handlePerPageChange = (e) => {
+        const value = parseInt(e.target.value);
+        setPerPage(value);
+        localStorage.setItem("perPage", value); // Store the perPage value in localStorage
+    };
 
-    fournisseurs.per_page = perPage;
     const fetchPrevnextItems = (link) => {
         try {
             const url = new URL(link);
@@ -79,9 +83,6 @@ export default function Fournisseurs({ auth }) {
         }
     };
 
-    const handlePerPageChange = (e) => {
-        setPerPage(parseInt(e.target.value));
-    };
 
     const renderPagination = () => (
         <>
@@ -97,8 +98,8 @@ export default function Fournisseurs({ auth }) {
                         onClick={() => fetchPrevnextItems(link.url)}
                     >
                         {link.label
-                            .replace("&laquo;", "")
-                            .replace("&raquo;", "")}
+                            .replace("&laquo; Previous", "Précédent")
+                            .replace("Next &raquo;", "Suivant")}
                     </button>
                 </div>
             ))}
@@ -247,7 +248,7 @@ export default function Fournisseurs({ auth }) {
                                     </tr>
                                 </THeader>
                                 <tbody>
-                                    {fournisseurs.data?.map((item) => (
+                                    {data?.map((item) => (
                                         <TRow
                                             key={item.id}
                                             selectedCheckboxes={
@@ -299,12 +300,11 @@ export default function Fournisseurs({ auth }) {
                                     <option value={30}>30</option>
                                 </select>
                             </div>
-                            <div>
-                                Showing {fournisseurs.from || 0} to{" "}
-                                {fournisseurs.to || 0} from {fournisseurs.total}{" "}
-                                results.
+                            <div className="text-sm text-gray-400">
+                                Affichage de {fournisseurs.from || 0} à {fournisseurs.to || 0} sur {fournisseurs.total}{" "}
+                                résultats.
                             </div>
-                            <div className="text-primary-color font-medium flex flex-row gap-10 h-max  items-center justify-end mr-6 text-xs">
+                            <div className="text-primary-color font-medium flex flex-row gap-7 h-max  items-center justify-end mr-6 text-xs">
                                 {renderPagination()}
                             </div>
                         </div>

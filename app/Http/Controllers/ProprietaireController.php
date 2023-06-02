@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 class ProprietaireController extends Controller
 {
    
-    public function index()
+    public function index(Request $request)
     {
-        $proprietaire = Proprietaire::all();
+        $perPage = $request->input('per_page', 5);
+        $proprietaire = Proprietaire::paginate($perPage);
 
         return response()->json($proprietaire);
     }
