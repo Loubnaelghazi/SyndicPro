@@ -22,6 +22,7 @@ export default function Fournisseurs({ auth }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [fournisseurs, setFournisseurs] = useState([]);
     const [fournisseurId, setFournisseurId] = useState();
+    const [L, setL] = useState(0);
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
         const storedPerPage = localStorage.getItem("perPage");
@@ -66,12 +67,12 @@ export default function Fournisseurs({ auth }) {
         );
         setFournisseurs(response.data);
     };
-    
-    fournisseurs.per_page=perPage;
+
+    fournisseurs.per_page = perPage;
     const fetchPrevnextItems = (link) => {
         try {
             const url = new URL(link);
-            setCurrentPage(url.searchParams.get('page'));
+            setCurrentPage(url.searchParams.get("page"));
         } catch (error) {
             console.error("Invalid URL:", link);
             // Handle the error, e.g., show an error message to the user
@@ -85,7 +86,7 @@ export default function Fournisseurs({ auth }) {
     const renderPagination = () => (
         <>
             {fournisseurs.links?.map((link, index) => (
-                <>
+                <div key={index}>
                     <button
                         key={index}
                         className={`${
@@ -93,17 +94,16 @@ export default function Fournisseurs({ auth }) {
                                 ? "bg-primary-color text-white py-1 px-2 rounded-md"
                                 : ""
                         } flex flex-row gap-3 items-center my-4 disabled:text-gray-400 `}
-                        onClick={()=>fetchPrevnextItems(link.url)}
+                        onClick={() => fetchPrevnextItems(link.url)}
                     >
                         {link.label
                             .replace("&laquo;", "")
                             .replace("&raquo;", "")}
                     </button>
-                </>
+                </div>
             ))}
         </>
     );
-
 
     const deleteSelectedItems = async () => {
         let alertBox = null;
@@ -170,9 +170,10 @@ export default function Fournisseurs({ auth }) {
             // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
         }
     };
-    
 
-    const data = fournisseurs;
+    const data = fournisseurs.data !== undefined ? fournisseurs.data : [];
+
+
     return (
         <>
             <Main_content user={auth.user} Title={"Les fournisseurs"}>
@@ -287,9 +288,11 @@ export default function Fournisseurs({ auth }) {
                         <div className="flex flex-row justify-between items-center">
                             <div className="ml-5 flex items-center text-xs">
                                 <span>Fournisseurs par page:</span>
-                                <select className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none focus:ring-transparent"
-                                value={perPage}
-                                onChange={handlePerPageChange}>
+                                <select
+                                    className=" h-min bg-transparent text-md  rounded-3xl px-auto appearance-none border-transparent text-primary-color  font-medium focus:border-none outline-none focus:ring-transparent"
+                                    value={perPage}
+                                    onChange={handlePerPageChange}
+                                >
                                     <option value={5}>5</option>
                                     <option value={10}>10</option>
                                     <option value={20}>20</option>
