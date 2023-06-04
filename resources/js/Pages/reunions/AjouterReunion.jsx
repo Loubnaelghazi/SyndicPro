@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,usePage } from "react";
 import axios from "axios";
 import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
@@ -26,11 +26,15 @@ const AjouterReunion = ({ auth }) => {
  const [lieu, setLieu] = useState("");
  const [sujet, setSujet] = useState("");
  const [type, setType] = useState("");
-const [chemin_document ,setChemin]=useState("");
-
+const [chemin_document ,setChemin]=useState(null);
+ const handleFileChange = (event) => {
+     setChemin(event.target.files[0]);
+ };
   const ajouter = async (e) => {
-    
       e.preventDefault();
+      const formData = new FormData();
+      formData.append("chemin_document", chemin_document); // Ajoute le fichier PV à FormData
+
       const reunion = {
           titre,
           ordre_jour,
@@ -41,22 +45,26 @@ const [chemin_document ,setChemin]=useState("");
           lieu,
           sujet,
           type,
-          chemin_document,
+          
       };
       try {
-          await axios.post(`/api/reunions`, reunion); 
+          await axios.post(`/api/reunions`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      params: reunion, // Ajoute les autres données de la réunion en tant que paramètres
+    });
 
           Swal.fire({
-             
               icon: "success",
               title: "Votre  réunion a été ajouté avec succés !",
               showConfirmButton: true,
               confirmButtonText: "OK",
               buttonsStyling: false,
               customClass: {
-            popup: "success-popup",
-            confirmButton:
-            "bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md",
+                  popup: "success-popup",
+                  confirmButton:
+                      "bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md",
               },
               preConfirm: () => {
                   return new Promise((resolve) => {
@@ -68,7 +76,7 @@ const [chemin_document ,setChemin]=useState("");
           });
       } catch (error) {
           console.log(error);
-          console.log('Erreurs');
+          console.log("Erreurs");
       }
   };
     
@@ -228,13 +236,14 @@ const [chemin_document ,setChemin]=useState("");
                                     <h2 className="text-lg font-semibold  mb-4  text-gray-700 ">
                                         COMPTE RENDU DE LA REUNION
                                     </h2>
-                                    <button className="w-min bg-primary-color text-white rounded-md hover:opacity-90 focus:outline-none  flex items-center ">
-                                        <TbFileUpload className=" text-2xl inline-block m-1" />
-                                        <span className="mr-2 mt-1">
-                                            Déposer{" "}
-                                        </span>
-                                    </button>
-                                    <input type="file" className="hidden" />
+
+                                    <input
+                                        type="file"
+                                        className="file"
+                                        name="chemin_document"
+                                        id="chemin_document"
+                                        onChange={handleFileChange}
+                                    />
                                 </div>
                                 <textarea
                                     name="pv"

@@ -31,19 +31,6 @@ class ReunionController extends Controller
    
     public function store(Request $request)
     {
-   /*      $document = $request->file('chemin_document');
-
-        // Vérifier si un fichier a été téléchargé
-        if ($document) {
-            // Générer un nom unique pour le fichier
-            $fileName = time() . '_' . $document->getClientOriginalName();
-
-            // Déplacer le fichier vers le répertoire de stockage (par exemple, le dossier "public/storage")
-            $filePath = $document->storeAs('public', $fileName);
-        } else {
-            return response()->json(['error' => 'Veuillez télécharger un document.'], 400);
-        }
- */
         $reunion = Reunion::create([
             'titre' => $request->titre,
             'ordre_jour' => $request->ordre_jour,
@@ -54,10 +41,22 @@ class ReunionController extends Controller
             'lieu' => $request->lieu,
             'sujet' => $request->sujet,
             'type' => $request->type,
-            'chemin_document' => $request->chemin_document,
-
-
         ]);
+        // Vérifiez si un fichier a été téléchargé
+        if ($request->hasFile('chemin_document')) {
+            $file = $request->file('chemin_document');
+
+            // Enregistrez le fichier dans la collection 'pv' associée au modèle Reunion
+            $media = $reunion->addMedia($file)->toMediaCollection('ReunionsPVs');
+
+            // Obtenez le chemin d'accès au fichier pour le stockage ou l'affichage ultérieur
+            $filePath = $media->getPath();
+            // Par exemple, vous pouvez le stocker dans un système de fichiers local ou un service de stockage en nuage tel que AWS S3
+
+            // Mettez à jour l'attribut 'chemin_document' dans votre modèle Reunion avec le chemin d'accès au fichier
+            $reunion->chemin_document = $filePath;
+            $reunion->save();
+        }
         return response()->json($reunion);
 
     }
