@@ -16,6 +16,12 @@ class LocataireController extends Controller
 
         return response()->json($locataire);
     }
+    public function getAll()
+    {
+        $locataire = Locataire::get();
+
+        return response()->json($locataire);
+    }
 
     public function store(Request $request)
     {

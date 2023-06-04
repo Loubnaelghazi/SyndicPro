@@ -14,6 +14,13 @@ class ProprietaireController extends Controller
 
         return response()->json($proprietaire);
     }
+    public function getAll()
+    {
+        $proprietaire = Proprietaire::get();
+
+        return response()->json($proprietaire);
+    }
+    
    ////////////////////////////////////////////////////////////
     public function store(Request $request)
     {

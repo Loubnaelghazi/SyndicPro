@@ -6,7 +6,6 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { Head } from "@inertiajs/react";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { Inertia } from "@inertiajs/inertia";
 
 const AjouterLot = ({ auth }) => {
     const [numero, setNumero] = useState("");
@@ -67,12 +66,12 @@ const AjouterLot = ({ auth }) => {
     };
 
     const fetchLocataires = async () => {
-        const response = await axios.get(`/api/locataires`);
+        const response = await axios.get(`/api/locataires/getAll`);
         setLocataires(response.data);
     };
 
     const fetchProprietaires = async () => {
-        const response = await axios.get(`/api/proprietaires`);
+        const response = await axios.get(`/api/proprietaires/getAll`);
         setProprietaires(response.data);
     };
 
