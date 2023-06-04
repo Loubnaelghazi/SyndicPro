@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import {
     HiBell,
     HiExclamationTriangle,
@@ -34,7 +34,7 @@ export default function Header({ user }) {
     const [headerStyle, setHeaderStyle] = useState(
         "transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-2xl p-2 rounded-xl bg-gradient-to-tr from-primary-color to-p-gradient-color text-white shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/40 active:opacity-[0.85] w-min flex items-center gap-4  capitalize"
     );
-
+ 
     function hideElement() {
         if (display == "none") {
             setDesplay("block");
@@ -57,6 +57,9 @@ export default function Header({ user }) {
                     </a>
                     Residence <span className="font-semibold">Nour</span>
                 </div>
+
+               
+
                 <div className="flex flex-row gap-2 items-center">
                     <a
                         className={`${

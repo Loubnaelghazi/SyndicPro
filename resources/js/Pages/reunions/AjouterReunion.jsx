@@ -1,86 +1,76 @@
-import React, { useState ,usePage } from "react";
+import React, { useState, usePage } from "react";
 import axios from "axios";
 import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
 import Swal from "sweetalert2";
-import {TbFileUpload} from "react-icons/tb"
-
-
-
-
-
-
+import { TbFileUpload } from "react-icons/tb";
 
 const AjouterReunion = ({ auth }) => {
-
     const [activeSection, setActiveSection] = useState("details");
     const handleSectionChange = (section) => {
         setActiveSection(section);
     };
- const [titre, setTitre] = useState("");
- const [ordre_jour, setOrdre] = useState("");
- const [pv, setPv] = useState("");
- const [decision, setDecision] = useState("");
- const [date, setDate] = useState("");
-  const [heure, setHeure] = useState("");
- const [lieu, setLieu] = useState("");
- const [sujet, setSujet] = useState("");
- const [type, setType] = useState("");
-const [chemin_document ,setChemin]=useState(null);
- const handleFileChange = (event) => {
-     setChemin(event.target.files[0]);
- };
-  const ajouter = async (e) => {
-      e.preventDefault();
-      const formData = new FormData();
-      formData.append("chemin_document", chemin_document); // Ajoute le fichier PV à FormData
+    const [titre, setTitre] = useState("");
+    const [ordre_jour, setOrdre] = useState("");
+    const [pv, setPv] = useState("");
+    const [decision, setDecision] = useState("");
+    const [date, setDate] = useState("");
+    const [heure, setHeure] = useState("");
+    const [lieu, setLieu] = useState("");
+    const [sujet, setSujet] = useState("");
+    const [type, setType] = useState("");
+    const [chemin_document, setChemin] = useState(null);
+    const handleFileChange = (event) => {
+        setChemin(event.target.files[0]);
+    };
+    const ajouter = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("chemin_document", chemin_document); // Ajoute le fichier PV à FormData
 
-      const reunion = {
-          titre,
-          ordre_jour,
-          pv,
-          decision,
-          date,
-          heure,
-          lieu,
-          sujet,
-          type,
-          
-      };
-      try {
-          await axios.post(`/api/reunions`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      params: reunion, // Ajoute les autres données de la réunion en tant que paramètres
-    });
+        const reunion = {
+            titre,
+            ordre_jour,
+            pv,
+            decision,
+            date,
+            heure,
+            lieu,
+            sujet,
+            type,
+        };
+        try {
+            await axios.post(`/api/reunions`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+                params: reunion, // Ajoute les autres données de la réunion en tant que paramètres
+            });
 
-          Swal.fire({
-              icon: "success",
-              title: "Votre  réunion a été ajouté avec succés !",
-              showConfirmButton: true,
-              confirmButtonText: "OK",
-              buttonsStyling: false,
-              customClass: {
-                  popup: "success-popup",
-                  confirmButton:
-                      "bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md",
-              },
-              preConfirm: () => {
-                  return new Promise((resolve) => {
-                      resolve();
-                  });
-              },
-          }).then(() => {
-              window.location.href = "/reunions";
-          });
-      } catch (error) {
-          console.log(error);
-          console.log("Erreurs");
-      }
-  };
-    
-
+            Swal.fire({
+                icon: "success",
+                title: "Votre  réunion a été ajouté avec succés !",
+                showConfirmButton: true,
+                confirmButtonText: "OK",
+                buttonsStyling: false,
+                customClass: {
+                    popup: "success-popup",
+                    confirmButton:
+                        "bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md",
+                },
+                preConfirm: () => {
+                    return new Promise((resolve) => {
+                        resolve();
+                    });
+                },
+            }).then(() => {
+                window.location.href = "/reunions";
+            });
+        } catch (error) {
+            console.log(error);
+            console.log("Erreurs");
+        }
+    };
 
     return (
         <Main_content
@@ -291,7 +281,7 @@ const [chemin_document ,setChemin]=useState(null);
                             href="/reunions
                         "
                         >
-                            <button className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">
+                            <button  type="button" className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">
                                 Annuler
                             </button>
                         </a>

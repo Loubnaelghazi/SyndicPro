@@ -279,6 +279,7 @@ export default function ModifierReunion({ auth }) {
                                 <h2 className="text-lg font-semibold  mb-4  text-gray-700 ">
                                     COMPTE RENDU DE LA REUNION
                                 </h2>
+                                
                                 <textarea
                                     name="pv"
                                     id="pv"
@@ -322,7 +323,7 @@ export default function ModifierReunion({ auth }) {
                             href="/reunions
                         "
                         >
-                            <button className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">
+                            <button type="button" className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">
                                 Annuler
                             </button>
                         </a>

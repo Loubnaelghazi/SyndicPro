@@ -1,34 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
-import {
-    HiCheckCircle,
-    HiChevronDown,
-    HiPrinter,
-    HiXCircle,
-} from "react-icons/hi2";
-import { VscCircleLargeFilled } from "react-icons/vsc";
-import { HiSearch } from "react-icons/hi";
+import { TbSearch } from "react-icons/tb";
+import HeaderCheckbox from "@/Components/Table/HeaderCheckbox";
+import Checkbox from "@/Components/Checkbox";
+import { HiPrinter } from "react-icons/hi2";
+
 export default function Cotisations({ auth }) {
-    const rows = [
-        {
-            proprietaire: "Propriétaire 1",
-            telephone: "N° Téléphone 1",
-            lot: "1",
-            informations: "Informations du lot 1",
-            moisPayes: "3",
-            moisNonPayes: "9",
-        },
-
-        // Ajoutez les autres lignes du tableau ici
-    ];
-    const [currentDate, setCurrentDate] = useState("");
-
-    useEffect(() => {
-        const today = new Date();
-        const formattedDate = today.toLocaleDateString("fr-FR");
-        setCurrentDate(formattedDate);
-    }, []);
+   const data = [
+       {
+           id: 1,
+           proprietaire: "lubnita",
+           phone: "06638392",
+           montant: 1000,
+           infos: "informations",
+           statut: "Paid",
+       },
+       {
+           id: 1,
+           proprietaire: "lubnita",
+           phone: "06638392",
+           montant: 1000,
+           infos: "informations",
+           statut: "Paid",
+       },
+       // Ajoutez les autres lignes du tableau ici
+   ];
+   
     return (
         <Main_content
             user={auth.user}
@@ -38,242 +36,227 @@ export default function Cotisations({ auth }) {
             <Head title="Cotisations" />
 
             <div className="">
-                <div className="mx-auto container bg-gray-100 dark:bg-gray-700 w-full rounded-20">
-                    <div className="w-full flex flex-row items-center pt-3 px-5 pb-1 rounded-t-20"></div>
-                    <div className="flex items-center justify-between space-x-6 mb-6 mt-4  mx-8 ">
-                        <div>
-                            <label htmlFor="annee" className=" text-sm font-medium text-gray-500">
-                                Année :
-                            </label>
-                            <select
-                                id="annee"
-                                name="annee"
-                                className=" text-xs font-medium text-gray-500 px-1 py-1 mx-5 w-20 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-color"
-                            >
-                                <option disabled value="">
-                                    Veuillez choisir l'année:
-                                </option>
-                                <option value="" >2020</option>
-                            </select>
-                        </div>
-                        <div>
-                            <div className="relative ">
-                                <label htmlFor="search" className="text-sm font-medium text-gray-500">
-                                    Rechercher :
-                                </label>
-
-                                <input
-                                    type="search"
-                                    name="search"
-                                    id="search"
-                                    className=" h-6 border text-sm border-gray-300 rounded-md focus:outline-none  focus:ring-primary-color p-1 pr-3 ml-4 appearance-none"
-                                    placeholder=""
-                                />
-                                <HiSearch className="h-4 w-4 absolute top-1 right-2  text-gray-400 pointer-events-none" />
-                            </div>
-                        </div>
-                        <div className="flex items-center">
-                            <label htmlFor="date" className=" text-sm font-medium text-gray-500">
-                                Date d'aujourd'hui :
-                            </label>
-                            <span className="text-purple-600 text-sm">
-                                {" "}
-                                {currentDate}
-                            </span>
-                        </div>
-
-                        <div className="border-[2px] border-purple-600 border-solid rounded-md flex flex-row items-center  ">
-                            <a href="" className="flex items-center">
-                                <button className="px-2 p-0.5 font-medium bg-purple-600 text-white rounded-l-sm hover:bg-purple-700 focus:outline-none flex flex-row items-center gap-3">
-                                    <span className="text-sm">
-                                        <HiPrinter />
-                                    </span>
-                                    <span className=" text-sm">Imprimer</span>
-                                </button>
-                            </a>
-                            <div
-                                className="flex px-1 items-center text-sm"
-                                name=""
-                                id=""
-                            >
-                                <button>
-                                    <HiChevronDown />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="w-full px-5 py-3">
-                        <div className="bg-gray-100 dark:bg-gray-700 rounded overflow-x-auto">
-                            <table className="min-w-full ">
+                <div className="bg-[#F8F8FF] dark:bg-gray-700 p-4 py-10  rounded-20 grid grid-cols-4 gap-6">
+                    <div className="col-span-3 z-10">
+                        <div className=" dark:bg-gray-700 rounded overflow-x-auto">
+                            <table className="w-full">
                                 <thead>
-                                    <tr className="">
+                                    <tr>
                                         <th
                                             scope="col"
-                                            className="px-2 py-4 pb-6 pl-6 text-left text-xs font-medium text-purple-500 "
+                                            className="px-6 py-4 text-left text-sm font-medium text-purple-500 "
+                                        >
+                                            <Checkbox />
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="pr-6 py-4 text-left text-sm font-medium text-purple-500 "
+                                        >
+                                            N°
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-2 py-4 text-left text-sm font-medium text-purple-500 "
+                                        >
+                                            Montant (DH)
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-2 py-4 text-left text-sm font-medium text-purple-500 "
+                                        >
+                                            Statut
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-2 py-4 text-left text-sm font-medium text-purple-500 "
                                         >
                                             Propriétaire
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-2 py-4 pb-6 text-left text-xs font-medium text-purple-500 "
+                                            className="px-4 py-4 text-center text-sm font-medium text-purple-500 "
                                         >
-                                            N° Téléphone
+                                            N° de téléphone
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-2 py-4 pb-6 text-left text-xs font-medium text-purple-500 "
+                                            className="px-4 py-4 text-center text-sm font-medium text-purple-500 "
                                         >
                                             Informations du lot
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="px-2 py-4 pb-6 text-left text-xs font-medium text-purple-500 "
-                                        >
-                                            Mois payés
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-2 py-4 pb-6 text-left text-xs font-medium text-purple-500 "
-                                        >
-                                            Mois non payés
-                                        </th>
-                                        {Array.from(
-                                            { length: 12 },
-                                            (_, index) => (
-                                                <th
-                                                    key={index}
-                                                    scope="col"
-                                                    className="px-2 py-4 pb-6 text-left text-xs font-medium text-purple-500"
-                                                >
-                                                    {index + 1}
-                                                </th>
-                                            )
-                                        )}{" "}
                                     </tr>
                                 </thead>
                                 <tbody className="">
-                                    <tr className=" appearance-none bg-white dark:hover:bg-gray-700">
-                                        <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-lg">
-                                            <div>
-                                                <div className="font-medium">Mohamed</div>
-                                                <div className="font-light">
-                                                    El Mrabet
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                            0612960535
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                            <div className="font-regular flex flex-col gap-1 text-xs leading-1">
-                                                    <div>N°: 1, Etage: 3</div>
-                                                    <div>Batiment: A, Porte: 1</div>
-                                            </div>
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
-                                            9
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
-                                            3
-                                        </td>
-                                        {Array.from({ length: 9 }, () => (
-                                            <td className="py-4 whitespace-nowrap text-2xl dark:text-gray-200 text-purple-600">
-                                                <HiCheckCircle />
-                                            </td>
-                                        ))}
-                                        <td className="py-4 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-red-500">
-                                            <HiXCircle />
-                                        </td>
-                                        <td className="py-4 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-purple-200">
-                                            <VscCircleLargeFilled />
-                                        </td>
-                                        <td className="py-4 pr-6 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-purple-200 rounded-r-lg">
-                                            <VscCircleLargeFilled />
-                                        </td>
-                                    </tr>
-                                    <div className="my-2 text-transparent bg-transparent border-none"></div>
-                                    <tr className=" appearance-none rounded-40 bg-white dark:hover:bg-gray-700">
-                                        <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-xl">
-                                            <div>
-                                                <div>lubna</div>
-                                                <div className="font-light">
-                                                    El 
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                            06890200
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                            <div className="font-regular flex flex-col gap-1 text-xs leading-1">
-                                                    <div>N°: 1, Etage: 3</div>
-                                                    <div>Batiment: A, Porte: 1</div>
-                                            </div>
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
-                                            9
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
-                                            3
-                                        </td>
-                                        {Array.from({ length: 9 }, () => (
-                                            <td className="py-4 whitespace-nowrap text-2xl dark:text-gray-200 text-purple-600">
-                                                <HiCheckCircle />
-                                            </td>
-                                        ))}
-                                        <td className="py-4 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-red-500">
-                                            <HiXCircle />
-                                        </td>
-                                        <td className="py-4 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-purple-200">
-                                            <VscCircleLargeFilled />
-                                        </td>
-                                        <td className="py-4 pr-6 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-purple-200 rounded-r-xl">
-                                            <VscCircleLargeFilled />
-                                        </td>
-                                    </tr>
-                                    <div className="my-2 text-transparent bg-transparent border-none"></div>
-                                    <tr className=" appearance-none rounded-40 bg-white dark:hover:bg-gray-700">
-                                        <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-xl">
-                                            <div>
-                                                <div>lina</div>
-                                                <div className="font-light">
-                                                    El 
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                            0612960535
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
-                                            <div className="font-regular flex flex-col gap-1 text-xs leading-1">
-                                                    <div>N°: 1, Etage: 3</div>
-                                                    <div>Batiment: A, Porte: 1</div>
-                                            </div>
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
-                                            9
-                                        </td>
-                                        <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
-                                            3
-                                        </td>
-                                        {Array.from({ length: 9 }, () => (
-                                            <td className="py-4 whitespace-nowrap text-2xl dark:text-gray-200 text-purple-600">
-                                                <HiCheckCircle />
-                                            </td>
-                                        ))}
-                                        <td className="py-4 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-red-500">
-                                            <HiXCircle />
-                                        </td>
-                                        <td className="py-4 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-purple-200">
-                                            <VscCircleLargeFilled />
-                                        </td>
-                                        <td className="py-4 pr-6 whitespace-nowrap text-left text-2xl  dark:text-gray-200 text-purple-200 rounded-r-xl">
-                                            <VscCircleLargeFilled />
-                                        </td>
-                                    </tr>
-                                    <div className="my-2 text-transparent bg-transparent border-none"></div>
+                                    {data.map((item) => (
+                                        <>
+                                            <tr className="shadow-csh2 bg-white dark:hover:bg-gray-700 ">
+                                                <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-md">
+                                                    <Checkbox />
+                                                </td>
+                                                <td className="px-0 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-md">
+                                                    {item.id}
+                                                </td>
+                                                <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200">
+                                                    {item.montant}
+                                                </td>
+                                                <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 ">
+                                                    <div className="px-2 p-0.5 text-white bg-[#2AD46E] rounded-2xl flex items-center justify-center ">
+                                                        {item.statut}
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-4 whitespace-nowrap text-left text-sm text-gray-600 dark:text-gray-200">
+                                                    {item.proprietaire}
+                                                </td>
+                                                <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
+                                                    {item.phone}
+                                                </td>
+                                                <td className="px-2 py-4 whitespace-nowrap text-center text-sm text-gray-600 dark:text-gray-200">
+                                                    {item.infos}
+                                                </td>
+                                            </tr>
+                                            <div className="my-2"></div>
+                                            
+                                        </>
+                                    ))}
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div className="col-span-1 mt-4 z-0">
+                        <div className="flex flex-col dark:bg-gray-700 rounded-20 gap-2">
+                            <div className="w-full">
+                                <button className="bg-primary-color w-full text-[#FCF5EF] text-sm font-medium px-2 pr-2 cursor-pointer focus:outline-none border-[1.5px] border-gray-200 focus:border-white-800 focus:shadow-outline-white transition duration-150 ease-in-out hover:bg-opacity-80 h-8 rounded-[9px] flex items-center justify-center">
+                                    <HiPrinter className="h-4 w-4 mr-2 " />{" "}
+                                    Imprimer
+                                </button>
+                            </div>
+                            <div className="flex  flex-col gap-3 shadow-csh2 bg-white rounded-20  p-4">
+                                <div className="flex flex-col gap-0.5 ">
+                                    <label
+                                        htmlFor="search"
+                                        className="font-medium text-sm text-t-color "
+                                    >
+                                        Rechercher :
+                                    </label>
+                                    <div className="relative h-min">
+                                        <input
+                                            type="search"
+                                            id="search"
+                                            name="search"
+                                            placeholder="Chercher par le N° de lot :"
+                                            className="w-full text-sm appearance-none h-min  block rounded-md  border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color "
+                                        />
+                                        <span className="absolute inset-y-0 right-0 flex items-center pr-2 ">
+                                            <TbSearch className="text-gray-400" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-0.5">
+                                    <label
+                                        htmlFor="fournisseur"
+                                        className="font-medium text-sm text-t-color"
+                                    >
+                                        Propriétaire :
+                                    </label>
+                                    <select
+                                        name="fournisseur"
+                                        id="fournisseur"
+                                        className=" block text-sm w-full rounded-md  border-0 py-1.5 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color"
+                                    >
+                                        <option value=""> hey </option>{" "}
+                                        <option value=""> hey </option>{" "}
+                                    </select>
+                                </div>
+                                <div className="flex flex-col gap-0.5  ">
+                                    <label
+                                        htmlFor="annee"
+                                        className="text-t-color text-sm font-medium"
+                                    >
+                                        Année :
+                                    </label>
+                                    <select
+                                        name="annee"
+                                        id="annee"
+                                        className="text-sm w-full  h-min rounded-md py-1.5  border-0 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color "
+                                    >
+                                        <option value="">hey </option>
+                                    </select>
+                                </div>
+                                <div className="flex flex-col gap-0.5  text-sm ">
+                                    <label htmlFor="mois">Mois :</label>
+                                    <select
+                                        name="mois"
+                                        id="mois"
+                                        className=" block text-sm w-full rounded-md  border-0 py-1.5 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color"
+                                    >
+                                        <option value=""> hey</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="bg-white shadow-csh2 rounded-20 text-sm">
+                                <div className="flex flex-col m-3 space-y-3 ">
+                                    <div className="flex flex-row items-center">
+                                        <input
+                                            type="radio"
+                                            name="options"
+                                            id="toutes"
+                                            value="toutes"
+                                            className="  form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
+                                        />
+                                        <label
+                                            htmlFor="toutes"
+                                            className="ml-4"
+                                        >
+                                            Toutes
+                                        </label>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <input
+                                            type="radio"
+                                            name="options"
+                                            id="payees"
+                                            value="payees"
+                                            className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
+                                        />
+                                        <label
+                                            htmlFor="payees"
+                                            className="ml-4"
+                                        >
+                                            Payées
+                                        </label>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <input
+                                            type="radio"
+                                            name="options"
+                                            id="part-payees"
+                                            value="part-payees"
+                                            className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
+                                        />
+                                        <label
+                                            htmlFor="part-payees"
+                                            className="ml-4"
+                                        >
+                                            Partiellement payées
+                                        </label>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <input
+                                            type="radio"
+                                            name="options"
+                                            id="non-payees"
+                                            value="non-payees"
+                                            className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
+                                        />
+                                        <label
+                                            htmlFor="non-payees"
+                                            className="ml-4"
+                                        >
+                                            Non payées
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

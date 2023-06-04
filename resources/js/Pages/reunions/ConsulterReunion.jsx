@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
-import { FiCalendar, FiMapPin } from "react-icons/fi";
+import fileDownload from "js-file-download";
 import { FaFileDownload } from "react-icons/fa";
 import axios from "axios";
 
@@ -20,6 +20,28 @@ export default function ConsulterReunion({ auth }) {
     useEffect(() => {
         fetchReunionData();
     }, []);
+
+
+
+ const handleDownload = (filePath) => {
+     const encodedFilePath = encodeURIComponent(filePath);
+     
+     axios
+         .get(`/api/download/${encodedFilePath}`, {
+             responseType: "blob",
+         })
+         .then((response) => {
+             fileDownload(response.data, filePath);
+         })
+         .catch((error) => {
+             console.error(error);
+         });
+ };
+
+const handlePrint = () => {
+    window.print();
+};
+
 
     const fetchReunionData = async () => {
         try {
@@ -108,10 +130,10 @@ export default function ConsulterReunion({ auth }) {
                         </div>
                     </div>
                 </div>
+               
                 <a
-                    download
-                    className="bg-white w-full cursor-pointer text-gray-500  hover:text-primary-color  hover:border-primary-color p-3  flex flex-col items-center justify-center  rounded-20 border-4 border-dashed border-gray-300 "
-                    // href={`/download/${s_document}`}
+                    onClick={handleDownload(chemin_document)}
+                    className="bg-white w-full cursor-pointer text-gray-500  hover:text-primary-color  hover:border-primary-color p-3  flex flex-col items-center justify-center  rounded-20 border-4 border-dashed border-gray-300"
                 >
                     <FaFileDownload className="text-2xl" />
                     <div className="text-sm">Télécharger le PV</div>

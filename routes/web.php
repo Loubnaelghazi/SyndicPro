@@ -138,6 +138,9 @@ Route::get('/depenses/ajouter', function () {
 Route::get('/depenses/modifier', function () {
     return Inertia::render('depenses/ModifierDepense');
 });
+Route::get('/depenses/afficher', function () {
+    return Inertia::render('depenses/ConsulterDepense');
+});
 
 
 /* fin */

@@ -5,10 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Reunion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 class ReunionController extends Controller
 {
-    
+
+
+
+
+    public function download($fileName)
+    {
+        $filePath = storage_path('app/public/' . $fileName);
+
+        if (file_exists($filePath)) {
+            return response()->download($filePath);
+        }
+
+        return abort(404);
+    }
+
+
+
     public function index(Request $request)
     {
         $type = $request->input('type');
@@ -80,7 +97,20 @@ class ReunionController extends Controller
         $reunion = Reunion::findOrFail($id);
 
         $reunion->update($request->all());
+        $reunion->update($request->except('chemin_document'));
 
+        // Vérifier si un nouveau fichier a été téléchargé
+        if ($request->hasFile('chemin_document')) {
+            $nouveauCheminDocument = $request->file('chemin_document');
+
+            // Supprimer l'ancien fichier s'il existe
+            if ($reunion->hasMedia('chemin_document')) {
+                $reunion->deleteMedia('chemin_document');
+            }
+
+            // Ajouter le nouveau fichier
+            $reunion->addMedia($nouveauCheminDocument)->toMediaCollection('ReunionsPVs');
+        }
         return response()->json(['message' => 'reunion updated successfully', 'reunion' => $reunion]);
     }
 //////////////////////////////////////////////////////
