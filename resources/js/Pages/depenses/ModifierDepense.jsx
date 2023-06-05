@@ -7,6 +7,10 @@ import InputLabel from "@/Components/InputLabel";
 
 
 export default function ModifierDepense({ auth }) {
+     const [activeSection, setActiveSection] = useState("total");
+     const handleSectionChange = (section) => {
+         setActiveSection(section);
+     };
     return (
         <Main_content
             user={auth.user}
@@ -142,6 +146,163 @@ export default function ModifierDepense({ auth }) {
                                     />
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex p-10  gap-x-20 justify-center">
+                    <button
+                        type="button"
+                        className={`px-3 py-2 text-md font-medium  ${
+                            activeSection === "total"
+                                ? "bg-transparent text-primary-color border-[0.5-px] border-b-2  border-primary-color  cursor-pointer "
+                                : "bg-transparent text-gray-300  "
+                        } rounded-t-md focus:outline-none`}
+                        onClick={() => handleSectionChange("total")}
+                    >
+                        Paiement total
+                    </button>
+                    <button
+                        type="button"
+                        className={`px-3 py-2  text-md font-medium ${
+                            activeSection === "partiel"
+                                ? "bg-transparent text-primary-color border-[0.5-px] border-b-2  border-primary-color  cursor-pointer "
+                                : "bg-transparent text-gray-300  "
+                        } rounded-t-md focus:outline-none`}
+                        onClick={() => handleSectionChange("partiel")}
+                    >
+                        Paiement partiel
+                    </button>
+                </div>
+
+                <div
+                    className={`${
+                        activeSection === "total" ? "block" : "hidden"
+                    }`}
+                >
+                    <div className="flex flex-col gap-3">
+                        <div className="space-y-1">
+                            <InputLabel htmlFor="date_paiement">
+                                Date de paiement :
+                            </InputLabel>
+                            <TextInput
+                                required
+                                id="date_paiement"
+                                name="date_paiement"
+                                type="date"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <InputLabel htmlFor="mode_paiement">
+                                Mode de paiement :
+                            </InputLabel>
+                            <select
+                                required
+                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
+                                name="mode_paiement"
+                                id="mode_paiement"
+                            >
+                                <option
+                                    disabled
+                                    value="Choisir le mode de paiement"
+                                >
+                                    Choisir le mode de paiement :
+                                </option>
+                                <option value="virement">Virement</option>
+                                <option value="especes">Espèces </option>
+                            </select>
+                        </div>
+                        <div className="space-y-1">
+                            <InputLabel htmlFor="commentaire">
+                                Commentaire :
+                            </InputLabel>
+                            <textarea
+                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
+                                name="commentaire"
+                                id="commentaire"
+                                placeholder="Modifier votre commentaire içi"
+                            ></textarea>
+                        </div>
+                        <div className="space-y-1">
+                            <InputLabel htmlFor="justificatif">
+                                Justificatif :
+                            </InputLabel>
+                            <a className="bg-white w-full cursor-pointer text-gray-500  hover:text-primary-color  hover:border-primary-color p-3  flex flex-col items-center justify-center  rounded-20 border-4 border-dashed border-gray-300">
+                                <FaFileUpload className="text-2xl" />
+                                <div className="text-sm">Déposer</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    className={`${
+                        activeSection === "partiel" ? "block" : "hidden"
+                    }`}
+                >
+                    <div className="flex flex-col gap-3">
+                        <div className="space-y-1">
+                            <InputLabel htmlFor="date_paiement_partiel">
+                                Date de paiement :
+                            </InputLabel>
+                            <TextInput
+                                id="date_paiement_partiel"
+                                name="date_paiement_partiel"
+                                type="date"
+                                required
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <InputLabel htmlFor="montant_partiel">
+                                Montant :
+                            </InputLabel>
+                            <TextInput
+                                id="montant_partiel"
+                                name="montant_partiel"
+                                type="number"
+                                required
+                                placeholder="Montant en (DH)"
+                            />
+                        </div>
+
+                        <div className="space-y-1">
+                            <InputLabel htmlFor="mode_paiement_partiel">
+                                Mode de paiement :
+                            </InputLabel>
+                            <select
+                                required
+                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
+                                name="mode_paiemen_partielt"
+                                id="mode_paiement_partiel"
+                            >
+                                <option
+                                    disabled
+                                    value="Choisir le mode de paiement"
+                                >
+                                    Choisir le mode de paiement :
+                                </option>
+                                <option value="virement">Virement</option>
+                                <option value="especes">Espèces </option>
+                            </select>
+                        </div>
+                        <div className="space-y-1">
+                            <InputLabel htmlFor="commentaire_partiel">
+                                Commentaire :
+                            </InputLabel>
+                            <textarea
+                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
+                                name="commentaire_partiel"
+                                id="commentaire_partiel"
+                                placeholder="Modifier votre commentaire içi"
+                            ></textarea>
+                        </div>
+                        <div className="space-y-1">
+                            <InputLabel htmlFor="justificatif_partiel">
+                                Justificatif :
+                            </InputLabel>
+                            <a className="bg-white w-full cursor-pointer text-gray-500  hover:text-primary-color  hover:border-primary-color p-3  flex flex-col items-center justify-center  rounded-20 border-4 border-dashed border-gray-300">
+                                <FaFileUpload className="text-2xl" />
+                                <div className="text-sm">Déposer</div>
+                            </a>
                         </div>
                     </div>
                 </div>

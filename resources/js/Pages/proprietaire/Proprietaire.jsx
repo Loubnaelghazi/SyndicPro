@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Head } from "@inertiajs/react";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import Checkbox from "@/Components/Checkbox";
 import RowCheckbox from "@/Components/Table/RowCheckbox";
 import HeaderCheckbox from "@/Components/Table/HeaderCheckbox";
