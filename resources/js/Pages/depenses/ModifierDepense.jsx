@@ -4,6 +4,8 @@ import Main_content from "@/main _content/Main_content";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputLabel from "@/Components/InputLabel";
+import { useState } from "react";
+import { FaFileUpload } from "react-icons/fa";
 
 
 export default function ModifierDepense({ auth }) {
