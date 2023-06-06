@@ -106,6 +106,15 @@ export default function Login({ status, canResetPassword }) {
                 <PrimaryButton className="mt-4 w-full" disabled={processing}>
                     Se connecter
                 </PrimaryButton>
+                <div className=" font-regular text-sm  text-primary-color flex justify-center mt-2 ">
+                    Vous n'êtes pas un membre?{" "}
+                    <Link
+                        href={"/register"}
+                        className="ml-1 font-semibold  hover:text-indigo-500 "
+                    >
+                        Inscrivez-vous içi
+                    </Link>
+                </div>
             </form>
         </GuestLayout>
     );
