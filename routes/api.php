@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CoproprieteController;
+use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\LocataireController;
 use App\Http\Controllers\LotController;
@@ -76,4 +77,14 @@ Route::put('/reclamations/{reclamation}', [ReclamationController::class, 'update
 Route::delete('reclamations/{reclamation}', [ReclamationController::class, 'destroy']);
 Route::get('/reclamations/{reclamation}', [ReclamationController::class, 'show']);
 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+//depenses routes
+Route::get('/depenses', [DepenseController::class, 'index']);
+Route::post('/depenses', [DepenseController::class, 'store']);
+Route::put('/depenses/{depense}', [DepenseController::class, 'update']);
+Route::delete('depenses/{depense}', [DepenseController::class, 'destroy']);
+Route::get('/depenses/{depense}', [DepenseController::class, 'show']);
+Route::get('/depenses/{depense}/paiements',[DepenseController::class, 'paiements']);
 //////////////////////////////////////////////////////////////////////////////////
