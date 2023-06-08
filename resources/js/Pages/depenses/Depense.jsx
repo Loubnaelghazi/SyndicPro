@@ -18,12 +18,30 @@ export default function Depense({ auth }) {
     const [isModifyHidden, setIsModifyHidden] = useState(false);
     const [bageColor, setBadgeColor] = useState(" bg-red-500");
     const [selectedCount, setSelectedCount] = useState(0);
-    const [datePaiement, setDatePaiement] = useState();
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
         const storedPerPage = localStorage.getItem("perPage");
         return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
     });
+    const [selectedFournisseur, setSelectedFournisseur] = useState("");
+
+    const [selectedStatut, setSelectedStatut] = useState("toutes");
+
+    const handleStatutChange = (event) => {
+        setSelectedStatut(event.target.value);
+    };
+
+    const [fournisseurs, setFournisseurs] = useState([]);
+    useEffect(() => {
+        if (!fournisseurs.length) {
+            fetchFournisseurs();
+        }
+    }, []); // Dépendances vides
+
+    const fetchFournisseurs = async () => {
+        const response = await axios.get(`/api/fournisseurs/getAll`);
+        setFournisseurs(response.data);
+    };
 
     useEffect(() => {
         if (!depenses.length) {
@@ -32,7 +50,61 @@ export default function Depense({ auth }) {
         }
     }, [currentPage, perPage]);
 
-    const fetchDepenses = async () => {
+    const [date, setDate] = useState(""); // État pour stocker la date complète
+    const [annee, setAnnee] = useState(""); // État pour stocker l'année
+    const [mois, setMois] = useState(""); // État pour stocker le mois
+    const handleDateChange = (e) => {
+        setDate(e.target.value);
+        const selectedDate = new Date(e.target.value);
+        const selectedYear = selectedDate.getFullYear();
+        const selectedMonth = selectedDate.getMonth(); // Obtenir l'index du mois (0 - janvier, 1 - février, ...)
+        setMois(selectedMonth);
+        setAnnee(selectedYear);
+    };
+
+    // Générer les options pour les années
+    const generateAnneeOptions = () => {
+        const currentYear = new Date().getFullYear();
+        const startYear = currentYear - 5; // Définir la limite inférieure (par exemple, 5 ans en arrière)
+        const endYear = currentYear; // Définir l'année actuelle comme limite supérieure
+        const options = [];
+
+        for (let year = startYear; year <= endYear; year++) {
+            options.push(
+                <option key={year} value={year}>
+                    {year}
+                </option>
+            );
+        }
+
+        return options;
+    };
+    // Générer les options pour les mois
+    const generateMoisOptions = () => {
+        const moisNoms = [
+            "Janvier",
+            "Février",
+            "Mars",
+            "Avril",
+            "Mai",
+            "Juin",
+            "Juillet",
+            "Août",
+            "Septembre",
+            "Octobre",
+            "Novembre",
+            "Décembre",
+        ];
+
+        const options = moisNoms.map((moisNom, index) => (
+            <option key={index} value={index}>
+                {moisNom}
+            </option>
+        ));
+
+        return options;
+    };
+    const fetchDepenses = async (annee, mois) => {
         const response = await axios.get(
             `/api/depenses?page=${currentPage}&per_page=${perPage}`
         );
@@ -177,6 +249,20 @@ export default function Depense({ auth }) {
             // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
         }
     };
+    const handleSearch = async () => {
+        if (setSearchValue === "") {
+            await fetchDepenses();
+        } else {
+            try {
+                const response = await axios.get(
+                    `/api/depenses?designation=${searchValue}`
+                );
+                setDepenses(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
 
     return (
         <Main_content user={auth.user} Title={"Les dépenses"} ClassName={"p-0"}>
@@ -194,7 +280,10 @@ export default function Depense({ auth }) {
                             isModifyHidden={isModifyHidden}
                             selectedCheckboxes={selectedCheckboxes}
                         />
-                        <DeleteButton selectedCheckboxes={selectedCheckboxes} onClick={deleteSelectedItems}/>
+                        <DeleteButton
+                            selectedCheckboxes={selectedCheckboxes}
+                            onClick={deleteSelectedItems}
+                        />
                         <span className="ml-3 my-auto  text-sm font-medium text-gray-500">
                             {selectedCount} sélectionnés
                         </span>
@@ -274,13 +363,22 @@ export default function Depense({ auth }) {
                                                     ClassName=" "
                                                 />
                                             </td>
+
                                             <td className="px-0 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-md">
                                                 {item.designation}
                                             </td>
                                             <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 ">
-                                                {item.id_fournisseur == null
-                                                    ? item.fournisseur_externe
-                                                    : item.fournisseur.raison}
+                                                {selectedFournisseur === ""
+                                                    ? item.id_fournisseur ==
+                                                      null
+                                                        ? item.fournisseur_externe
+                                                        : item.fournisseur
+                                                              .raison
+                                                    : fournisseurs.find(
+                                                          (fournisseur) =>
+                                                              fournisseur.id ===
+                                                              selectedFournisseur
+                                                      ).raison}
                                             </td>
                                             <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 flex justify-center">
                                                 <div
@@ -307,7 +405,7 @@ export default function Depense({ auth }) {
                                             </td>
                                             <td className="px-4 py-4 whitespace-nowrap  text-sm text-gray-600 dark:text-gray-200 text-center">
                                                 {item.paiements.map(
-                                                    (paiement , index) => (
+                                                    (paiement, index) => (
                                                         <div key={index}>
                                                             {index ===
                                                                 item.paiements
@@ -385,10 +483,25 @@ export default function Depense({ auth }) {
                                 <select
                                     name="fournisseur"
                                     id="fournisseur"
-                                    className=" block text-sm w-full rounded-md  border-0 py-1.5 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color"
+                                    className="block text-sm w-full rounded-md border-0 py-1.5 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color"
+                                    onChange={(e) =>
+                                        setSelectedFournisseur(e.target.value)
+                                    }
                                 >
-                                    <option value=""> hey </option>{" "}
-                                    <option value=""> hey </option>{" "}
+                                    <option
+                                        disabled
+                                        value="Chercher par fournisseur"
+                                    >
+                                        Chercher par fournisseur:
+                                    </option>
+                                    {fournisseurs.map((fournisseur) => (
+                                        <option
+                                            key={fournisseur.id}
+                                            value={fournisseur.id}
+                                        >
+                                            {fournisseur.raison}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="flex flex-col gap-0.5  ">
@@ -401,9 +514,17 @@ export default function Depense({ auth }) {
                                 <select
                                     name="annee"
                                     id="annee"
+                                    value={annee}
+                                    onChange={handleDateChange}
                                     className="text-sm w-full  h-min rounded-md py-1.5  border-0 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color "
                                 >
-                                    <option value="">hey </option>
+                                    <option
+                                        disabled
+                                        value="Sélectionner une année"
+                                    >
+                                        Sélectionner une année{" "}
+                                    </option>
+                                    {generateAnneeOptions()}
                                 </select>
                             </div>
                             <div className="flex flex-col gap-0.5  text-sm ">
@@ -411,9 +532,17 @@ export default function Depense({ auth }) {
                                 <select
                                     name="mois"
                                     id="mois"
+                                    value={mois}
+                                    onChange={handleDateChange}
                                     className=" block text-sm w-full rounded-md  border-0 py-1.5 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color"
                                 >
-                                    <option value=""> hey</option>
+                                    <option
+                                        disabled
+                                        value="Sélectionner un mois"
+                                    >
+                                        Sélectionner un mois{" "}
+                                    </option>
+                                    {generateMoisOptions()}
                                 </select>
                             </div>
                         </div>
@@ -425,51 +554,55 @@ export default function Depense({ auth }) {
                                         name="options"
                                         id="toutes"
                                         value="toutes"
-                                        className="  form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
+                                        className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
+                                        onChange={handleStatutChange}
                                     />
                                     <label htmlFor="toutes" className="ml-4">
                                         Toutes
                                     </label>
                                 </div>
+
                                 <div className="flex flex-row items-center">
                                     <input
                                         type="radio"
                                         name="options"
-                                        id="payees"
-                                        value="payees"
+                                        id="payee"
+                                        value="payee"
                                         className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
+                                        onChange={handleStatutChange}
                                     />
-                                    <label htmlFor="payees" className="ml-4">
+                                    <label htmlFor="payee" className="ml-4">
                                         Payées
                                     </label>
                                 </div>
+
                                 <div className="flex flex-row items-center">
                                     <input
                                         type="radio"
                                         name="options"
-                                        id="part-payees"
-                                        value="part-payees"
+                                        id="partiellement_payee"
+                                        value="partiellement_payee"
                                         className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
+                                        onChange={handleStatutChange}
                                     />
                                     <label
-                                        htmlFor="part-payees"
+                                        htmlFor="partiellement_payee"
                                         className="ml-4"
                                     >
                                         Partiellement payées
                                     </label>
                                 </div>
+
                                 <div className="flex flex-row items-center">
                                     <input
                                         type="radio"
                                         name="options"
-                                        id="non-payees"
-                                        value="non-payees"
+                                        id="non-payee"
+                                        value="non-payee"
                                         className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
+                                        onChange={handleStatutChange}
                                     />
-                                    <label
-                                        htmlFor="non-payees"
-                                        className="ml-4"
-                                    >
+                                    <label htmlFor="non-payee" className="ml-4">
                                         Non payées
                                     </label>
                                 </div>

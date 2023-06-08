@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Head } from "@inertiajs/react";
 import Main_content from "@/main _content/Main_content";
-import { AiOutlinePrinter, AiOutlineEye } from "react-icons/ai";
 import { HiPencil, HiTrash, HiEye, HiPrinter } from "react-icons/hi2";
 import { TbSearch } from "react-icons/tb";
 import Swal from "sweetalert2";
