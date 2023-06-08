@@ -163,6 +163,10 @@ export default function AjouterDepense({ auth }) {
                                             name="fournisseur externe"
                                             id="fe"
                                             placeholder="Entrer un nom"
+                                            value={fournisseur_externe}
+                                            onChange={(e) =>
+                                                setFournisseurExterne(e.target.value)
+                                            }
                                         />
                                     </div>
                                 </div>

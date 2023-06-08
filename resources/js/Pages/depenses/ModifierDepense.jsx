@@ -6,13 +6,150 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import InputLabel from "@/Components/InputLabel";
 import { useState } from "react";
 import { FaFileUpload } from "react-icons/fa";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 
 export default function ModifierDepense({ auth }) {
-     const [activeSection, setActiveSection] = useState("total");
-     const handleSectionChange = (section) => {
-         setActiveSection(section);
-     };
+    const [designation, setDesignation] = useState("");
+    const [description, setDescription] = useState("");
+    const [id_fournisseur, setIdFournisseur] = useState("");
+    const [fournisseur_externe, setFournisseurExterne] = useState(null);
+    const [montant, setMontant] = useState("");
+    const [statut, setStatut] = useState("non_payee");
+    const [montant_restant, setMontantRestant] = useState("");
+    const [date_depense, setDateDepense] = useState("");
+    const url = window.location.href;
+    const depenseID = url.substring(url.lastIndexOf("/") + 1);
+    const [fournisseurs, setFournisseurs] = useState([]);
+
+    useEffect(() => {
+        // Fetch the copropriete data from the server and update the state
+        fetchDepensesData();
+
+        if (!fournisseurs.length) {
+            fetchFournisseurs();
+        }
+    }, []);
+
+    const fetchFournisseurs = async () => {
+        const response = await axios.get(`/api/fournisseurs/getAll`);
+        setFournisseurs(response.data);
+    };
+
+    const fetchDepensesData = async () => {
+        try {
+            const response = await axios.get(`/api/depenses/${depenseID}`);
+            const { data } = response;
+            setDesignation(data.designation);
+            setDescription(data.description);
+            setIdFournisseur(data.id_fournisseur);
+            setFournisseurExterne(data.fournisseur_externe);
+            setMontant(data.montant);
+            setStatut(data.statut);
+            setMontantRestant(data.montant_restant);
+            setDateDepense(data.date_depense);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+
+        switch (name) {
+            case "designation":
+                setDesignation(value);
+                break;
+            case "description":
+                setDescription(value);
+                break;
+            case "id_fournisseur":
+                setIdFournisseur(value);
+                break;
+            case "fournisseur_externe":
+                setFournisseurExterne(value);
+                break;
+            case "montant":
+                setMontant(value);
+                break;
+            case "statut":
+                setStatut(value);
+                break;
+            case "montant_restant":
+                setMontantRestant(value);
+                break;
+            case "date_depense":
+                setDateDepense(value);
+                break;
+            default:
+                break;
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const updatedDepense = {
+            designation,
+            description,
+            id_fournisseur,
+            fournisseur_externe,
+            montant,
+            statut,
+            montant_restant : montant,
+            date_depense,
+        };
+
+        try {
+            const response = await axios.put(`/api/depenses/${depenseID}`, updatedDepense);
+
+            const { data } = response;
+            console.log("Updated lot:", data);
+
+            Swal.fire({
+                title: "Êtes-vous sûr de vouloir effectuer ces modifications ?",
+                text: "Vous venez de modifier les informations de ce lot, veuillez confirmer !",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Oui",
+                cancelButtonText: "Annuler",
+                customClass: {
+                    confirmButton:
+                        "mx-2 px-4 py-2 bg-yellow-300 text-white rounded hover:bg-yellow-500 hover:scale-105",
+                    cancelButton:
+                        "mx-2 px-4 py-2 bg-white border-[1px] border-solid border-gray-500 text-gray-500 rounded hover:scale-105",
+                },
+                buttonsStyling: false,
+                preConfirm: () => {
+                    return new Promise((resolve) => {
+                        resolve();
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Succès",
+                        text: "La modification a été effectuée avec succès !",
+                        icon: "success",
+                        customClass: {
+                            confirmButton:
+                                "px-4 py-2 bg-primary-color text-white rounded hover:bg-green-600 hover:scale-105",
+                        },
+                        buttonsStyling: false,
+                    }).then(() => {
+                        // Redirection vers la page /lot après la fermeture du message
+                        window.location.href = "/depenses";
+                    });
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
     return (
         <Main_content
             user={auth.user}
@@ -21,34 +158,39 @@ export default function ModifierDepense({ auth }) {
             ClassName="p-12"
         >
             <Head title=" Modifier dépenses" />
-            <form className="">
+            <form className="" onSubmit={handleSubmit}>
                 <div className=" ">
                     <div className="">
                         <div>
-                            <div className="flex flex-col gap-5">
+                            <div className="flex flex-col gap-3">
                                 <div>
-                                    <label
+                                    <InputLabel
                                         htmlFor="designation"
                                         className="font-medium"
                                     >
                                         Désignation :
-                                    </label>
+                                    </InputLabel>
                                     <TextInput
                                         name="designation"
                                         type="text"
+                                        value={designation}
                                         id="designation"
                                         className="mb-0"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 <div>
-                                    <label
+                                    <InputLabel
                                         htmlFor="description "
                                         className="font-medium"
                                     >
                                         Description :
-                                    </label>
+                                    </InputLabel>
                                     <textarea
                                         id="description"
+                                        name="description"
+                                        value={description}
+                                        onChange={handleInputChange}
                                         placeholder="Vous pouvez modifier vos informations içi "
                                         rows="3"
                                         className="block  p-2.5 w-full text-l text-gray-900  rounded-lg border border-gray-300 focus:ring-primary-color focus:border-primary-color dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-color dark:focus:border-primary-color h-min"
@@ -56,26 +198,34 @@ export default function ModifierDepense({ auth }) {
                                 </div>
 
                                 <div className="">
-                                    <label
+                                    <InputLabel
                                         htmlFor="fournissuer"
                                         className="font-medium"
                                     >
                                         Fourisseur :
-                                    </label>
+                                    </InputLabel>
                                     <div className="flex flex-row items-center gap-4">
                                         <select
-                                            name="fournisseur"
+                                            name="id_fournisseur"
+                                            value={id_fournisseur}
+                                            onChange={handleInputChange}
                                             id="fournisseur"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
                                         >
-                                            <option
-                                                disabled
-                                                value="Selectionez le fournisseur"
-                                            >
-                                                Le fournisseur
-                                            </option>
-                                            <option value=" ">1</option>
-                                            <option value="">2</option>
+                                            {fournisseurs.map(
+                                                    (fournisseur) => (
+                                                        <option
+                                                            key={
+                                                                fournisseur.id
+                                                            }
+                                                            value={
+                                                                fournisseur.id
+                                                            }
+                                                        >
+                                                            {fournisseur.raison}
+                                                        </option>
+                                                    )
+                                                )}
                                         </select>
                                         <div className="flex flex-row text-gray-400">
                                             {" "}
@@ -84,227 +234,51 @@ export default function ModifierDepense({ auth }) {
                                         </div>
                                         <TextInput
                                             type="text"
+                                            name="fournisseur_externe"
                                             className="mb-0"
+                                            value={fournisseur_externe}
+                                            onChange={handleInputChange}
                                             placeholder="Modifier le nom içi"
                                         />
                                     </div>
                                 </div>
                                 <div>
-                                    <label
+                                    <InputLabel
                                         htmlFor="montant"
                                         className="font-medium"
                                     >
                                         {" "}
                                         Montant :
-                                    </label>
+                                    </InputLabel>
                                     <TextInput
-                                        type="text"
+                                        type="number"
                                         name="montant"
                                         id="montant"
+                                        value={montant}
+                                        onChange={handleInputChange}
                                         placeholder="Montant (DH)"
                                         className="mb-0"
+                                        required
                                     />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="statut"
-                                        className="font-medium"
-                                    >
-                                        {" "}
-                                        Statut :{" "}
-                                    </label>
-                                    <select
-                                        name="statut"
-                                        id="statut"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
-                                    >
-                                        <option disabled value="Statut">
-                                            {" "}
-                                            Statut :
-                                        </option>
-                                        <option value="Payée">Payée</option>
-                                        <option value="Partiellement payée ">
-                                            Partiellement payée
-                                        </option>
-                                        <option value=" Non payée">
-                                            {" "}
-                                            Non payée
-                                        </option>
-                                    </select>
                                 </div>
                                 <div>
                                     <InputLabel
                                         htmlFor="date"
                                         className="font-medium"
                                     >
-                                        Date de paiement :
+                                        Date de depense :
                                     </InputLabel>
                                     <TextInput
                                         type="date"
-                                        name="date"
+                                        name="date_depense"
+                                        value={date_depense}
+                                        onChange={handleInputChange}
                                         id="date"
                                         className="w-full  h-10 px-2 border border-gray-300 rounded  focus:ring-primary-color focus:border-purple-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:ring-purple-500 dark:focus:border-purple-500"
                                         placeholder="Date de la réunion"
                                     />
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex p-10  gap-x-20 justify-center">
-                    <button
-                        type="button"
-                        className={`px-3 py-2 text-md font-medium  ${
-                            activeSection === "total"
-                                ? "bg-transparent text-primary-color border-[0.5-px] border-b-2  border-primary-color  cursor-pointer "
-                                : "bg-transparent text-gray-300  "
-                        } rounded-t-md focus:outline-none`}
-                        onClick={() => handleSectionChange("total")}
-                    >
-                        Paiement total
-                    </button>
-                    <button
-                        type="button"
-                        className={`px-3 py-2  text-md font-medium ${
-                            activeSection === "partiel"
-                                ? "bg-transparent text-primary-color border-[0.5-px] border-b-2  border-primary-color  cursor-pointer "
-                                : "bg-transparent text-gray-300  "
-                        } rounded-t-md focus:outline-none`}
-                        onClick={() => handleSectionChange("partiel")}
-                    >
-                        Paiement partiel
-                    </button>
-                </div>
-
-                <div
-                    className={`${
-                        activeSection === "total" ? "block" : "hidden"
-                    }`}
-                >
-                    <div className="flex flex-col gap-3">
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="date_paiement">
-                                Date de paiement :
-                            </InputLabel>
-                            <TextInput
-                                required
-                                id="date_paiement"
-                                name="date_paiement"
-                                type="date"
-                            />
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="mode_paiement">
-                                Mode de paiement :
-                            </InputLabel>
-                            <select
-                                required
-                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
-                                name="mode_paiement"
-                                id="mode_paiement"
-                            >
-                                <option
-                                    disabled
-                                    value="Choisir le mode de paiement"
-                                >
-                                    Choisir le mode de paiement :
-                                </option>
-                                <option value="virement">Virement</option>
-                                <option value="especes">Espèces </option>
-                            </select>
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="commentaire">
-                                Commentaire :
-                            </InputLabel>
-                            <textarea
-                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
-                                name="commentaire"
-                                id="commentaire"
-                                placeholder="Modifier votre commentaire içi"
-                            ></textarea>
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="justificatif">
-                                Justificatif :
-                            </InputLabel>
-                            <a className="bg-white w-full cursor-pointer text-gray-500  hover:text-primary-color  hover:border-primary-color p-3  flex flex-col items-center justify-center  rounded-20 border-4 border-dashed border-gray-300">
-                                <FaFileUpload className="text-2xl" />
-                                <div className="text-sm">Déposer</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    className={`${
-                        activeSection === "partiel" ? "block" : "hidden"
-                    }`}
-                >
-                    <div className="flex flex-col gap-3">
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="date_paiement_partiel">
-                                Date de paiement :
-                            </InputLabel>
-                            <TextInput
-                                id="date_paiement_partiel"
-                                name="date_paiement_partiel"
-                                type="date"
-                                required
-                            />
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="montant_partiel">
-                                Montant :
-                            </InputLabel>
-                            <TextInput
-                                id="montant_partiel"
-                                name="montant_partiel"
-                                type="number"
-                                required
-                                placeholder="Montant en (DH)"
-                            />
-                        </div>
-
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="mode_paiement_partiel">
-                                Mode de paiement :
-                            </InputLabel>
-                            <select
-                                required
-                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
-                                name="mode_paiemen_partielt"
-                                id="mode_paiement_partiel"
-                            >
-                                <option
-                                    disabled
-                                    value="Choisir le mode de paiement"
-                                >
-                                    Choisir le mode de paiement :
-                                </option>
-                                <option value="virement">Virement</option>
-                                <option value="especes">Espèces </option>
-                            </select>
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="commentaire_partiel">
-                                Commentaire :
-                            </InputLabel>
-                            <textarea
-                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
-                                name="commentaire_partiel"
-                                id="commentaire_partiel"
-                                placeholder="Modifier votre commentaire içi"
-                            ></textarea>
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="justificatif_partiel">
-                                Justificatif :
-                            </InputLabel>
-                            <a className="bg-white w-full cursor-pointer text-gray-500  hover:text-primary-color  hover:border-primary-color p-3  flex flex-col items-center justify-center  rounded-20 border-4 border-dashed border-gray-300">
-                                <FaFileUpload className="text-2xl" />
-                                <div className="text-sm">Déposer</div>
-                            </a>
                         </div>
                     </div>
                 </div>

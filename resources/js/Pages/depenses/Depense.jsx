@@ -190,7 +190,7 @@ export default function Depense({ auth }) {
                             selectedCheckboxes={selectedCheckboxes}
                         />
                         <ModifyButton
-                            href={`/locataires/modifier/`}
+                            href={`/depenses/modifier/${depenseID}`}
                             isModifyHidden={isModifyHidden}
                             selectedCheckboxes={selectedCheckboxes}
                         />
