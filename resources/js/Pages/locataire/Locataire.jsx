@@ -106,17 +106,18 @@ export default function Locataire({ auth }) {
     );
 
     const deleteSelectedItems = async () => {
-        // Make an API call to delete the selected items using the IDs in the `selectedCheckboxes` state
+        let alertBox = null;
+
         try {
             const result = await Swal.fire({
                 title: "Attention!",
                 icon: "warning",
                 html: `
         <h2 class="text-lg font-bold text-red-500">
-            Êtes-vous sûr de vouloir effectuer la suppression ?
+          Êtes-vous sûr de vouloir effectuer la suppression ?
         </h2>
         <p class="text-gray-800">
-            Vous ne pouvez plus récupérer ces éléments après suppression !
+          Vous ne pouvez plus récupérer ces éléments après suppression !
         </p>`,
                 showCancelButton: true,
                 cancelButtonText: "Annuler",
@@ -131,34 +132,44 @@ export default function Locataire({ auth }) {
             });
 
             if (result.isConfirmed) {
-                for (const locataireId of selectedCheckboxes) {
-                    await axios.delete(`/api/locataires/${locataireId}`);
+                alertBox = Swal.fire({
+                    title: "Suppression en cours...",
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    },
+                    showConfirmButton: false,
+                });
+
+                for (const depenseID of selectedCheckboxes) {
+                    await axios.delete(`/api/locataires/${depenseID}`);
                 }
+
+                alertBox.close();
             }
 
-            // Refresh the list of locataires after deletion
             fetchLocataires();
-            // Clear the selected checkboxes
             setSelectedCheckboxes([]);
-            // Reset the selected count and modify button visibility
             setSelectedCount(0);
             setIsModifyHidden(false);
-            await Swal.fire({
-                title: "Supprimé",
-                text: "Les propriétaires ont été supprimés avec succès.",
-                icon: "success",
-                customClass: {
-                    confirmButton:
-                        "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
-                },
-                buttonsStyling: false,
-            });
+
+            if (result.isConfirmed) {
+                await Swal.fire({
+                    title: "Supprimé",
+                    text: "Les locataires ont été supprimés avec succès.",
+                    icon: "success",
+                    customClass: {
+                        confirmButton:
+                            "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 hover:scale-105",
+                    },
+                    buttonsStyling: false,
+                });
+            }
         } catch (error) {
             console.error("Error deleting items:", error);
-            // Handle error case, e.g., show an error message to the user
+            // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
         }
     };
-
     const data = locataires.data !== undefined ? locataires.data : [];
 
     return (
@@ -273,12 +284,13 @@ export default function Locataire({ auth }) {
                             </select>
                         </div>
                         <div className="text-sm text-gray-400">
-                                Affichage de {locataires.from || 0} à {locataires.to || 0} sur {locataires.total}{" "}
-                                résultats.
-                            </div>
-                            <div className="text-primary-color font-medium flex flex-row gap-7 h-max  items-center justify-end mr-6 text-xs">
-                                {renderPagination()}
-                            </div>
+                            Affichage de {locataires.from || 0} à{" "}
+                            {locataires.to || 0} sur {locataires.total}{" "}
+                            résultats.
+                        </div>
+                        <div className="text-primary-color font-medium flex flex-row gap-7 h-max  items-center justify-end mr-6 text-xs">
+                            {renderPagination()}
+                        </div>
                     </div>
                 </div>
             </div>

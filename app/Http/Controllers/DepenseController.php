@@ -10,9 +10,10 @@ class DepenseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $depenses = Depense::all();
+        $perPage = $request->input('per_page', 5);
+        $depenses = Depense::with('paiements')->with('fournisseur')->paginate($perPage);
 
         return response()->json($depenses);
     }
@@ -26,6 +27,7 @@ class DepenseController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
             'designation' => 'required|string',
             'description' => 'nullable|string',

@@ -4,12 +4,74 @@ import Main_content from "@/main _content/Main_content";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputLabel from "@/Components/InputLabel";
-import {  FaFileUpload } from "react-icons/fa";
+import { FaFileUpload } from "react-icons/fa";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
+
 export default function AjouterDepense({ auth }) {
-    const [activeSection, setActiveSection] = useState("total");
-    const handleSectionChange = (section) => {
-        setActiveSection(section);
+
+    const [designation, setDesignation] = useState('');
+    const [description, setDescription] = useState('');
+    const [id_fournisseur, setIdFournisseur] = useState('');
+    const [fournisseur_externe, setFournisseurExterne] = useState(null);
+    const [montant, setMontant] = useState('');
+    const [statut, setStatut] = useState('non_payee');
+    const [montant_restant, setMontantRestant] = useState('');
+    const [date_depense, setDateDepense] = useState('');
+    const [fournisseurs, setFournisseurs] = useState([]);
+
+
+    useEffect(() => {
+        if (!fournisseurs.length) {
+            fetchFournisseurs();
+        }
+    });
+
+    const fetchFournisseurs = async () => {
+        const response = await axios.get(`/api/fournisseurs/getAll`);
+        setFournisseurs(response.data);
     };
+
+    const ajouter = async (e) => {
+        e.preventDefault();
+        const depense = {
+            designation,
+            description,
+            id_fournisseur,
+            fournisseur_externe,
+            montant,
+            statut,
+            montant_restant : montant,
+            date_depense,
+            };
+        try {
+            const response = await axios.post(`/api/depenses`, depense);
+            const data = response.data;
+            Swal.fire({
+                icon: "success",
+                title: "Votre depense a été ajoutée avec succès !",
+                showConfirmButton: true,
+                confirmButtonText: "OK",
+                buttonsStyling: false,
+                customClass: {
+                    popup: "success-popup",
+                    confirmButton:
+                        "bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md",
+                },
+                preConfirm: () => {
+                    return new Promise((resolve) => {
+                        resolve();
+                    });
+                },
+            }).then(() => {
+                window.location.href = "/depenses";
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+   
     return (
         <Main_content
             user={auth.user}
@@ -18,7 +80,7 @@ export default function AjouterDepense({ auth }) {
             ClassName="p-12"
         >
             <Head title=" Ajouter dépenses" />
-            <form className="">
+            <form className="" onSubmit={ajouter}>
                 <div className=" ">
                     <div className="">
                         <div>
@@ -34,6 +96,10 @@ export default function AjouterDepense({ auth }) {
                                         name="designation"
                                         type="text"
                                         id="designation"
+                                        value={designation}
+                                        onChange={(e) =>
+                                            setDesignation(e.target.value)
+                                        }
                                         required
                                     />
                                 </div>
@@ -46,6 +112,10 @@ export default function AjouterDepense({ auth }) {
                                         placeholder="Vous pouvez ajouter plus d'informations içi "
                                         rows="3"
                                         className="block   p-2.5 w-full text-l text-gray-900  rounded-lg border border-gray-300 focus:ring-primary-color focus:border-primary-color dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-color dark:focus:border-primary-color h-min"
+                                        value={description}
+                                        onChange={(e) =>
+                                            setDescription(e.target.value)
+                                        }
                                     ></textarea>
                                 </div>
 
@@ -58,15 +128,30 @@ export default function AjouterDepense({ auth }) {
                                             name="fournisseur"
                                             id="fournisseur"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
+                                            value={id_fournisseur}
+                                            onChange={(e) =>
+                                                setIdFournisseur(e.target.value)
+                                            }
                                         >
                                             <option
-                                                disabled
-                                                value="Selectionez le fournisseur"
+                                                disabled value=""
                                             >
                                                 Selectionez le fournisseur
                                             </option>
-                                            <option value=" ">1</option>
-                                            <option value="">2</option>
+                                            {fournisseurs.map(
+                                                    (fournisseur) => (
+                                                        <option
+                                                            key={
+                                                                fournisseur.id
+                                                            }
+                                                            value={
+                                                                fournisseur.id
+                                                            }
+                                                        >
+                                                            {fournisseur.raison}
+                                                        </option>
+                                                    )
+                                                )}
                                         </select>
                                         <div className="flex flex-row text-gray-400">
                                             {" "}
@@ -75,206 +160,49 @@ export default function AjouterDepense({ auth }) {
                                         </div>
                                         <TextInput
                                             type="text"
+                                            name="fournisseur externe"
+                                            id="fe"
                                             placeholder="Entrer un nom"
-                                            className="mb-0"
                                         />
                                     </div>
                                 </div>
                                 <div className="space-y-1">
                                     <InputLabel htmlFor="montant">
                                         {" "}
-                                        Montant :
+                                        Montant(DH) :
                                     </InputLabel>
                                     <TextInput
-                                        type="text"
+                                        type="number"
                                         name="montant"
                                         id="montant"
+                                        value={montant}
+                                        onChange={(e) =>
+                                            setMontant(
+                                                e.target.value
+                                            )
+                                        }
                                         placeholder="Montant (DH)"
+                                        required
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <InputLabel htmlFor="statut">
-                                        {" "}
-                                        Statut :{" "}
+                                    <InputLabel htmlFor="date_paiement_partiel">
+                                        Date de depense :
                                     </InputLabel>
-                                    <select
-                                        name="statut"
-                                        id="statut"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6"
-                                    >
-                                        <option disabled value="Statut">
-                                            {" "}
-                                            Statut :
-                                        </option>
-                                        <option value="Payée">Payée</option>
-                                        <option value="Partiellement payée ">
-                                            Partiellement payée
-                                        </option>
-                                        <option value=" Non payée">
-                                            {" "}
-                                            Non payée
-                                        </option>
-                                    </select>
+                                    <TextInput
+                                        id="date_depense"
+                                        name="date_depense"
+                                        type="date"
+                                        value={date_depense}
+                                        onChange={(e) =>
+                                            setDateDepense(
+                                                e.target.value
+                                            )
+                                        }
+                                        
+                                    />
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="flex p-10  gap-x-20 justify-center">
-                    <button
-                        type="button"
-                        className={`px-3 py-2 text-md font-medium  ${
-                            activeSection === "total"
-                                ? "bg-transparent text-primary-color border-[0.5-px] border-b-2  border-primary-color  cursor-pointer "
-                                : "bg-transparent text-gray-300  "
-                        } rounded-t-md focus:outline-none`}
-                        onClick={() => handleSectionChange("total")}
-                    >
-                        Paiement total
-                    </button>
-                    <button
-                        type="button"
-                        className={`px-3 py-2  text-md font-medium ${
-                            activeSection === "partiel"
-                                ? "bg-transparent text-primary-color border-[0.5-px] border-b-2  border-primary-color  cursor-pointer "
-                                : "bg-transparent text-gray-300  "
-                        } rounded-t-md focus:outline-none`}
-                        onClick={() => handleSectionChange("partiel")}
-                    >
-                        Paiement partiel
-                    </button>
-                </div>
-
-                <div
-                    className={`${
-                        activeSection === "total" ? "block" : "hidden"
-                    }`}
-                >
-                    <div className="flex flex-col gap-3">
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="date_paiement">
-                                Date de paiement :
-                            </InputLabel>
-                            <TextInput
-                                required
-                                id="date_paiement"
-                                name="date_paiement"
-                                type="date"
-                            />
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="mode_paiement">
-                                Mode de paiement :
-                            </InputLabel>
-                            <select
-                                required
-                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
-                                name="mode_paiement"
-                                id="mode_paiement"
-                            >
-                                <option
-                                    disabled
-                                    value="Choisir le mode de paiement"
-                                >
-                                    Choisir le mode de paiement :
-                                </option>
-                                <option value="virement">Virement</option>
-                                <option value="especes">Espèces </option>
-                            </select>
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="commentaire">
-                                Commentaire :
-                            </InputLabel>
-                            <textarea
-                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
-                                name="commentaire"
-                                id="commentaire"
-                                placeholder="Taper votre commentaire içi"
-                            ></textarea>
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="justificatif">
-                                Justificatif :
-                            </InputLabel>
-                            <a className="bg-white w-full cursor-pointer text-gray-500  hover:text-primary-color  hover:border-primary-color p-3  flex flex-col items-center justify-center  rounded-20 border-4 border-dashed border-gray-300">
-                                <FaFileUpload className="text-2xl" />
-                                <div className="text-sm">Déposer</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    className={`${
-                        activeSection === "partiel" ? "block" : "hidden"
-                    }`}
-                >
-                    <div className="flex flex-col gap-3">
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="date_paiement_partiel">
-                                Date de paiement :
-                            </InputLabel>
-                            <TextInput
-                                id="date_paiement_partiel"
-                                name="date_paiement_partiel"
-                                type="date"
-                                required
-                            />
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="montant_partiel">
-                                Montant (DH) :
-                            </InputLabel>
-                            <TextInput
-                                id="montant_partiel"
-                                name="montant_partiel"
-                                type="number"
-                                required
-                                placeholder="Montant en (DH)"
-                            />
-                        </div>
-
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="mode_paiement_partiel">
-                                Mode de paiement :
-                            </InputLabel>
-                            <select
-                                required
-                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
-                                name="mode_paiemen_partielt"
-                                id="mode_paiement_partiel"
-                            >
-                                <option
-                                    disabled
-                                    value="Choisir le mode de paiement"
-                                >
-                                    Choisir le mode de paiement :
-                                </option>
-                                <option value="virement">Virement</option>
-                                <option value="especes">Espèces </option>
-                            </select>
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="commentaire_partiel">
-                                Commentaire :
-                            </InputLabel>
-                            <textarea
-                                className="w-full rounded-md  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6 "
-                                name="commentaire_partiel"
-                                id="commentaire_partiel"
-                                placeholder="Taper votre commentaire içi"
-                            ></textarea>
-                        </div>
-                        <div className="space-y-1">
-                            <InputLabel htmlFor="justificatif_partiel">
-                                Justificatif :
-                            </InputLabel>
-                            <a className="bg-white w-full cursor-pointer text-gray-500  hover:text-primary-color  hover:border-primary-color p-3  flex flex-col items-center justify-center  rounded-20 border-4 border-dashed border-gray-300">
-                                <FaFileUpload className="text-2xl" />
-                                <div className="text-sm">Déposer</div>
-                            </a>
                         </div>
                     </div>
                 </div>

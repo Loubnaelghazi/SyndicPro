@@ -14,6 +14,14 @@ class FournisseurController extends Controller
 
         return response()->json($fournisseur);
     }
+
+    public function getAll()
+    {
+        $fournisseur = Fournisseur::get();
+
+        return response()->json($fournisseur);
+    }
+
     ////////////////////////////////////////////////////////////
     public function store(Request $request)
     {
@@ -55,14 +63,14 @@ class FournisseurController extends Controller
 
         $fournisseur->update($request->all());
 
-        return response()->json(['message' => 'Propietaire updated successfully', 'Fournisseur' => $fournisseur]);
+        return response()->json(['message' => 'Fournisseur updated successfully', 'Fournisseur' => $fournisseur]);
     }
 
     /////////////////////////////////////////////////////////////////////////////
     public function destroy(Fournisseur $fournisseur)
     {
         $fournisseur->delete();
-        return ['message' => 'Votre propriétaire a été supprimée avec succés !'];
+        return ['message' => 'Votre fournisseur a été supprimée avec succés !'];
 
 
     }

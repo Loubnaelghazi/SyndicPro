@@ -5,6 +5,7 @@ use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\LocataireController;
 use App\Http\Controllers\LotController;
+use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ProprietaireController;
 use App\Http\Controllers\ReunionController;
 use App\Http\Controllers\ReclamationController;
@@ -55,6 +56,7 @@ Route::get('/lots/{lot}', [LotController::class, 'show']);
 
 //fournisseurs routes 
 Route::get('/fournisseurs', [FournisseurController::class, 'index']);
+Route::get('/fournisseurs/getAll', [FournisseurController::class , 'getAll']);
 Route::post('/fournisseurs', [FournisseurController::class, 'store']);
 Route::put('/fournisseurs/{fournisseur}', [FournisseurController::class, 'update']);
 Route::delete('fournisseurs/{fournisseur}', [FournisseurController::class, 'destroy']);
@@ -87,4 +89,11 @@ Route::put('/depenses/{depense}', [DepenseController::class, 'update']);
 Route::delete('depenses/{depense}', [DepenseController::class, 'destroy']);
 Route::get('/depenses/{depense}', [DepenseController::class, 'show']);
 Route::get('/depenses/{depense}/paiements',[DepenseController::class, 'paiements']);
+//////////////////////////////////////////////////////////////////////////////////
+//paiements routes
+Route::get('/paiements', [PaiementController::class, 'index']);
+Route::post('/paiements', [PaiementController::class, 'store']);
+Route::put('/paiements/{paiement}', [PaiementController::class, 'update']);
+Route::delete('paiements/{paiement}', [PaiementController::class, 'destroy']);
+Route::get('/paiements/{paiement}', [PaiementController::class, 'show']);
 //////////////////////////////////////////////////////////////////////////////////
