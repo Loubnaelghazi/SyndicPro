@@ -10,13 +10,13 @@ import ShowButton from "@/Components/Buttons/ShowButton";
 import HeaderCheckbox from "@/Components/Table/HeaderCheckbox";
 import RowCheckbox from "@/Components/Table/RowCheckbox";
 import Swal from "sweetalert2";
+import PayButton from "@/Components/Buttons/PayButton";
 export default function Depense({ auth }) {
     const [depenses, setDepenses] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [depenseID, setDepenseID] = useState();
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isModifyHidden, setIsModifyHidden] = useState(false);
-    const [bageColor, setBadgeColor] = useState(" bg-red-500");
     const [selectedCount, setSelectedCount] = useState(0);
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
@@ -275,6 +275,11 @@ export default function Depense({ auth }) {
                             isModifyHidden={isModifyHidden}
                             selectedCheckboxes={selectedCheckboxes}
                         />
+                        <PayButton
+                            href={`/depenses/payer/${depenseID}`}
+                            isModifyHidden={isModifyHidden}
+                            selectedCheckboxes={selectedCheckboxes}
+                        />
                         <ModifyButton
                             href={`/depenses/modifier/${depenseID}`}
                             isModifyHidden={isModifyHidden}
@@ -404,17 +409,7 @@ export default function Depense({ auth }) {
                                                 {item.montant}
                                             </td>
                                             <td className="px-4 py-4 whitespace-nowrap  text-sm text-gray-600 dark:text-gray-200 text-center">
-                                                {item.paiements.map(
-                                                    (paiement, index) => (
-                                                        <div key={index}>
-                                                            {index ===
-                                                                item.paiements
-                                                                    .length -
-                                                                    1 &&
-                                                                paiement.date_paiement}
-                                                        </div>
-                                                    )
-                                                )}
+                                                {item.date_depense}
                                             </td>
                                         </tr>
                                         <div className="my-2"></div>

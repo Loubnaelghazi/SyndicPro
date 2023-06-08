@@ -103,6 +103,7 @@ export default function Reclamations({ auth }) {
                                             alt=""
                                             className=" rounded-[13px]"
                                         />
+                                        
                                     </div>
 
                                     <div className="text-2xl font-medium mt-2 leading-6">

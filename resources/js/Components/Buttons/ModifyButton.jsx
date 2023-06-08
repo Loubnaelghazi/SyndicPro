@@ -15,6 +15,7 @@ export default function ModifyButton({
                     } focus:shadow-outline-white ${
                         selectedCheckboxes.length === 0 ? "hidden" : ""
                     }`}
+                    title="Modifier"
 
                 >
                     <HiPencil />

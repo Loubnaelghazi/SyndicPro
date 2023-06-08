@@ -6,6 +6,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import { Head } from "@inertiajs/react";
 import { useEffect } from "react";
 import TextInput from "@/Components/TextInput";
+import Swal from "sweetalert2";
 export default function AjouterReclamation({ auth }) {
     const [valueR, setValueR] = useState(0);
     const [value, setValue] = useState(0);
@@ -21,21 +22,22 @@ export default function AjouterReclamation({ auth }) {
     const [date_resolution, setDateResolution] = useState("");
     const [statut, setStatut] = useState("en_attente");
     const [priorite, setPriorite] = useState("");
+    const [image, setImage] = useState(null);
 
     const ajouter = async (e) => {
         e.preventDefault();
-        const reclamation = {
-            id_proprietaire,
-            sujet,
-            description,
-            reclameur,
-            date,
-            date_resolution,
-            statut: "en_attente",
-            priorite: parseInt(valueR) + 1,
-        };
+        const formData = new FormData();
+        formData.append("image", image);
+        formData.append("id_proprietaire", id_proprietaire);
+        formData.append("sujet", sujet);
+        formData.append("description", description);
+        formData.append("reclameur", reclameur);
+        formData.append("date", date);
+        formData.append("date_resolution", date_resolution);
+        formData.append("statut", statut);
+        formData.append("priorite", parseInt(valueR) + 1);
         try {
-            await axios.post(`/api/reclamations`, reclamation);
+            await axios.post(`/api/reclamations`, formData);
             Swal.fire({
                 icon: "success",
                 title: "Votre locataire a été ajoutée avec succès !",
@@ -53,11 +55,11 @@ export default function AjouterReclamation({ auth }) {
                     });
                 },
             }).then(() => {
-                window.location.href = "/locataires";
+                window.location.href = "/reclamations";
             });
-        } catch (error) {}
+        } catch (error) {console.log(error)}
 
-        // Perform the necessary operations with the `reclamation` object
+    // Perform the necessary operations with the `reclamation` object
         // e.g., send it to the server, make an API request, etc.
     };
 
@@ -83,6 +85,10 @@ export default function AjouterReclamation({ auth }) {
             .catch((error) => {
                 console.error(error);
             });
+    };
+
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
     };
 
     const handleChange = (event) => {
@@ -133,6 +139,7 @@ export default function AjouterReclamation({ auth }) {
                                     type="file"
                                     className="hidden"
                                     name="image"
+                                    onChange={handleImageChange}
                                 />
                             </label>
                         </div>
@@ -291,14 +298,14 @@ export default function AjouterReclamation({ auth }) {
                                     <div>5</div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
                             <button
                                 className="w-min p-0.5 px-5 border-[2.5px] border-blue-200 flex flex-row items-center gap-3 rounded-xl text-blue-500 justify-start hover:bg-blue-500 hover:text-white"
                                 type="submit"
                             >
                                 Ajouter
                             </button>
-                        </div>
-                    </div>
                 </form>
             </div>
         </Main_content>

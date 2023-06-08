@@ -153,11 +153,10 @@ export default function ModifierDepense({ auth }) {
     return (
         <Main_content
             user={auth.user}
-            Title={"Modifier dépense"}
-            Description={"test test test "}
+            Title={`Modifier dépense N° ${depenseID}`}
             ClassName="p-12"
         >
-            <Head title=" Modifier dépenses" />
+            <Head title={`Modifier dépense N° ${depenseID}`} />
             <form className="" onSubmit={handleSubmit}>
                 <div className=" ">
                     <div className="">

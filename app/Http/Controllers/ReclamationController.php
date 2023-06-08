@@ -15,6 +15,7 @@ class ReclamationController extends Controller
     public function index()
     {
         $reclamations = Reclamation::all();
+        
 
         return response()->json($reclamations);
     }
@@ -42,7 +43,10 @@ class ReclamationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $reclamation = Reclamation::findOrFail($id);
+        $reclamation->getFirstMedia();
+
+        return response()->json($reclamation);
     }
 
     /**
