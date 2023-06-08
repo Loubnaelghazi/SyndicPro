@@ -37,7 +37,7 @@ export default function ModifierDepense({ auth }) {
         const response = await axios.get(`/api/fournisseurs/getAll`);
         setFournisseurs(response.data);
     };
-
+    
     const fetchDepensesData = async () => {
         try {
             const response = await axios.get(`/api/depenses/${depenseID}`);

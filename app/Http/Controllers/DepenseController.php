@@ -20,7 +20,7 @@ class DepenseController extends Controller
 
     public function show($id)
     {
-        $depense = Depense::findOrFail($id);
+        $depense = Depense::with('paiements')->with('fournisseur')->findOrFail($id);
 
         return response()->json($depense);
     }

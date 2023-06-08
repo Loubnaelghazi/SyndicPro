@@ -271,7 +271,7 @@ export default function Depense({ auth }) {
                 <div className="col-span-3 z-10">
                     <div className="flex flex-row justify-start items-center gap-4 pl-4 h-8">
                         <ShowButton
-                            href={"/depenses/afficher"}
+                            href={`/depenses/afficher/${depenseID}`}
                             isModifyHidden={isModifyHidden}
                             selectedCheckboxes={selectedCheckboxes}
                         />
