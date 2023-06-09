@@ -18,18 +18,19 @@ export default function Depense({ auth }) {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [isModifyHidden, setIsModifyHidden] = useState(false);
     const [selectedCount, setSelectedCount] = useState(0);
+    const [elementsTrouves, setElementsTrouves] = useState(false);
     const [perPage, setPerPage] = useState(() => {
         // Check if the perPage value is stored in localStorage
         const storedPerPage = localStorage.getItem("perPage");
         return storedPerPage ? parseInt(storedPerPage) : 10; // Default value is 10
     });
     const [selectedFournisseur, setSelectedFournisseur] = useState("");
-
     const [selectedStatut, setSelectedStatut] = useState("toutes");
+const [noElementsFound, setNoElementsFound] = useState(false); //si aucun element n est trouve dans le tableu 
 
-    const handleStatutChange = (event) => {
-        setSelectedStatut(event.target.value);
-    };
+const handleStatutChange = (event) => {
+    setSelectedStatut(event.target.value);
+};
 
     const [fournisseurs, setFournisseurs] = useState([]);
     useEffect(() => {
@@ -61,6 +62,8 @@ export default function Depense({ auth }) {
         setMois(selectedMonth);
         setAnnee(selectedYear);
     };
+    const [selectedAnnee, setSelectedAnnee] = useState("");
+    const [selectedMois, setSelectedMois] = useState("");
 
     // Générer les options pour les années
     const generateAnneeOptions = () => {
@@ -104,12 +107,28 @@ export default function Depense({ auth }) {
 
         return options;
     };
-    const fetchDepenses = async (annee, mois) => {
-        const response = await axios.get(
-            `/api/depenses?page=${currentPage}&per_page=${perPage}`
-        );
-        setDepenses(response.data);
-    };
+   const fetchDepenses = async () => {
+       const response = await axios.get(
+           `/api/depenses?page=${currentPage}&per_page=${perPage}&statut=${selectedStatut}&annee=${selectedAnnee}&mois=${selectedMois}`
+       );
+       if (response.data.length === 0) {
+           setElementsTrouves(false);
+       } else {
+           setElementsTrouves(true);
+           setDepenses(response.data);
+       }
+   };
+
+
+
+const [searchDesignation, setSearchDesignation] = useState("");
+
+const handleSearchChange = (e) => {
+    setSearchDesignation(e.target.value);
+};
+
+
+
 
     const data = depenses.data !== undefined ? depenses.data : [];
 
@@ -249,21 +268,7 @@ export default function Depense({ auth }) {
             // Gérer le cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur
         }
     };
-    const handleSearch = async () => {
-        if (setSearchValue === "") {
-            await fetchDepenses();
-        } else {
-            try {
-                const response = await axios.get(
-                    `/api/depenses?designation=${searchValue}`
-                );
-                setDepenses(response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    };
-
+ 
     return (
         <Main_content user={auth.user} Title={"Les dépenses"} ClassName={"p-0"}>
             <Head title="Dépenses" />
@@ -350,71 +355,152 @@ export default function Depense({ auth }) {
                                 </tr>
                             </thead>
                             <tbody className="">
-                                {data.map((item) => (
-                                    <>
-                                        <tr
-                                            className="shadow-csh2 bg-white dark:hover:bg-gray-700 "
-                                            key={item.id}
+                                {data.length === 0 ? (
+                                    <tr>
+                                        <td
+                                            colSpan="6"
+                                            className="text-center py-4"
                                         >
-                                            <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-md">
-                                                <RowCheckbox
-                                                    item={item}
-                                                    handleCheckboxChange={
-                                                        handleCheckboxChange
-                                                    }
-                                                    selectedCheckboxes={
-                                                        selectedCheckboxes
-                                                    }
-                                                    ClassName=" "
-                                                />
-                                            </td>
-
-                                            <td className="px-0 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-md">
-                                                {item.designation}
-                                            </td>
-                                            <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 ">
-                                                {selectedFournisseur === ""
-                                                    ? item.id_fournisseur ==
-                                                      null
+                                            Aucun élément trouvé.
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    <>
+                                        {data
+                                            .filter((item) => {
+                                                const isFournisseurMatched =
+                                                    selectedFournisseur ===
+                                                        "" ||
+                                                    (item.id_fournisseur == null
                                                         ? item.fournisseur_externe
                                                         : item.fournisseur
-                                                              .raison
-                                                    : fournisseurs.find(
-                                                          (fournisseur) =>
-                                                              fournisseur.id ===
-                                                              selectedFournisseur
-                                                      ).raison}
-                                            </td>
-                                            <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 flex justify-center">
-                                                <div
-                                                    className={
+                                                              .id) ===
+                                                        parseInt(
+                                                            selectedFournisseur,
+                                                            10
+                                                        );
+
+                                                return isFournisseurMatched;
+                                            })
+                                            
+                                            .map((item) => {
+                                                const itemAnnee = new Date(
+                                                    item.date_depense
+                                                )
+                                                    .getFullYear()
+                                                    .toString();
+                                                const itemMois = new Date(
+                                                    item.date_depense
+                                                )
+                                                    .getMonth()
+                                                    .toString();
+
+                                                const itemDesignationLowerCase =
+                                                    item.designation.toLowerCase();
+                                                const searchDesignationLowerCase =
+                                                    searchDesignation.toLowerCase();
+
+                                                if (
+                                                    (selectedStatut ===
+                                                        "toutes" ||
                                                         item.statut ===
-                                                        "non_payee"
-                                                            ? redBadge
-                                                            : item.statut ===
-                                                              "payee"
-                                                            ? greenBadge
-                                                            : orangeBadge
-                                                    }
-                                                >
-                                                    {item.statut === "non_payee"
-                                                        ? "Non payée"
-                                                        : item.statut ===
-                                                          "payee"
-                                                        ? "Payée"
-                                                        : "Partiellement payée"}
-                                                </div>
-                                            </td>
-                                            <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 text-center">
-                                                {item.montant}
-                                            </td>
-                                            <td className="px-4 py-4 whitespace-nowrap  text-sm text-gray-600 dark:text-gray-200 text-center">
-                                                {item.date_depense}
-                                            </td>
-                                        </tr>
-                                        <div className="my-2"></div>
+                                                            selectedStatut) &&
+                                                    (selectedAnnee === "" ||
+                                                        selectedAnnee ===
+                                                            itemAnnee) &&
+                                                    (selectedMois === "" ||
+                                                        selectedMois ===
+                                                            itemMois) &&
+                                                    itemDesignationLowerCase.includes(
+                                                        searchDesignationLowerCase
+                                                    )
+                                                ) {
+                                                    return (
+                                                        <React.Fragment
+                                                            key={item.id}
+                                                        >
+                                                            <tr className="shadow-csh2 bg-white dark:hover:bg-gray-700">
+                                                                <td className="px-2 pl-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-md">
+                                                                    <RowCheckbox
+                                                                        item={
+                                                                            item
+                                                                        }
+                                                                        handleCheckboxChange={
+                                                                            handleCheckboxChange
+                                                                        }
+                                                                        selectedCheckboxes={
+                                                                            selectedCheckboxes
+                                                                        }
+                                                                        ClassName=" "
+                                                                    />
+                                                                </td>
+                                                                <td className="px-0 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 rounded-l-md">
+                                                                    {
+                                                                        item.designation
+                                                                    }
+                                                                </td>
+                                                                <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 ">
+                                                                    {selectedFournisseur ===
+                                                                        "" ||
+                                                                    (item.id_fournisseur ==
+                                                                    null
+                                                                        ? item.fournisseur_externe
+                                                                        : item
+                                                                              .fournisseur
+                                                                              .id) ===
+                                                                        parseInt(
+                                                                            selectedFournisseur,
+                                                                            10
+                                                                        )
+                                                                        ? item.id_fournisseur ==
+                                                                          null
+                                                                            ? item.fournisseur_externe
+                                                                            : item
+                                                                                  .fournisseur
+                                                                                  .raison
+                                                                        : ""}
+                                                                </td>
+                                                                <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 flex justify-center">
+                                                                    <div
+                                                                        className={
+                                                                            item.statut ===
+                                                                            "non_payee"
+                                                                                ? redBadge
+                                                                                : item.statut ===
+                                                                                  "payee"
+                                                                                ? greenBadge
+                                                                                : orangeBadge
+                                                                        }
+                                                                    >
+                                                                        {item.statut ===
+                                                                        "non_payee"
+                                                                            ? "Non payée"
+                                                                            : item.statut ===
+                                                                              "payee"
+                                                                            ? "Payée"
+                                                                            : "Partiellement payée"}
+                                                                    </div>
+                                                                </td>
+                                                                <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 text-center">
+                                                                    {
+                                                                        item.montant
+                                                                    }
+                                                                </td>
+                                                                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 text-center">
+                                                                    {
+                                                                        item.date_depense
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                            <div className="my-2"></div>
+                                                        </React.Fragment>
+                                                    );
+                                                } else {
+                                                    return null;
+                                                }
+                                            })}
                                     </>
-                                ))}
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -462,7 +548,10 @@ export default function Depense({ auth }) {
                                         name="search"
                                         placeholder="Entrer la désignation:"
                                         className="w-full text-sm appearance-none h-min  block rounded-md  border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color "
+                                        value={searchDesignation}
+                                        onChange={handleSearchChange}
                                     />
+
                                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 ">
                                         <TbSearch className="text-gray-400" />
                                     </span>
@@ -509,8 +598,10 @@ export default function Depense({ auth }) {
                                 <select
                                     name="annee"
                                     id="annee"
-                                    value={annee}
-                                    onChange={handleDateChange}
+                                    value={selectedAnnee}
+                                    onChange={(e) =>
+                                        setSelectedAnnee(e.target.value)
+                                    }
                                     className="text-sm w-full  h-min rounded-md py-1.5  border-0 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color "
                                 >
                                     <option
@@ -527,8 +618,10 @@ export default function Depense({ auth }) {
                                 <select
                                     name="mois"
                                     id="mois"
-                                    value={mois}
-                                    onChange={handleDateChange}
+                                    value={selectedMois}
+                                    onChange={(e) =>
+                                        setSelectedMois(e.target.value)
+                                    }
                                     className=" block text-sm w-full rounded-md  border-0 py-1.5 text-primary-color shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-color"
                                 >
                                     <option
@@ -552,7 +645,7 @@ export default function Depense({ auth }) {
                                         className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
                                         onChange={handleStatutChange}
                                     />
-                                    <label htmlFor="toutes" className="ml-4">
+                                    <label htmlFor="options" className="ml-4">
                                         Toutes
                                     </label>
                                 </div>
@@ -562,9 +655,8 @@ export default function Depense({ auth }) {
                                         type="radio"
                                         name="options"
                                         id="payee"
-                                        value="payee"
-                                        className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
                                         onChange={handleStatutChange}
+                                        className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
                                     />
                                     <label htmlFor="payee" className="ml-4">
                                         Payées
@@ -577,8 +669,8 @@ export default function Depense({ auth }) {
                                         name="options"
                                         id="partiellement_payee"
                                         value="partiellement_payee"
-                                        className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
                                         onChange={handleStatutChange}
+                                        className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
                                     />
                                     <label
                                         htmlFor="partiellement_payee"
@@ -592,12 +684,12 @@ export default function Depense({ auth }) {
                                     <input
                                         type="radio"
                                         name="options"
-                                        id="non-payee"
-                                        value="non-payee"
-                                        className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
+                                        id="non_payee"
+                                        value="non_payee"
                                         onChange={handleStatutChange}
+                                        className="form-radio h-4 w-4 text-purple-600 border-purple-600 rounded-full focus:ring-0 focus:ring-offset-0 focus:ring-opacity-0"
                                     />
-                                    <label htmlFor="non-payee" className="ml-4">
+                                    <label htmlFor="non_payee" className="ml-4">
                                         Non payées
                                     </label>
                                 </div>
