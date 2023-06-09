@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\CoproprieteController;
+use App\Http\Controllers\DepenseController;
+use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReclamationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -116,6 +119,8 @@ Route::get('/reclamations/ajouter', function () {
     return Inertia::render('reclamation/AjouterReclamation');
 });
 
+Route::get('/reclamations/download/{id}' , [ReclamationController::class , 'download']);
+
 /* fin */
 
 /* routes of cotisations */
@@ -141,9 +146,11 @@ Route::get('/depenses/modifier/{id}', function () {
 Route::get('/depenses/afficher/{id}', function () {
     return Inertia::render('depenses/ConsulterDepense');
 });
-Route::get('/depenses/payer', function () {
+Route::get('/depenses/payer/{id}', function () {
     return Inertia::render('depenses/PayerDepense');
 });
+
+Route::get('/depense/justificatif_de_paiement/download/{id}' , [PaiementController::class , 'download']);
 
 
 /* fin */

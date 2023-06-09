@@ -188,7 +188,7 @@ export default function ConsulterDepense({ auth }) {
                         <InputLabel htmlFor="justificatif">
                             Justificatif :{" "}
                         </InputLabel>
-                        <a href="">
+                        <a href={`/depense/justificatif_de_paiement/download/${paiement.id}`}>
                             <div className="flex  space-x-1 ">
                                 <HiOutlineDocumentDownload className="mt-4 ml-6 text-2xl text-primary-color" />
                                 <span

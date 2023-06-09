@@ -350,7 +350,7 @@ const handleSearchChange = (e) => {
                                         scope="col"
                                         className="px-2 py-4 text-center text-sm font-medium text-purple-500 "
                                     >
-                                        Date de paiement
+                                        Date de depense
                                     </th>
                                 </tr>
                             </thead>
@@ -439,7 +439,7 @@ const handleSearchChange = (e) => {
                                                                         item.designation
                                                                     }
                                                                 </td>
-                                                                <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200 ">
+                                                                <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-200  w-6 break-words ">
                                                                     {selectedFournisseur ===
                                                                         "" ||
                                                                     (item.id_fournisseur ==

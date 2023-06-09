@@ -44,9 +44,9 @@ class ReclamationController extends Controller
     public function show(string $id)
     {
         $reclamation = Reclamation::findOrFail($id);
-        $reclamation->getFirstMedia();
+        $imageUrl = $reclamation->getFirstMediaUrl();
 
-        return response()->json($reclamation);
+        return response()->json(['data' => $reclamation, 'imageUrl' => $imageUrl]);
     }
 
     /**
@@ -71,5 +71,13 @@ class ReclamationController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function download($id)
+    {
+        $reclamation = Reclamation::findOrFail($id);
+        $media = $reclamation->getFirstMedia();
+        return $media;
     }
 }

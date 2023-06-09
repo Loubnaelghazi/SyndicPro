@@ -2,6 +2,7 @@ import Main_content from "@/main _content/Main_content";
 import React from "react";
 import { useState } from "react";
 import { HiPencil, HiUserCircle } from "react-icons/hi2";
+import image from "/storage/app/public/15/Screenshot-(13).png"
 
 export default function AfficherReclamation({ auth }) {
     const [value, setValue] = useState(0);
@@ -9,6 +10,12 @@ export default function AfficherReclamation({ auth }) {
     const handleChange = (event) => {
         setValue(event.target.value);
     };
+
+    const imageUrl = 'http:\/\/localhost\/storage\/17\/User-Stories---Feuille-1-1.jpg';
+    const newm = imageUrl.replace('http://localhost/storage', 'http://[::1]:5173/storage/app/public');
+
+    console.log(newm);
+
 
     return (
         <Main_content
@@ -19,15 +26,11 @@ export default function AfficherReclamation({ auth }) {
             <div className="flex flex-row gap-8 rounded-40 h-min">
                 <div className=" grid grid-rows-3 gap-2 h-full rounded-40 p-3 border-solid border-gray-200 border-[0.5px]">
                     <div className=" w-56 h-32">
-                        <img
-                            src="https://i.pinimg.com/474x/60/c5/c0/60c5c07e4ed74dcd1d874cc36ffbb32e.jpg"
-                            alt=""
-                            className=" rounded-t-xl object-cover object-center w-full h-full "
-                        />
+                        <img src={image} alt="" />
                     </div>
                     <div className=" w-56 h-32 ">
                         <img
-                            src="https://i.pinimg.com/474x/f3/2e/88/f32e88f7cc3e86a8f3c0e4e33ba49b00.jpg"
+                            
                             alt=""
                             className=" object-cover object-center w-full h-full "
                         />

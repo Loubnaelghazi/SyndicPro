@@ -37,6 +37,7 @@ class PaiementController extends Controller
         ]);
 
         $paiement = Paiement::create($request->all());
+        $paiement->addMediaFromRequest('file')->toMediaCollection('paiements/depenses/justificatifs');
 
         return response()->json(['message' => 'Paiement created successfully', 'paiement' => $paiement], 201);
     }
@@ -65,5 +66,12 @@ class PaiementController extends Controller
         $paiement->delete();
 
         return response()->json(['message' => 'Paiement deleted successfully']);
+    }
+
+    public function download($id)
+    {
+        $paiement = Paiement::findOrFail($id);
+        $media = $paiement->getFirstMedia('paiements/depenses/justificatifs');
+        return $media;
     }
 }
