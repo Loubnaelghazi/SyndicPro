@@ -205,7 +205,7 @@ export default function Lot({ auth }) {
                             <span className="ml-3 my-auto text-sm font-medium text-gray-500">
                                 {selectedCount === 0
                                     ? "0 sélectionné"
-                                    : `${selectedCount} sélectionné`}
+                                    : `${selectedCount} sélectionnés`}
                             </span>
                         </div>
                         <AddButton href="/lots/ajouter">

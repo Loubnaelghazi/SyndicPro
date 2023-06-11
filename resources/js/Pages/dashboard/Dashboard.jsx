@@ -19,7 +19,6 @@ import {
     HiWrenchScrewdriver,
     HiXCircle,
 } from "react-icons/hi2";
-import { PieChart } from "@/Components/PieChart";
 import { Head } from "@inertiajs/react";
 import PieChart1 from "../../ressources/PieChart1.svg";
 import PieChart2 from "../../ressources/PieChart2.svg";
@@ -44,11 +43,11 @@ export default function Dashboard({ auth }) {
                                 </span>
                             </div>
                             <div className="font-meduim text-white text-2xl">
-                                Content de te revoir
+                                Content de  vous revoir !
                             </div>
                             <div className="font-light text-white text-md">
                                 Profitez d'une bonne gestion de votre
-                                copropriete, cotisations, depenses...
+                                copropriété, cotisations, dépenses...
                             </div>
                         </div>
                     </div>
@@ -96,7 +95,7 @@ export default function Dashboard({ auth }) {
                                         209
                                     </div>
                                     <div className="text-gray-400  font-light text-xs text-md">
-                                        Total des proprietaires
+                                        Total des propriétaires
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +151,7 @@ export default function Dashboard({ auth }) {
                                                     133/200
                                                 </div>
                                                 <div className="text-gray-400 font-light text-xs">
-                                                    Total des cotisations payee
+                                                    Total des cotisations payées
                                                 </div>
                                             </div>
                                         </div>
@@ -171,7 +170,7 @@ export default function Dashboard({ auth }) {
                                                 </div>
                                                 <div className="text-gray-400 font-light text-xs">
                                                     Total des cotisations non
-                                                    payee
+                                                    payées
                                                 </div>
                                             </div>
                                         </div>
@@ -201,7 +200,7 @@ export default function Dashboard({ auth }) {
                                                     18
                                                 </div>
                                                 <div className="text-gray-400 font-light text-md">
-                                                    Total des depenses
+                                                    Total des dépenses
                                                 </div>
                                             </div>
                                         </div>
@@ -220,7 +219,7 @@ export default function Dashboard({ auth }) {
                                                         11
                                                     </div>
                                                     <div className="text-gray-400 font-light text-xs">
-                                                        Payees
+                                                        Payées
                                                     </div>
                                                 </div>
                                             </div>
@@ -238,7 +237,7 @@ export default function Dashboard({ auth }) {
                                                         7
                                                     </div>
                                                     <div className="text-gray-400 font-light text-xs">
-                                                        Non payees
+                                                        Non payées
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,7 +294,7 @@ export default function Dashboard({ auth }) {
                                 </div>
                                 <div>
                                     <div className="text-sm text-gray-400 font-light">
-                                        Prochain reunion
+                                        Prochaine réunion
                                     </div>
                                     <div className="text-xl font-semibold">
                                         AG
@@ -353,7 +352,7 @@ export default function Dashboard({ auth }) {
                                         25
                                     </div>
                                     <div className="text-gray-400 font-light text-xs">
-                                        Resolues
+                                        Résolues
                                     </div>
                                 </div>
                             </div>
@@ -381,7 +380,7 @@ export default function Dashboard({ auth }) {
                                         25
                                     </div>
                                     <div className="text-gray-400 font-light text-xs">
-                                        Feremees
+                                        Fermées
                                     </div>
                                 </div>
                             </div>
@@ -410,7 +409,7 @@ export default function Dashboard({ auth }) {
                                 <HiPlusCircle />
                             </div>
                             <div className="font-semibold">
-                                Ajouter une réclamations
+                                Ajouter une réclamation
                             </div>
                         </a>
                     </div>
