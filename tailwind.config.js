@@ -19,7 +19,7 @@ export default {
             colors: {
                 "primary-color":"#7650E3" ,
                 // "primary-color": "#9a97ff",
-                "secondary-color": "#FFFFFF",
+                "secondary-color": "#F8F8FF",
                 "third-color": "#E3D9FF",
                 "darkly":"#283943",
                 "gray-color": "#A1A0BD",
