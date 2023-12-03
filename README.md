@@ -12,7 +12,7 @@
   - [Code Usage Restriction](#code-usage-restriction)
   - [Supervision](#supervision)
 - [Instructions](#instructions)
-- [License](#license)
+
 
 ## Overview
 
@@ -41,7 +41,7 @@ This web application serves as a management tool for professional syndicates. It
 
 ## Contributors
 
-I would like to express my gratitude to my teamate who have contributed to the development of this project:
+I collaborated with a teammate throughout the development of this project. We worked together to bring different perspectives and skills to the table, enhancing the overall quality of the application.
 
 - **[Mohamed El Mrabet]([https://github.com/contributor-username](https://github.com/med-el-mrabet))**
 
@@ -64,6 +64,4 @@ TO Clone the repository:
    ```bash
    git clone https://github.com/Loubnaelghazi/SyndicPro.git
 
-### License
 
-This project is licensed under the Apache License 2.0 .   
