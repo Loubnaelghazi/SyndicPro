@@ -50,11 +50,11 @@ I collaborated with a teammate throughout the development of this project. We wo
 
 ### Code Usage Restriction
 
-It is strictly prohibited to take, use, or modify the source code without authorization. The project is under the supervision of [[Samady Yasser](https://github.com/twisterys)], and any use of the code must comply with the terms set by them.
+It is strictly prohibited to take, use, or modify the source code without authorization. The project is under the supervision of [[Samadi Yasser](https://github.com/twisterys)], and any use of the code must comply with the terms set by them.
 
 ### Supervision
 
-This project is being supervised and guided by Yasser Samady, who oversees its development and adherence to academic and ethical standards.
+This project is being supervised and guided by Yasser Samadi, who oversees its development and adherence to academic and ethical standards.
 
 ## Instructions
 
