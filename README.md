@@ -33,7 +33,7 @@ This web application serves as a management tool for professional syndicates. It
 ### Accessing Project Report and Video
 
 - **Project Report:**
-  The detailed project report is available in the repository. You can find it [here]([path/to/project-report.pdf](https://github.com/Loubnaelghazi/SyndicPro/blob/master/Rapport%20de%20pfe.pdf)).
+  The detailed project report is available in the repository. You can find it [here](https://github.com/Loubnaelghazi/SyndicPro/blob/master/Rapport%20de%20pfe.pdf).
   NOTE: check the chapter 3 for the realisation of our project !
 
 - **Descriptive Video:**
