@@ -6,7 +6,7 @@
 - [Project Details](#project-details)
   - [Technology Stack](#technology-stack)
   - [Project Description](#project-description)
-  - [Accessing Project Report and Video](#accessing-project-report-and-video)
+  - [Accessing Project Report](#accessing-project-report)
 - [Contributors](#contributors)
 - [Important Notice](#important-notice)
   - [Code Usage Restriction](#code-usage-restriction)
@@ -30,14 +30,11 @@ This repository contains the codebase for a web application developed as a final
 
 This web application serves as a management tool for professional syndicates. It was developed as part of my final studies project and includes a detailed report within the repository. Additionally, there is a descriptive video in the project directory providing an overview of the application.
 
-### Accessing Project Report and Video
+### Accessing Project Report
 
 - **Project Report:**
   The detailed project report is available in the repository. You can find it [here](https://github.com/Loubnaelghazi/SyndicPro/blob/master/Rapport%20de%20pfe.pdf).
   NOTE: check the chapter 3 for the realisation of our project !
-
-- **Descriptive Video:**
-  A descriptive video providing an overview of the application can be found in the project directory. You can watch it [here](path/to/descriptive-video.mp4).
 
 ## Contributors
 
