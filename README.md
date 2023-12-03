@@ -40,7 +40,7 @@ This web application serves as a management tool for professional syndicates. It
 
 I collaborated with a teammate throughout the development of this project. We worked together to bring different perspectives and skills to the table, enhancing the overall quality of the application.
 
-- **[Mohamed El Mrabet]([https://github.com/contributor-username](https://github.com/med-el-mrabet))**
+- **[[Mohamed El Mrabet](https://github.com/med-el-mrabet)]**
 
 
 ## Important Notice
