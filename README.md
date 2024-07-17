@@ -23,7 +23,7 @@ This repository contains the codebase for a web application developed as a final
 ### Technology Stack
 
 - Laravel 10 (backend)
-- React JS (frontend)
+- React  (frontend)
 - Tailwind CSS (styling)
 
 ### Project Description
